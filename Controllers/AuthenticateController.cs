@@ -50,6 +50,7 @@ namespace Titulacion.Controllers
             if (user == null)
             {
                 ViewBag.error = true;
+                return View();
             }
 
             List<Claim> claims = new List<Claim>() {
