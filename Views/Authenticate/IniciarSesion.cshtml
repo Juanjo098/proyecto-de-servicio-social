@@ -4,40 +4,32 @@
     ViewData["Title"] = "IniciarSesion";
 }
 
-<h1>IniciarSesion</h1>
-
-<h4>Sesion</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="IniciarSesion">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="correo" class="control-label"></label>
-                <input asp-for="correo" class="form-control" />
-                @if (ViewBag.error != null)
-                {
-                    <span asp-validation-for="correo" class="text-danger">Correo y/o contraseña incorrectos</span>
-                }
-                else
-                {
-                    <span asp-validation-for="correo" class="text-danger"></span>
-                }
-            </div>
-            <div class="form-group">
-                <label asp-for="contrasena" class="control-label"></label>
-                <input asp-for="contrasena" class="form-control" />
-                <span asp-validation-for="contrasena" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
+<div class="row justify-content-center m-4">
+    <form class="card p-4 col-10 col-lg-6 col-md-8 col-sm-auto">
+        <img src="~/img/logo-tec.png" class="img-fluid m-auto" alt="">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group mb-3">
+            <label asp-for="correo" class="control-label lead">Correo</label>
+            <input asp-for="correo" type="email" class="form-control" />
+            @if (ViewBag.error != null)
+            {
+                <span asp-validation-for="correo" class="text-danger">Correo y/o contraseña incorrectos</span>
+            }
+            else
+            {
+                <span asp-validation-for="correo" class="text-danger"></span>
+            }
+        </div>
+        <div class="form-group mb-3">
+            <label asp-for="contrasena" class="control-label lead">Contraseña</label>
+            <input asp-for="contrasena" type="password" class="form-control" />
+            <span asp-validation-for="contrasena" class="text-danger"></span>
+        </div>
+        <div class="form-group mb-3">
+            <input type="submit" value="Iniciar sesión" class="btn btn-primary" />
+        </div>
+        <a href="#">¿Olvidaste tu contraseña?</a>
+    </form>
 </div>
 
 @section Scripts {
