@@ -9,7 +9,7 @@ public partial class Departamento
 
     public string Nombre { get; set; } = null!;
 
-    public ulong Hab { get; set; }
+    public bool Hab { get; set; }
 
     public virtual ICollection<Carrera> Carreras { get; set; } = new List<Carrera>();
 

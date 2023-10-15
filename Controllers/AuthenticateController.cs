@@ -10,7 +10,6 @@ using Titulacion.Servicios.Contrato;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
-using Titulacion.Servicios.Implementacion;
 
 namespace Titulacion.Controllers
 {
@@ -45,7 +44,16 @@ namespace Titulacion.Controllers
 
             modelo.contrasena = Utilidades.EncriptarClave(modelo.contrasena);
 
-            Usuario user = await _usuarioService.GetUsuario(modelo);
+            Usuario user;
+
+            try
+            {
+                user = await _usuarioService.GetUsuario(modelo);
+            }
+            catch (InvalidOperationException)
+            {
+                return View();
+            }
 
             if (user == null)
             {
