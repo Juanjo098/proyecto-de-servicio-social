@@ -1,3 +1,8 @@
 ﻿.logo {
     height: 3.2rem
 }
+
+.logo-login{
+    max-width: 200px;
+    max-height: 200px;
+}
