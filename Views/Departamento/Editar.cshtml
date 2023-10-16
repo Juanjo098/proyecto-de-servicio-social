@@ -11,7 +11,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Editar">
+        <form asp-action="Editar" id="form">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Id" class="control-label">@Html.DisplayNameFor(model => model.Id): @Model.Id</label>
@@ -24,7 +24,7 @@
                 <span asp-validation-for="Nombre" class="text-danger">@error</span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="button" onclick="handleClick()" value="Save" class="btn btn-primary" />
             </div>
         </form>
     </div>
@@ -33,6 +33,13 @@
 <div>
     <a asp-controller="Departamento" asp-action="Departamentos">Volver</a>
 </div>
+
+<script>
+    const handleClick = () => {
+        form = getForm()
+        confirmar("Desea editar la información del departamento?", "Esta apunto de editar la información del departamento", "Editar", "Editado", form)
+    }
+</script>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

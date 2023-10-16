@@ -31,10 +31,20 @@
                 @Html.DisplayFor(modelItem => item.nombre)
             </td>
             <td>
-                <a asp-controller="Departamento" asp-action="Editar" class="btn btn-warning" asp-route-idDpto=@item.id><i class="fa-solid fa-pen-to-square"></i></a>
-                <a asp-controller="Departamento" asp-action="Eliminar" class="btn btn-danger" asp-route-idDpto=@item.id><i class="fa-solid fa-trash-can"></i></a>
+                <a asp-controller="Departamento" asp-action="editar" asp-route-id=@item.id class="btn btn-warning" onclick="editar(@item.id)"><i class="fa-solid fa-pen-to-square"></i></a>
+                <a class="btn btn-danger" onclick="handleDelete(@item.id)" ><i class="fa-solid fa-trash-can"></i></a>
             </td>
         </tr>
 }
     </tbody>
 </table>
+<form asp-action="Eliminar" id="formEliminar" method="post">
+    <input type="hidden" name="id" id="idEliminar">
+</form>
+
+<script>
+    const handleDelete = (id) => {
+        form = eliminar(id)
+        confirmar("Desea, eliminar el departamento?", "Esta apunto de eliminar un departamento", "Eliminar", "Eliminado", form)
+    }
+</script>

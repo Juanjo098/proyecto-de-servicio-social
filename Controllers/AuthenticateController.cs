@@ -52,6 +52,7 @@ namespace Titulacion.Controllers
             }
             catch (InvalidOperationException)
             {
+                ViewBag.exeption = true;
                 return View();
             }
 

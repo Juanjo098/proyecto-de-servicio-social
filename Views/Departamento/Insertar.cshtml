@@ -15,7 +15,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Insertar">
+        <form asp-action="Insertar" id="form">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Nombre" class="control-label"></label>
@@ -23,7 +23,7 @@
                 <span asp-validation-for="Nombre" class="text-danger">@error</span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="button" value="Insertar" onclick="handleClick()" class="btn btn-primary" />
             </div>
         </form>
     </div>
@@ -32,6 +32,13 @@
 <div>
     <a asp-controller="Departamento" asp-action="Departamentos">Volver</a>
 </div>
+
+<script>
+    const handleClick = () => {
+        form = getForm()
+        confirmar("Desea insertar un nuevo departamento?", "Esta apunto insertar un nuevo departamento", "Insertar", "Insertado", form)
+    }
+</script>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "IniciarSesion";
+    string ex = ViewBag.exeption == null ? "" : "ex";
 }
 
 <div class="row justify-content-center m-4">
@@ -31,6 +32,14 @@
         <a href="#">¿Olvidaste tu contraseña?</a>
     </form>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        if ('@ex') {
+            excepcion()
+        }
+    })
+</script>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

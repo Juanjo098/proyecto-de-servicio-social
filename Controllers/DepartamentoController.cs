@@ -68,9 +68,9 @@ namespace Titulacion.Controllers
         [HttpGet]
         [Authorize(Roles = "1")]
         [Route("/Administracion/Departamentos/Editar")]
-        public async Task<IActionResult> Editar(int idDpto)
+        public async Task<IActionResult> Editar(int id)
         {
-            return View(await EditarDepartamento(idDpto));
+            return View(await EditarDepartamento(id));
         }
 
         [HttpPost]
@@ -118,18 +118,18 @@ namespace Titulacion.Controllers
             return RedirectToAction("Departamentos", "Departamento");
         }
 
-        [HttpGet]
+        [HttpPost]
         [Authorize(Roles = "1")]
         [Route("/Administracion/Departamentos/Eliminar")]
-        public async Task<IActionResult> Eliminar(int idDpto)
+        public async Task<IActionResult> Eliminar(int id)
         {
-            Models.Departamento dep = await _context.Departamentos.FindAsync(idDpto);
+            Models.Departamento dep = await _context.Departamentos.FindAsync(id);
 
             if (dep != null)
             {
                 try
                 {
-                    _context.Departamentos.Remove(dep);
+                    dep.Hab = false;
                     await _context.SaveChangesAsync();
                 }
                 catch (InvalidOperationException ex)
