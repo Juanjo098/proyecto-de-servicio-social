@@ -9,5 +9,5 @@ public partial class Cargo
 
     public string Nombre { get; set; } = null!;
 
-    public ulong Hab { get; set; }
+    public bool Hab { get; set; }
 }
