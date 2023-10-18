@@ -119,6 +119,29 @@ namespace Titulacion.Controllers
             }
         }
 
+        public async Task<IActionResult> Eliminar(int id)
+        {
+            try
+            {
+                Cargo cargo = await _context.Cargos.FindAsync(id);
+
+                if (cargo == null)
+                    return RedirectToAction("CustomError", "Home");
+
+                cargo.Hab = false;
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction("Cargos");
+
+            }
+            catch (InvalidOperationException)
+            {
+                return RedirectToAction("CustomError", "Home");
+            }
+            
+
+        }
+
         // Utilidades
         private async Task<List<Clases.Get.Cargo>> ListaCargos()
         {

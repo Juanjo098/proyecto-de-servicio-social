@@ -28,5 +28,11 @@ namespace Titulacion.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+        [Route("/Error")]
+        public IActionResult CustomError()
+        {
+            return View();
+        }
     }
 }
