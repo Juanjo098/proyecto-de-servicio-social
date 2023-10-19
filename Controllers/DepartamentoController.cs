@@ -129,7 +129,7 @@ namespace Titulacion.Controllers
             {
                 try
                 {
-                    dep.Hab = false;
+                    dep.Hab = 0;
                     await _context.SaveChangesAsync();
                 }
                 catch (InvalidOperationException ex)
@@ -146,7 +146,7 @@ namespace Titulacion.Controllers
         private async Task<List<Clases.Get.Departamento>> ListaDepartamentos()
         {
             return await (from departamento in _context.Departamentos
-                    where departamento.Hab == true
+                    where departamento.Hab == 1
                     select new Clases.Get.Departamento { id = departamento.IdDpto, nombre = departamento.Nombre }).ToListAsync();
         }
 

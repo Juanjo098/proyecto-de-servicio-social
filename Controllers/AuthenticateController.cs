@@ -44,12 +44,13 @@ namespace Titulacion.Controllers
 
             modelo.contrasena = Utilidades.EncriptarClave(modelo.contrasena);
 
-            Usuario user;
+            Models.Usuario user;
 
             try
             {
                 user = await _usuarioService.GetUsuario(modelo);
             }
+
             catch (InvalidOperationException)
             {
                 ViewBag.exeption = true;
@@ -85,7 +86,7 @@ namespace Titulacion.Controllers
         }
 
         [Authorize(Roles ="1,2")]
-        [Route("/Administar/RegistrarUsuario/")]
+        [Route("/Administar/RegistrarUsuario")]
         public IActionResult RegistrarUsuario()
         {
             return View();
@@ -93,10 +94,26 @@ namespace Titulacion.Controllers
 
         [HttpPost]
         [Authorize(Roles = "1,2")]
-        [Route("/Administar/RegistrarUsuario/")]
-        public IActionResult RegistrarUsuario(PostUsuario modelo)
+        [Route("/Administar/RegistrarUsuario")]
+        public async Task<IActionResult> RegistrarUsuario(Clases.Post.Usuario modelo)
         {
-            return View();
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+
+            Models.Usuario usuario = new Models.Usuario {
+                Nombre = modelo.Nombre,
+                Correo = modelo.Correo,
+                Contrasena = Utilidades.EncriptarClave(modelo.Contrasena)
+                };
+
+            if (await _usuarioService.SaveUsuario(usuario))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            return View("Error", "Home");
         }
 
         public async Task<IActionResult> CerrarSesion()

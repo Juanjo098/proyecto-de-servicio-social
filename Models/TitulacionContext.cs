@@ -31,8 +31,9 @@ public partial class TitulacionContext : DbContext
 
     public virtual DbSet<Usuario> Usuarios { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) { }
-
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+    }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder
@@ -117,6 +118,9 @@ public partial class TitulacionContext : DbContext
             entity.Property(e => e.Cedula)
                 .HasMaxLength(16)
                 .HasColumnName("cedula");
+            entity.Property(e => e.Diminutivo)
+                .HasMaxLength(16)
+                .HasColumnName("diminutivo");
             entity.Property(e => e.Hab)
                 .HasDefaultValueSql("b'1'")
                 .HasColumnType("bit(1)")

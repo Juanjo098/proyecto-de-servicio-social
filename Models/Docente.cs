@@ -13,6 +13,8 @@ public partial class Docente
 
     public string Titulo { get; set; } = null!;
 
+    public string Diminutivo { get; set; } = null!;
+
     public string Cedula { get; set; } = null!;
 
     public ulong Hab { get; set; }

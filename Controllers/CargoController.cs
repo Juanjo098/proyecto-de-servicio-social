@@ -147,7 +147,7 @@ namespace Titulacion.Controllers
         {
             return await (
                     from cargo in _context.Cargos
-                    where cargo.Hab == true
+                    where cargo.Hab == 1
                     select new Clases.Get.Cargo { Id = cargo.IdCargo, Nombre = cargo.Nombre}
                 ).ToListAsync();
         }
