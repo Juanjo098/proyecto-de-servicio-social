@@ -1,4 +1,5 @@
-﻿@model IEnumerable<Titulacion.Clases.Get.Departamento>
+﻿@using Titulacion.Clases;
+@model Paginacion<Titulacion.Clases.Get.Departamento>
 
 @{
     ViewData["Title"] = "Departamentos";
@@ -7,16 +8,25 @@
 <h1>Departamentos</h1>
 
 <p>
-    <a asp-controller="Departamento" asp-action="Insertar" class="btn btn-success">Crear nuevo departamento</a>
+    <a asp-action="Insertar" class="btn btn-success">Crear nuevo departamento</a>
 </p>
+<form asp-action="Departamentos" method="get">
+    <div class="form-group">
+        <label for="buscar">Buscar: </label>
+        <input type="text" id="buscar" name="buscar" value="@ViewBag.buscar" />
+    </div>
+    <button type="submit" class="btn btn-info">Buscar</button>
+</form>
+<a asp-action="Departamentos" asp-route-numPag="1" asp-route-buscar="" class="btn btn-outline-danger">Eliminar filtro</a>
+
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.id)
+                ID
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.nombre)
+                Nombre
             </th>
             <th></th>
         </tr>
@@ -41,6 +51,31 @@
 <form asp-action="Eliminar" id="formEliminar" method="post">
     <input type="hidden" name="id" id="idEliminar">
 </form>
+
+@if (Model.MostrarBotones)
+{
+    @if (Model.PaginaInicio != 1)
+    {
+        <a asp-action="Docentes" asp-route-numPag="1" asp-route-buscar="@ViewBag.buscar" class="btn btn-primary">Inicio</a>
+    }
+    @if (Model.PaginasAnteriores)
+    {
+        <a asp-action="Docentes" asp-route-numPag="@(Model.PaginaInicio - 1)" asp-route-buscar="@ViewBag.buscar" class="btn btn-primary">Anteior</a>
+    }
+    @for (var i = Model.BotonesAnteriores(); i <= Model.BotonesSiguientes(); i++)
+    {
+        var paginaActiva = (Model.PaginaInicio == i) ? "active" : "";
+        <a asp-action="Docentes" asp-route-numPag="@i" asp-route-buscar="@ViewBag.buscar" class="btn btn-outline-primary @paginaActiva">@i</a>
+    }
+    @if (Model.PaginasPosteriores)
+    {
+        <a asp-action="Docentes" asp-route-numPag="@(Model.PaginaInicio + 1)" asp-route-buscar="@ViewBag.buscar" class="btn btn-primary">Siguiente</a>
+    }
+    @if (Model.PaginaInicio != Model.PaginasTotales)
+    {
+        <a asp-action="Docentes" asp-route-numPag="@Model.PaginasTotales" asp-route-buscar="@ViewBag.buscar" class="btn btn-primary">Final</a>
+    }
+}
 
 <script>
     const handleDelete = (id) => {

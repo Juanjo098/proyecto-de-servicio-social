@@ -36,6 +36,7 @@ namespace Titulacion.Clases
             return PaginaInicio;
         }
 
+        public bool MostrarBotones => PaginasTotales > 1;
         public static Paginacion<T> CrearLista(List<T> fuente, int pagaInicio, int cantidad)
         {
             var contador = fuente.Count;

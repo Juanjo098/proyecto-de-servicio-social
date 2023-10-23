@@ -55,26 +55,28 @@
     </tbody>
 </table>
 <div>
-    @if (Model.PaginaInicio != 1)
+    @if (Model.MostrarBotones)
     {
-        <a asp-action="Docentes" asp-route-numPag="1" asp-route-buscar="@ViewBag.buscar"  class="btn btn-primary">Inicio</a>
+        @if (Model.PaginaInicio != 1)
+        {
+            <a asp-action="Docentes" asp-route-numPag="1" asp-route-buscar="@ViewBag.buscar" class="btn btn-primary">Inicio</a>
+        }
+        @if (Model.PaginasAnteriores)
+        {
+            <a asp-action="Docentes" asp-route-numPag="@(Model.PaginaInicio - 1)" asp-route-buscar="@ViewBag.buscar" class="btn btn-primary">Anteior</a>
+        }
+        @for (var i = Model.BotonesAnteriores(); i <= Model.BotonesSiguientes(); i++)
+        {
+            var paginaActiva = (Model.PaginaInicio == i) ? "active" : "";
+            <a asp-action="Docentes" asp-route-numPag="@i" asp-route-buscar="@ViewBag.buscar" class="btn btn-outline-primary @paginaActiva">@i</a>
+        }
+        @if (Model.PaginasPosteriores)
+        {
+            <a asp-action="Docentes" asp-route-numPag="@(Model.PaginaInicio + 1)" asp-route-buscar="@ViewBag.buscar" class="btn btn-primary">Siguiente</a>
+        }
+        @if (Model.PaginaInicio != Model.PaginasTotales)
+        {
+            <a asp-action="Docentes" asp-route-numPag="@Model.PaginasTotales" asp-route-buscar="@ViewBag.buscar" class="btn btn-primary">Final</a>
+        }
     }
-    @if (Model.PaginasAnteriores)
-    {
-        <a asp-action="Docentes" asp-route-numPag="@(Model.PaginaInicio - 1)" asp-route-buscar="@ViewBag.buscar" class="btn btn-primary">Anteior</a>
-    }
-    @for (var i = Model.BotonesAnteriores(); i <= Model.BotonesSiguientes(); i++)
-    {
-        var paginaActiva = (Model.PaginaInicio == i) ? "active" : "";
-        <a asp-action="Docentes" asp-route-numPag="@i" asp-route-buscar="@ViewBag.buscar" class="btn btn-outline-primary @paginaActiva">@i</a>
-    }
-    @if (Model.PaginasPosteriores)
-    {
-        <a asp-action="Docentes" asp-route-numPag="@(Model.PaginaInicio + 1)" asp-route-buscar="@ViewBag.buscar" class="btn btn-primary">Siguiente</a>
-    }
-    @if (Model.PaginaInicio != Model.PaginasTotales)
-    {
-        <a asp-action="Docentes" asp-route-numPag="@Model.PaginasTotales" asp-route-buscar="@ViewBag.buscar" class="btn btn-primary">Final</a>
-    }
-    
 </div>

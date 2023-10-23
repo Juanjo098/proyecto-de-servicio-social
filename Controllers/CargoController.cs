@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Titulacion.Models;
 using Microsoft.EntityFrameworkCore;
+using Titulacion.Clases;
 
 namespace Titulacion.Controllers
 {
@@ -16,9 +17,19 @@ namespace Titulacion.Controllers
 
         [Authorize(Roles ="1,2")]
         [Route("/Administracion/Cargos")]
-        public async Task<IActionResult> Cargos()
+        public async Task<IActionResult> Cargos(int? numPag, string buscar)
         {
-            return View(await ListaCargos());
+            int cantidad = 10;
+            var items = await ListaCargos();
+
+            if (!string.IsNullOrEmpty(buscar) && items != null)
+            {
+                items = items.FindAll(item => item.Nombre.ToLower().Contains(buscar.ToLower()));
+                ViewBag.buscar = buscar;
+            }
+
+            var pag = Paginacion<Clases.Get.Cargo>.CrearLista(items, numPag ?? 1, cantidad);
+            return View(pag);
         }
 
         [Authorize(Roles = "1")]

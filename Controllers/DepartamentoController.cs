@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Titulacion.Models;
 using Microsoft.EntityFrameworkCore;
+using Titulacion.Clases;
 
 namespace Titulacion.Controllers
 {
@@ -16,9 +17,20 @@ namespace Titulacion.Controllers
 
         [Authorize(Roles = "1,2")]
         [Route("/Administracion/Departamentos")]
-        public async Task<IActionResult> Departamentos()
+        public async Task<IActionResult> Departamentos(int? numPag, string buscar)
         {
-            return View(await ListaDepartamentos());
+            int cantidad = 10;
+            var items = await ListaDepartamentos();
+
+            if (!string.IsNullOrEmpty(buscar) && items != null)
+            {
+                items = items.FindAll(item => item.nombre.ToLower().Contains(buscar.ToLower()));
+                ViewBag.buscar = buscar;
+            }
+
+            var pag = Paginacion<Clases.Get.Departamento>.CrearLista(items, numPag ?? 1, cantidad);
+
+            return View(pag);
         }
 
         [Authorize(Roles = "1")]
