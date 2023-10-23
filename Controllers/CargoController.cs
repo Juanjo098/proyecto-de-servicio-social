@@ -128,7 +128,7 @@ namespace Titulacion.Controllers
                 if (cargo == null)
                     return RedirectToAction("CustomError", "Home");
 
-                cargo.Hab = false;
+                cargo.Hab = 0;
                 await _context.SaveChangesAsync();
 
                 return RedirectToAction("Cargos");

@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Titulacion.Models;
 using Microsoft.EntityFrameworkCore;
+using Titulacion.Clases;
+
 namespace Titulacion.Controllers
 {
     public class DocenteController : Controller
@@ -15,9 +17,20 @@ namespace Titulacion.Controllers
 
         [Authorize(Roles = "1,2")]
         [Route("/Administracion/Docentes")]
-        public async Task<IActionResult> Docentes()
+        [HttpGet]
+        public async Task<IActionResult> Docentes(int? numPag, string buscar)
         {
-            return View(await ListaDocentes());
+            int cantidad = 10;
+            var items = await ListaDocentes();
+
+            if (!string.IsNullOrEmpty(buscar) && items != null)
+            {
+                items = items.FindAll(item => item.Nombre.ToLower().Contains(buscar.ToLower()));
+                ViewBag.buscar = buscar;
+            }
+
+            var pag = Paginacion<Clases.Get.Docente>.CrearLista(items, numPag ?? 1, cantidad);
+            return View(pag);
         }
 
         // Utilidades
@@ -26,7 +39,8 @@ namespace Titulacion.Controllers
             return await (
                     from docente in _context.Docentes
                     where docente.Hab == 1
-                    select new Clases.Get.Docente {
+                    select new Clases.Get.Docente
+                    {
                         Id = docente.IdDocente,
                         Nombre = docente.Nombre,
                         Cedula = docente.Cedula
