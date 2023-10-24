@@ -8,7 +8,7 @@
 <h1>Docentes</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Insertar">Create New</a>
 </p>
 <form asp-action="Docentes" method="get">
     <div class="form-group">
@@ -46,9 +46,9 @@
                 @Html.DisplayFor(modelItem => item.Cedula)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                <a asp-action="Detalles" asp-route-id=@item.Id class="btn btn-outline-success"><i class="fa-solid fa-circle-info"></i></a>
+                <a asp-action="Editar" asp-route-id=@item.Id class="btn btn-outline-warning"><i class="fa-solid fa-pen-to-square"></i></a>
+                <a class="btn btn-outline-danger" onclick="handleDelete(@item.Id)"><i class="fa-solid fa-trash-can"></i></a>
             </td>
         </tr>
 }
