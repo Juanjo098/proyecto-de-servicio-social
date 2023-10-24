@@ -1,49 +1,50 @@
-﻿@model Titulacion.Clases.Post.Docente
+﻿@model Titulacion.Clases.Put.Docente
 
 @{
-    ViewData["Title"] = "Insertar";
+    ViewData["Title"] = "Editar";
     List<SelectListItem> departamentos = ViewBag.departamentos;
 }
 
-<h1>Insertar</h1>
+<h1>Editar</h1>
 
 <h4>Docente</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Insertar">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <form asp-action="Editar" id="form" method="post">
+            <div class="form-group">
+                <label asp-for="Id_Docente" class="control-label">@Html.DisplayNameFor(model => model.Id_Docente): @Model.Id_Docente</label>
+                <input asp-for="Id_Docente" class="form-control" type="hidden" value=@Model.Id_Docente />
+                <span asp-validation-for="Id_Docente" class="text-danger"></span>
+            </div>
             <div class="form-group">
                 <label asp-for="Id_Dpto" class="control-label"></label>
                 <select asp-items="@departamentos" asp-for="Id_Dpto"></select>
                 <span asp-validation-for="Id_Dpto" class="text-danger"></span>
             </div>
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Nombre" class="control-label"></label>
-                <input asp-for="Nombre" class="form-control" value=@ViewBag.nombre/>
+                <input asp-for="Nombre" class="form-control" value=@Model.Nombre />
                 <span asp-validation-for="Nombre" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Titulo" class="control-label"></label>
-                <input asp-for="Titulo" class="form-control" value=@ViewBag.titulo/>
+                <input asp-for="Titulo" class="form-control" value=@Model.Titulo />
                 <span asp-validation-for="Titulo" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Diminutivo" class="control-label"></label>
-                <input asp-for="Diminutivo" class="form-control" value=@ViewBag.diminutivo />
+                <input asp-for="Diminutivo" class="form-control" value=@Model.Diminutivo />
                 <span asp-validation-for="Diminutivo" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Cedula" class="control-label"></label>
-                <input asp-for="Cedula" class="form-control" value=@ViewBag.cedula />
-                @if (ViewBag.error != null)
-                {
-                    <span asp-validation-for="Cedula" class="text-danger">La cedula esta duplicada</span>
-                }
+                <input asp-for="Cedula" class="form-control" value=@Model.Cedula />
                 <span asp-validation-for="Cedula" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
     </div>
@@ -53,3 +54,14 @@
     <a asp-action="Docentes">Back to List</a>
 </div>
 
+<script>
+    const handleClick = () => {
+        form = getForm()
+        confirmar("Desea editar la información del docente?", "Esta apunto de editar la información del docente", "Editar", "Editado", form)
+    }
+</script>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
