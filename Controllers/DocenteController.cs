@@ -130,6 +130,26 @@ namespace Titulacion.Controllers
 
             try
             {
+                Docente docente;
+                if (await ExisteEditar(modelo.Cedula, modelo.Id_Docente))
+                {
+
+                    docente = await _context.Docentes.FindAsync(modelo.Id_Docente);
+
+                    if (docente == null)
+                        return RedirectToAction("CustomError", "Home");
+
+                    docente.Nombre = modelo.Nombre.ToUpper();
+                    docente.Titulo = modelo.Titulo.ToUpper();
+                    docente.Diminutivo = modelo.Diminutivo.ToUpper();
+                    docente.Cedula = modelo.Cedula;
+                    docente.IdDpto = modelo.Id_Dpto;
+
+                    await _context.SaveChangesAsync();
+
+                    return RedirectToAction("Docentes");
+                }
+
                 if (await Existe(modelo.Cedula))
                 {
                     ViewBag.error = true;
@@ -137,7 +157,7 @@ namespace Titulacion.Controllers
                     return View(modelo.Id_Docente);
                 }
 
-                Docente docente = await _context.Docentes.FindAsync(modelo.Id_Docente);
+                docente = await _context.Docentes.FindAsync(modelo.Id_Docente);
 
                 if (docente == null)
                     return RedirectToAction("CustomError", "Home");
@@ -221,6 +241,11 @@ namespace Titulacion.Controllers
         private async Task<bool> Existe(string cedula)
         {
             return await _context.Docentes.FirstOrDefaultAsync(doc => doc.Cedula == cedula) != null;
+        }
+
+        private async Task<bool> ExisteEditar(string cedula, int id)
+        {
+            return await _context.Docentes.FirstOrDefaultAsync(doc => doc.Cedula == cedula && doc.IdDocente == id) != null;
         }
 
         private async Task<Clases.Put.Docente> EditarDocente(int id)
