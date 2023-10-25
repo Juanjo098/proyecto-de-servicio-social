@@ -54,6 +54,9 @@
 }
     </tbody>
 </table>
+<form asp-action="Eliminar" id="formEliminar" method="post">
+    <input type="hidden" name="id" id="idEliminar">
+</form>
 <div>
     @if (Model.MostrarBotones)
     {
@@ -80,3 +83,9 @@
         }
     }
 </div>
+<script>
+    const handleDelete = (id) => {
+        form = eliminar(id)
+        confirmar("Desea, eliminar el Docente?", "Esta apunto de eliminar un docente", "Eliminar", "Eliminado", form)
+    }
+</script>

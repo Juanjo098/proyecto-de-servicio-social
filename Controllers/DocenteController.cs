@@ -178,6 +178,26 @@ namespace Titulacion.Controllers
             }
         }
 
+        public async Task<IActionResult> Eliminar(int id)
+        {
+            try
+            {
+                Docente docente = await _context.Docentes.FirstOrDefaultAsync(doc => doc.IdDocente == id);
+
+                if (docente == null)
+                    return RedirectToAction("CustomError", "Home");
+
+                docente.Hab = 0;
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction("Docentes");
+            }
+            catch (InvalidOperationException ex)
+            {
+                return RedirectToAction("CustomError", "Home");
+            }
+        }
+
         // Utilidades
 
         private async Task<List<Clases.Get.Docente>> ListaDocentes() {
