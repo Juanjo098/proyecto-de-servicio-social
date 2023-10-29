@@ -41,8 +41,9 @@
                 @Html.DisplayFor(modelItem => item.nombre)
             </td>
             <td>
-                <a asp-controller="Departamento" asp-action="editar" asp-route-id=@item.id class="btn btn-warning" onclick="editar(@item.id)"><i class="fa-solid fa-pen-to-square"></i></a>
-                <a class="btn btn-danger" onclick="handleDelete(@item.id)" ><i class="fa-solid fa-trash-can"></i></a>
+                <a asp-action="Detalles" asp-route-id=@item.id class="btn btn-outline-success"><i class="fa-solid fa-circle-info"></i></a>
+                <a asp-action="Editar" asp-route-id=@item.id class="btn btn-outline-warning"><i class="fa-solid fa-pen-to-square"></i></a>
+                <a class="btn btn-outline-danger" onclick="handleDelete(@item.id)"><i class="fa-solid fa-trash-can"></i></a>
             </td>
         </tr>
 }

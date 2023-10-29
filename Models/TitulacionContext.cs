@@ -31,9 +31,8 @@ public partial class TitulacionContext : DbContext
 
     public virtual DbSet<Usuario> Usuarios { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-    }
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) { }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder
@@ -92,6 +91,8 @@ public partial class TitulacionContext : DbContext
 
             entity.HasIndex(e => e.IdDpto, "id_dpto").IsUnique();
 
+            entity.HasIndex(e => e.IdJefeDpto, "id_jefe_dpto");
+
             entity.HasIndex(e => e.Nombre, "nombre").IsUnique();
 
             entity.Property(e => e.IdDpto).HasColumnName("id_dpto");
@@ -99,9 +100,14 @@ public partial class TitulacionContext : DbContext
                 .HasDefaultValueSql("b'1'")
                 .HasColumnType("bit(1)")
                 .HasColumnName("hab");
+            entity.Property(e => e.IdJefeDpto).HasColumnName("id_jefe_dpto");
             entity.Property(e => e.Nombre)
                 .HasMaxLength(128)
                 .HasColumnName("nombre");
+
+            entity.HasOne(d => d.IdJefeDptoNavigation).WithMany(p => p.Departamentos)
+                .HasForeignKey(d => d.IdJefeDpto)
+                .HasConstraintName("departamento_ibfk_1");
         });
 
         modelBuilder.Entity<Docente>(entity =>
@@ -130,7 +136,7 @@ public partial class TitulacionContext : DbContext
                 .HasMaxLength(128)
                 .HasColumnName("nombre");
             entity.Property(e => e.Titulo)
-                .HasMaxLength(64)
+                .HasMaxLength(128)
                 .HasColumnName("titulo");
 
             entity.HasOne(d => d.IdDptoNavigation).WithMany(p => p.Docentes)

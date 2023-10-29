@@ -7,6 +7,8 @@
     {
         error = ViewBag.error;
     }
+
+    List<string> docentes = ViewBag.docentes;
 }
 
 <h1>Insertar</h1>
@@ -15,22 +17,33 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Insertar" id="form">
+        <form id="form" asp-action="Insertar">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Nombre" class="control-label"></label>
                 <input asp-for="Nombre" class="form-control" />
-                <span asp-validation-for="Nombre" class="text-danger">@error</span>
+                <span asp-validation-for="Nombre" class="text-danger">@ViewBag.error</span>
             </div>
             <div class="form-group">
-                <input type="button" value="Insertar" onclick="handleClick()" class="btn btn-primary" />
+                <label asp-for="JefeDpto" class="control-label"></label>
+                <input asp-for="JefeDpto" list="docentes" class="form-control" />
+                <datalist id="docentes">
+                    @foreach (var docente in docentes)
+                    {
+                        <option value=@docente></option>
+                    }
+                </datalist>
+                <span asp-validation-for="JefeDpto" class="text-danger">@ViewBag.errorDocente</span>
+            </div>
+            <div class="form-group">
+                <input type="button" value="Crear nuevo" onclick="handleClick()" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-controller="Departamento" asp-action="Departamentos">Volver</a>
+    <a asp-action="Departamentos">Back to List</a>
 </div>
 
 <script>
@@ -41,5 +54,7 @@
 </script>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

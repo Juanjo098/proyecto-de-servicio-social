@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Titulacion.Models;
 using Microsoft.EntityFrameworkCore;
 using Titulacion.Clases;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Titulacion.Controllers
 {
@@ -35,8 +36,9 @@ namespace Titulacion.Controllers
 
         [Authorize(Roles = "1")]
         [Route("/Administracion/Departamentos/Insertar")]
-        public IActionResult Insertar()
+        public async Task<IActionResult> Insertar()
         {
+            ViewBag.docentes = await ListaDocentes();
             return View();
         }
 
@@ -47,18 +49,28 @@ namespace Titulacion.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return View();
-            }
-
-            if (await Existe(modelo.Nombre))
-            {
-                ViewBag.error = "El nombre del departamento ya se encuentra registrado";
+                ViewBag.docentes = await ListaDocentes();
                 return View();
             }
 
             try
             {
-                _context.Departamentos.Add(new Models.Departamento { Nombre = modelo.Nombre });
+                if (await Existe(modelo.Nombre))
+                {
+                    ViewBag.error = "El nombre del departamento ya se encuentra registrado";
+                    ViewBag.docentes = await ListaDocentes();
+                    return View();
+                }
+
+                if (! await ExisteDocente(modelo.JefeDpto))
+                {
+                    ViewBag.errorDocente = "Deje el campo en blanco o elija un docente existente";
+                    ViewBag.docentes = await ListaDocentes();
+                    return View();
+                }
+
+                int? jefeDpeto = await IdDocente(modelo.JefeDpto);
+                _context.Departamentos.Add(new Models.Departamento { Nombre = modelo.Nombre, IdJefeDpto = jefeDpeto });
                 await _context.SaveChangesAsync();
             }
 
@@ -73,11 +85,9 @@ namespace Titulacion.Controllers
                 return View();
             }
 
-
             return RedirectToAction("Departamentos", "Departamento");
         }
 
-        [HttpGet]
         [Authorize(Roles = "1")]
         [Route("/Administracion/Departamentos/Editar")]
         public async Task<IActionResult> Editar(int id)
@@ -177,5 +187,28 @@ namespace Titulacion.Controllers
             return await _context.Departamentos.FirstOrDefaultAsync(d => d.Nombre == nombre) != null;
         }
 
+        private async Task<List<string>> ListaDocentes()
+        {
+            return await (
+                from docente in _context.Docentes
+                where docente.Hab == 1
+                select docente.Nombre
+            ).ToListAsync();
+        }
+
+        private async Task<bool> ExisteDocente(string nombre)
+        {
+            if (string.IsNullOrEmpty(nombre))
+                return true;
+            return await _context.Docentes.FirstOrDefaultAsync(doc => doc.Nombre == nombre) != null;
+        }
+
+        private async Task<int?> IdDocente(string nombre)
+        {
+            if (string.IsNullOrEmpty(nombre))
+                return null;
+            Models.Docente docente = await _context.Docentes.FirstOrDefaultAsync( doc => doc.Nombre == nombre);
+            return docente == null ? null : docente.IdDocente;
+        }
     }
 }

@@ -19,5 +19,7 @@ public partial class Docente
 
     public ulong Hab { get; set; }
 
+    public virtual ICollection<Departamento> Departamentos { get; set; } = new List<Departamento>();
+
     public virtual Departamento IdDptoNavigation { get; set; } = null!;
 }
