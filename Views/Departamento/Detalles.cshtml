@@ -1,0 +1,47 @@
+﻿@model Titulacion.Clases.Get.DepartamentoDetalle
+
+@{
+    ViewData["Title"] = "Detalles";
+}
+
+<h1>Detalles</h1>
+
+<div>
+    <h4>DepartamentoDetalle</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Id)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Id)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.NombreDpto)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.NombreDpto)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.NombreJefeDpto)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.NombreJefeDpto)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Carreras)
+        </dt>
+        <dd class="col-sm-10">
+            <ul>
+                @foreach (var carrera in Model.Carreras)
+                {
+                    <li>@carrera</li>
+                }
+            </ul>
+        </dd>
+    </dl>
+</div>
+<div>
+    @Html.ActionLink("Edit", "Editar", new { id = Model.Id }) |
+    <a asp-action="Departamentos">Volver</a>
+</div>

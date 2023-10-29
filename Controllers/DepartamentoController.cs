@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Titulacion.Models;
 using Microsoft.EntityFrameworkCore;
 using Titulacion.Clases;
-using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Build.Framework;
 
 namespace Titulacion.Controllers
 {
@@ -32,6 +32,47 @@ namespace Titulacion.Controllers
             var pag = Paginacion<Clases.Get.Departamento>.CrearLista(items, numPag ?? 1, cantidad);
 
             return View(pag);
+        }
+
+        [Authorize(Roles = "1,2")]
+        [Route("/Administracion/Departamentos/Detalles")]
+        public async Task<IActionResult> Detalles(int id)
+        {
+            try
+            {
+                string nombreJefeDpto;
+                
+                Clases.Get.DepartamentoDetalle departamento = new Clases.Get.DepartamentoDetalle();
+                
+                Departamento dep = await _context.Departamentos.FirstOrDefaultAsync(d => d.IdDpto == id);
+                
+                List<string> carreras = await (
+                        from c in _context.Carreras
+                        join d in _context.Departamentos
+                        on c.IdDpto equals d.IdDpto
+                        where c.Hab == 1 && d.Hab == 1
+                        select c.Nombre).ToListAsync();
+
+                if (dep == null) {
+                    return RedirectToAction("CustomError", "Home");
+                }
+
+                nombreJefeDpto = await TituloDocente(dep.IdJefeDpto);
+
+                if (nombreJefeDpto == null)
+                    return RedirectToAction("CustomError", "Home");
+
+                departamento.Id = dep.IdDpto;
+                departamento.NombreDpto = dep.Nombre;
+                departamento.NombreJefeDpto = nombreJefeDpto;
+                departamento.Carreras = carreras;
+
+                return View(departamento);
+            }
+            catch (InvalidOperationException ex)
+            {
+                return RedirectToAction("CustomError", "Home");
+            }
         }
 
         [Authorize(Roles = "1")]
@@ -88,10 +129,12 @@ namespace Titulacion.Controllers
             return RedirectToAction("Departamentos", "Departamento");
         }
 
+
         [Authorize(Roles = "1")]
         [Route("/Administracion/Departamentos/Editar")]
         public async Task<IActionResult> Editar(int id)
         {
+            ViewBag.docentes = await ListaDocentes();
             return View(await EditarDepartamento(id));
         }
 
@@ -104,40 +147,41 @@ namespace Titulacion.Controllers
                 return View();
             try
             {
-                if (await Existe(modelo.Nombre))
+                if (_context.Departamentos.FirstOrDefault(dep => dep.Nombre == modelo.Nombre && dep.IdDpto != modelo.Id) != null)
                 {
-                    ViewBag.error = "No puede colocar un nombre de departamento que ya existe";
+                    ViewBag.docentes = await ListaDocentes();
+                    ViewBag.errorNombreDpto = "No puede colocar un nombre de departamento que ya existe";
                     return View(modelo);
                 }
-            }
-            catch (InvalidOperationException ex) {
-                ViewBag.error = "Error";
-                return View(modelo);
-            }
 
-            
-            Models.Departamento dep = await _context.Departamentos.FindAsync(modelo.Id);
+                if (! await ExisteDocente(modelo.JefeDpto))
+                {
+                    ViewBag.docentes = await ListaDocentes();
+                    ViewBag.errorDocente = "Elija un docente existente o deje el campo vacio";
+                    return View(modelo);
+                }
 
-            if (dep == null)
-            {
-                ViewBag.error = "No se encontro un departamento con el id especificado";
-                return View();
-            }
+                Models.Departamento dep = await _context.Departamentos.FindAsync(modelo.Id);
 
-            dep.Nombre = modelo.Nombre;
+                if (dep == null)
+                {
+                    ViewBag.docentes = await ListaDocentes();
+                    ViewBag.errorID = "No se encontro un departamento con el id especificado";
+                    return View(modelo);
+                }
 
-            try
-            {
+                dep.Nombre = modelo.Nombre;
+                dep.IdJefeDpto = await IdDocente(modelo.JefeDpto);
+
                 _context.Departamentos.Update(dep);
                 await _context.SaveChangesAsync();
-            }
-            catch (InvalidOperationException ex)
-            {
-                ViewBag.error = "No se encontro un departamento con el id especificado";
-                return View();
-            }
 
-            return RedirectToAction("Departamentos", "Departamento");
+                return RedirectToAction("Departamentos", "Departamento");
+            }
+            catch (InvalidOperationException ex) {
+                return RedirectToAction("CustomError", "Home");
+            }
+            
         }
 
         [HttpPost]
@@ -179,7 +223,7 @@ namespace Titulacion.Controllers
             if (item == null)
                 return null;
 
-            return new Clases.Put.Departamento { Id = id, Nombre = item.Nombre };
+            return new Clases.Put.Departamento { Id = id, Nombre = item.Nombre, JefeDpto = await NombreDocente(item.IdJefeDpto) };
         }
 
         private async Task<bool> Existe(string nombre)
@@ -209,6 +253,32 @@ namespace Titulacion.Controllers
                 return null;
             Models.Docente docente = await _context.Docentes.FirstOrDefaultAsync( doc => doc.Nombre == nombre);
             return docente == null ? null : docente.IdDocente;
+        }
+
+        private async Task<string?> NombreDocente (int? id)
+        {
+            if (id == null)
+                return "";
+            
+            Docente docente = await _context.Docentes.FirstOrDefaultAsync(d => d.IdDocente == id);
+
+            if (docente == null)
+                return null;
+
+            return docente.Nombre;
+        }
+
+        private async Task<string?> TituloDocente(int? id)
+        {
+            if (id == null)
+                return "";
+
+            Docente docente = await _context.Docentes.FirstOrDefaultAsync(d => d.IdDocente == id);
+
+            if (docente == null)
+                return null;
+
+            return docente.Diminutivo + " " + docente.Nombre;
         }
     }
 }
