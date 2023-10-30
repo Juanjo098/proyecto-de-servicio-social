@@ -49,7 +49,7 @@ namespace Titulacion.Controllers
                         from c in _context.Carreras
                         join d in _context.Departamentos
                         on c.IdDpto equals d.IdDpto
-                        where c.Hab == 1 && d.Hab == 1
+                        where c.Hab == 1 && d.Hab == 1 && c.IdDpto == id
                         select c.Nombre).ToListAsync();
 
                 if (dep == null) {
