@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using Titulacion.Models;
 using Microsoft.EntityFrameworkCore;
 using Titulacion.Clases;
-using Microsoft.Build.Framework;
 
 namespace Titulacion.Controllers
 {
@@ -42,7 +41,7 @@ namespace Titulacion.Controllers
             {
                 string nombreJefeDpto;
                 
-                Clases.Get.DepartamentoDetalle departamento = new Clases.Get.DepartamentoDetalle();
+                Clases.Get.DepartamentoDetalles departamento = new Clases.Get.DepartamentoDetalles();
                 
                 Departamento dep = await _context.Departamentos.FirstOrDefaultAsync(d => d.IdDpto == id);
                 

@@ -2,7 +2,7 @@
 
 namespace Titulacion.Clases.Get
 {
-    public class DepartamentoDetalle
+    public class DepartamentoDetalles
     {
         [Display(Name = "ID")]
         public int Id { get; set; }
