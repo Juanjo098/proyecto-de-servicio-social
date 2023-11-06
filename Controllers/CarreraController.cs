@@ -80,6 +80,7 @@ namespace Titulacion.Controllers
 
             try
             {
+                modelo.Nombre = modelo.Nombre.ToUpper();
                 if (await ExisteCarrera(modelo.Nombre))
                 {
                     ViewBag.errorCarrera = "El nombre de la carrera no puede repetirse";
@@ -128,6 +129,7 @@ namespace Titulacion.Controllers
 
             try
             {
+                modelo.Nombre = modelo.Nombre.ToUpper();
                 if (await _context.Carreras.FirstOrDefaultAsync(car => car.Nombre == modelo.Nombre && car.IdCarrera != modelo.IdCarrera && car.Hab == 1) != null)
                 {
                     ViewBag.departamentos = await ListaDepartamentos(false);
@@ -140,7 +142,7 @@ namespace Titulacion.Controllers
                 if ( carrera == null )
                     return RedirectToAction("CustomError", "Home");
 
-                carrera.Nombre = modelo.Nombre;
+                carrera.Nombre = modelo.Nombre.ToUpper();
                 carrera.IdDpto = modelo.IdDpto;
 
                 _context.Carreras.Update(carrera);

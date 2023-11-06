@@ -6,8 +6,8 @@ namespace Titulacion.Servicios.Contrato
 {
     public interface IUsuarioService
     {
-        Task<Usuario> GetUsuario(Sesion modelo);
+        Task<Models.Usuario> GetUsuario(Sesion modelo);
 
-        Task<bool> SaveUsuario(Usuario modelo);
+        Task<bool> SaveUsuario(Models.Usuario modelo);
     }
 }

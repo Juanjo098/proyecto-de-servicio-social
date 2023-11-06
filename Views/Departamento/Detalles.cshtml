@@ -42,6 +42,6 @@
     </dl>
 </div>
 <div>
-    @Html.ActionLink("Edit", "Editar", new { id = Model.Id }) |
-    <a asp-action="Departamentos">Volver</a>
+    <a asp-action="Departamentos" class="btn btn-info">Volver</a>
+    <a asp-action="Editar" asp-route-id="@Model.Id" class="btn btn-warning">Editar</a>
 </div>

@@ -1,31 +1,42 @@
 ﻿@using Titulacion.Clases;
-@model Paginacion<Titulacion.Clases.Get.Carrera>
+@model Paginacion<Titulacion.Clases.Get.Usuario>;
 
 @{
-    ViewData["Title"] = "Carreras";
+    ViewData["Title"] = "Usuarios";
+    List<SelectListItem> tiposUsuario = ViewBag.tiposUsuario;
 }
 
-<h1>Carreras</h1>
+<h1>Usuarios</h1>
 
-<p>
-    <a asp-action="Insertar" class="btn btn-success">Añadir nueva carrera</a>
-</p>
-<form asp-action="Docentes" method="get">
+<form asp-action="Usuarios" method="get">
+    <div class="form-group">
+        <label for="tipoUsuario">Tipo de usuario</label>
+        <select asp-items="@tiposUsuario" id="tipoUsuario" name="tipoUsuario" class="form-select"></select>
+    </div>
     <div class="form-group">
         <label for="buscar">Buscar: </label>
-        <input type="text" id="buscar" name="buscar" value="@ViewBag.buscar" />
+        <input type="text" id="buscar" name="buscar" value="@ViewBag.buscar" class="form-control"/>
     </div>
     <button type="submit" class="btn btn-info">Buscar</button>
 </form>
-<a asp-action="Carreras" asp-route-buscar="" class="btn btn-outline-danger">Eliminar filtro</a>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                ID
+                Correo
             </th>
             <th>
-                Nombre
+                Contraseña
+            </th>
+            <th>
+                Tipo de usuario
+            </th>
+            <th>
+                Estado
             </th>
             <th></th>
         </tr>
@@ -34,15 +45,21 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.IdCarrera)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.Nombre)
             </td>
             <td>
-                <a asp-action="Detalles" asp-route-id=@item.IdCarrera class="btn btn-outline-success"><i class="fa-solid fa-circle-info"></i></a>
-                <a asp-action="Editar" asp-route-id=@item.IdCarrera class="btn btn-outline-warning"><i class="fa-solid fa-pen-to-square"></i></a>
-                <a class="btn btn-outline-danger" onclick="handleDelete(@item.IdCarrera)"><i class="fa-solid fa-trash-can"></i></a>
+                @Html.DisplayFor(modelItem => item.Correo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TipoUsuario)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Estado)
+            </td>
+            <td>
+                <a asp-action="Detalles" asp-route-id=@item.IdUsuario class="btn btn-outline-success"><i class="fa-solid fa-circle-info"></i></a>
+                <a asp-action="Editar" asp-route-id=@item.IdUsuario class="btn btn-outline-warning"><i class="fa-solid fa-pen-to-square"></i></a>
+                <a class="btn btn-outline-danger" onclick="handleDelete(@item.IdUsuario)"><i class="fa-solid fa-trash-can"></i></a>
             </td>
         </tr>
 }

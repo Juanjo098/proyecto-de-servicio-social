@@ -49,6 +49,7 @@ namespace Titulacion.Controllers
 
             try
             {
+                modelo.Nombre = modelo.Nombre.ToUpper();
                 if (await Existe(modelo.Nombre))
                 {
                     ViewBag.error = "El nombre del cargo no puede estar repetido";
@@ -65,7 +66,7 @@ namespace Titulacion.Controllers
             catch (InvalidOperationException ex)
             {
                 ViewBag.exception = true;
-                return View();
+                return RedirectToAction("CustomError", "Home");
             }
         }
 
@@ -103,6 +104,7 @@ namespace Titulacion.Controllers
 
             try
             {
+                modelo.Nombre = modelo.Nombre.ToUpper();
                 if (await Existe(modelo.Nombre))
                 {
                     ViewBag.error = "El nombre del cargo no puede repetirse";

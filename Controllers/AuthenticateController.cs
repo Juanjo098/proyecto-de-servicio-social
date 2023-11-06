@@ -10,16 +10,20 @@ using Titulacion.Servicios.Contrato;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 
 namespace Titulacion.Controllers
 {
     public class AuthenticateController : Controller
     {
+        private readonly TitulacionContext _context;
         private readonly IUsuarioService _usuarioService;
 
-        public AuthenticateController(IUsuarioService usuarioService)
+        public AuthenticateController(IUsuarioService usuarioService, TitulacionContext context)
         {
             _usuarioService = usuarioService;
+            _context = context;
         }
 
         [Route("/IniciarSesion/")]
@@ -87,8 +91,9 @@ namespace Titulacion.Controllers
 
         [Authorize(Roles ="1,2")]
         [Route("/Administar/RegistrarUsuario")]
-        public IActionResult RegistrarUsuario()
+        public async Task<IActionResult> RegistrarUsuario()
         {
+            ViewBag.tiposUsuario = await ListaTiposUsuario();
             return View();
         }
 
@@ -99,21 +104,32 @@ namespace Titulacion.Controllers
         {
             if (!ModelState.IsValid)
             {
+                ViewBag.tiposUsuario = await ListaTiposUsuario();
                 return View();
             }
 
-            Models.Usuario usuario = new Models.Usuario {
-                Nombre = modelo.Nombre,
-                Correo = modelo.Correo,
-                Contrasena = Utilidades.EncriptarClave(modelo.Contrasena)
+            try
+            {
+                Models.Usuario usuario = new Models.Usuario
+                {
+                    Nombre = modelo.Nombre.ToLower(),
+                    Correo = modelo.Correo.ToLower(),
+                    Contrasena = Utilidades.EncriptarClave(modelo.Contrasena),
+                    IdTipoUsuario = modelo.IdTipoUsuario
                 };
 
-            if (await _usuarioService.SaveUsuario(usuario))
-            {
-                return RedirectToAction("Index", "Home");
-            }
+                if (await _usuarioService.SaveUsuario(usuario))
+                {
+                    return RedirectToAction("Index", "Home");
+                }
 
-            return View("Error", "Home");
+                ViewBag.tiposUsuario = await ListaTiposUsuario();
+                return View(modelo);
+            }
+            catch (InvalidOperationException ex)
+            {
+                return View("CustomError", "Home");
+            }
         }
 
         public async Task<IActionResult> CerrarSesion()
@@ -121,6 +137,23 @@ namespace Titulacion.Controllers
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 
             return RedirectToAction("Index", "Home");
+        }
+        
+        // Utilidades
+        private async Task<List<SelectListItem>> ListaTiposUsuario()
+        {
+            List<SelectListItem> lista = await (
+                    from tipoUsuario in _context.TipoUsuarios
+                    where tipoUsuario.Hab == 1 && tipoUsuario.IdTipoUsuario != 1
+                    select new SelectListItem {
+                        Text = tipoUsuario.Nombre,
+                        Value = tipoUsuario.IdTipoUsuario.ToString()
+                    }
+                ).ToListAsync();
+            
+            lista.Insert(0, new SelectListItem { Text = "Selecciona el tipo de usuario", Value = "0" });
+            
+            return lista;
         }
     }
 }

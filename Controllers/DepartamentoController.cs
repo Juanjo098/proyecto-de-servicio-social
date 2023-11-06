@@ -95,6 +95,7 @@ namespace Titulacion.Controllers
 
             try
             {
+                modelo.Nombre = modelo.Nombre.ToUpper();
                 if (await Existe(modelo.Nombre))
                 {
                     ViewBag.error = "El nombre del departamento ya se encuentra registrado";
@@ -146,6 +147,7 @@ namespace Titulacion.Controllers
                 return View();
             try
             {
+                modelo.Nombre = modelo.Nombre.ToUpper();
                 if (_context.Departamentos.FirstOrDefault(dep => dep.Nombre == modelo.Nombre && dep.IdDpto != modelo.Id) != null)
                 {
                     ViewBag.docentes = await ListaDocentes();
@@ -227,7 +229,7 @@ namespace Titulacion.Controllers
 
         private async Task<bool> Existe(string nombre)
         {
-            return await _context.Departamentos.FirstOrDefaultAsync(d => d.Nombre == nombre) != null;
+            return await _context.Departamentos.FirstOrDefaultAsync(d => d.Nombre.ToUpper() == nombre.ToUpper()) != null;
         }
 
         private async Task<List<string>> ListaDocentes()
@@ -243,7 +245,7 @@ namespace Titulacion.Controllers
         {
             if (string.IsNullOrEmpty(nombre))
                 return true;
-            return await _context.Docentes.FirstOrDefaultAsync(doc => doc.Nombre == nombre) != null;
+            return await _context.Docentes.FirstOrDefaultAsync(doc => doc.Nombre.ToUpper() == nombre.ToUpper()) != null;
         }
 
         private async Task<int?> IdDocente(string nombre)
