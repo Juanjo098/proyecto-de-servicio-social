@@ -27,10 +27,10 @@
     <thead>
         <tr>
             <th>
-                Correo
+                Usuario
             </th>
             <th>
-                Contraseña
+                Correo
             </th>
             <th>
                 Tipo de usuario
@@ -95,6 +95,7 @@
     }
 </div>
 <script>
+    document.getElementById('tipoUsuario').value = @ViewBag.buscarTipoUsuario
     const handleDelete = (id) => {
         form = eliminar(id)
         confirmar("Desea, eliminar el Docente?", "Esta apunto de eliminar un docente", "Eliminar", "Eliminado", form)

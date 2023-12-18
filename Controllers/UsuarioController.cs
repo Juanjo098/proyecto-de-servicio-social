@@ -18,7 +18,7 @@ namespace Titulacion.Controllers
 
         [Authorize(Roles = "1,2")]
         [Route("/Administracion/Usuarios")]
-        public async Task<IActionResult> Usuarios(int? numPag, string buscar, int? tipoUsuario)
+        public async Task<IActionResult> Usuarios(int? numPag, string buscar, int tipoUsuario)
         {
             try
             {
@@ -45,6 +45,19 @@ namespace Titulacion.Controllers
             catch (InvalidOperationException ex)
             {
                 return RedirectToAction("Custom", "Home");
+            }
+        }
+
+        public async Task<IActionResult> Detalles(int id)
+        {
+            try
+            {
+
+                return View();
+            }
+            catch (InvalidOperationException)
+            {
+                return RedirectToAction("CustomError", "Home");
             }
         }
 
@@ -77,7 +90,7 @@ namespace Titulacion.Controllers
                     }
                 ).ToListAsync();
 
-            lista.Insert(0, new SelectListItem { Text = "Elige un tipo de usuario", Value = "0" });
+            lista.Insert(0, new SelectListItem { Text = "Todos los usuarios", Value = "0" });
 
             return lista;
         }
