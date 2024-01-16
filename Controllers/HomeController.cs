@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using Titulacion.Clases;
 using Titulacion.Models;
 
 namespace Titulacion.Controllers
@@ -32,7 +33,10 @@ namespace Titulacion.Controllers
         [Route("/Error")]
         public IActionResult CustomError()
         {
-            return View();
+            string mensaje = TempData["mensaje"] as string;
+            string estatus = TempData["estatus"] as string;
+            Mensaje data = new Mensaje { mensaje = mensaje, status = int.Parse(estatus)};
+            return View(data);
         }
     }
 }

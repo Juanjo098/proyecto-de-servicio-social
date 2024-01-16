@@ -1,8 +1,29 @@
-﻿
+﻿@model Titulacion.Clases.Mensaje
+
 @{
     ViewData["Title"] = "CustomError";
 }
 
 <h1>CustomError</h1>
-<strong>Ha ocurrido un error inesperado...</strong>
 
+<div>
+    <h4>Mensaje</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.status)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.status)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.mensaje)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.mensaje)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Index">Volver</a>
+</div>

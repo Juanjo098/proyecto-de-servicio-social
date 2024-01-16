@@ -1,0 +1,59 @@
+﻿@model Titulacion.Clases.Post.InformacionPersonal
+
+@{
+    ViewData["Title"] = "Editar";
+    List<SelectListItem> carreras = ViewBag.carreras;
+}
+
+<h1>Editar</h1>
+
+<h4>InformacionPersonal</h4>
+<hr />
+
+<div class="row justify-content-center align-items-center flex-grow-1">
+    <div class="col-lg-5 col-sm-8 p-4">
+        <form asp-action="Editar" class="d-flex flex-column gap-2">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <input asp-for="noControl" hidden class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="idCarrera" class="control-label"></label>
+                <select asp-items="@carreras" asp-for="idCarrera" class="form-control text-uppercase"></select>
+                <span asp-validation-for="idCarrera" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="nombre" class="control-label"></label>
+                <input asp-for="nombre" class="form-control" />
+                <span asp-validation-for="nombre" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="apellidoPaterno" class="control-label"></label>
+                <input asp-for="apellidoPaterno" class="form-control" />
+                <span asp-validation-for="apellidoPaterno" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="apellidoMaterno" class="control-label"></label>
+                <input asp-for="apellidoMaterno" class="form-control" />
+                <span asp-validation-for="apellidoMaterno" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="telefono" class="control-label"></label>
+                <input asp-for="telefono" class="form-control" />
+                <span asp-validation-for="telefono" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="direccion" class="control-label"></label>
+                <input asp-for="direccion" class="form-control" />
+                <span asp-validation-for="direccion" class="text-danger"></span>
+            </div>
+            <div class="form-group d-flex justify-content-between align-items-center">
+                <div>
+                    <a asp-action="Index" asp-controller="Home">Volver</a>
+                </div>
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
