@@ -93,7 +93,9 @@ namespace Titulacion.Controllers
 
             if (model.idUsuario == Guid.Empty)
             {
-                return RedirectToAction("CustomError", "Home", new {mensaje = "Error de autenticación. No se reconoce userID."});
+                TempData["mensaje"] = "Error de autenticación. No se reconoce userID.";
+                TempData["estatus"] = "400";
+                return RedirectToAction("CustomError", "Home");
             }
 
 
@@ -107,14 +109,14 @@ namespace Titulacion.Controllers
             {
                 if (!(await InfoExist(model.idUsuario)))
                 {
-                    return RedirectToAction("CustomError", "Home", new { mensaje = "No hay información que editrar." });
+                    TempData["mensaje"] = "No hay información que editar";
+                    TempData["estatus"] = "404";
+                    return RedirectToAction("CustomError", "Home");
                 }
-
-                model.noControl = "19420551";
 
                 if (!(await Validate(model.idUsuario, model.noControl)))
                 {
-                    TempData["mensaje"] = "Hola desde Origen";
+                    TempData["mensaje"] = "No hay información que editar";
                     TempData["estatus"] = "404";
                     return RedirectToAction("CustomError", "Home");
                 }
@@ -130,7 +132,9 @@ namespace Titulacion.Controllers
             }
             catch
             {
-                return RedirectToAction("CustomError", "Home", new { mensaje = "No se pudo conectar a la base de datos." });
+                TempData["mensaje"] = "No se pudo conectar a la base de datos.";
+                TempData["estatus"] = "500";
+                return RedirectToAction("CustomError", "Home");
             }
 
             return RedirectToAction("Index", "Home");
