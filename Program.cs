@@ -18,6 +18,7 @@ builder.Services.AddDbContext<TitulacionContext>(options =>
 });
 
 builder.Services.AddScoped<IUsuarioService, UsuarioService>();
+builder.Services.AddScoped<IBufferedFileUploadService, BufferedFileUploadLocalService>();
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie( options =>

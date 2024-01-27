@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 
 using Titulacion.Models;
 using Titulacion.Clases.Get;
-using Titulacion.Clases.Post;
 using Titulacion.Clases;
 using Titulacion.Servicios.Contrato;
 

@@ -3,33 +3,37 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
-using Titulacion.Clases;
 using Titulacion.Clases.Post;
 using Titulacion.Models;
+using Titulacion.Servicios.Contrato;
 
 namespace Titulacion.Controllers
 {
     public class UserInfoController : Controller
     {
         private readonly TitulacionContext _context;
+        private readonly IUsuarioService _usuarioService;
 
-        public UserInfoController(TitulacionContext context)
+        public UserInfoController(TitulacionContext context, IUsuarioService usuarioService)
         {
             _context = context;
+            _usuarioService = usuarioService;
         }
 
         [Authorize(Roles = "3")]
         [Route("/Alumnos/InformacionPersonal/Insertar")]
         public async Task<IActionResult> Insertar()
         {
-            var id = ConvertToGUID(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+            var id = _usuarioService.ConvertToGUID(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
 
             if (id == Guid.Empty)
             {
-                return RedirectToAction("CustomError", "Home", new { mensaje = "Error de autenticación. No se reconoce tu userID." });
+                TempData["mensaje"] = "Error de autenticación. No se reconoce tu userID";
+                TempData["estatus"] = "404";
+                return RedirectToAction("CustomError", "Home");
             }
 
-            if (!(await InfoExist(id)))
+            if (!(await _usuarioService.InfoExist(id)))
             {
                 ViewBag.carreras = await GetCarreras();
                 return View();
@@ -42,7 +46,7 @@ namespace Titulacion.Controllers
         [Route("/Alumnos/InformacionPersonal/Insertar")]
         public async Task<IActionResult> Insertar(InformacionPersonal model)
         {
-            model.idUsuario = ConvertToGUID(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+            model.idUsuario = _usuarioService.ConvertToGUID(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
 
             if (!ModelState.IsValid) {
                 ViewBag.carreras = await GetCarreras();
@@ -88,7 +92,7 @@ namespace Titulacion.Controllers
         [Route("/Alumnos/InformacionPersonal/Editar")]
         public async Task<IActionResult> Editar(InformacionPersonal model)
         {
-            var userId = ConvertToGUID(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+            var userId = _usuarioService.ConvertToGUID(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
             model.idUsuario = userId;
 
             if (model.idUsuario == Guid.Empty)
@@ -107,14 +111,14 @@ namespace Titulacion.Controllers
 
             try
             {
-                if (!(await InfoExist(model.idUsuario)))
+                if (!(await _usuarioService.InfoExist(model.idUsuario)))
                 {
                     TempData["mensaje"] = "No hay información que editar";
                     TempData["estatus"] = "404";
                     return RedirectToAction("CustomError", "Home");
                 }
 
-                if (!(await Validate(model.idUsuario, model.noControl)))
+                if (!(await _usuarioService.Validate(model.idUsuario, model.noControl)))
                 {
                     TempData["mensaje"] = "No hay información que editar";
                     TempData["estatus"] = "404";
@@ -157,7 +161,7 @@ namespace Titulacion.Controllers
 
         private async Task<InformacionPersonal> GetInformacionPersonal()
         {
-            var userID = ConvertToGUID(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+            var userID = _usuarioService.ConvertToGUID(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
 
             if (userID != Guid.Empty)
             {
@@ -178,46 +182,6 @@ namespace Titulacion.Controllers
                 }
             }
             return null;
-        }
-
-        private Guid ConvertToGUID(string id)
-        {
-            if (String.IsNullOrEmpty(id)) return Guid.Empty;
-
-            if (Guid.TryParse(id, out Guid Guidid))
-            {
-                return Guidid;
-            }
-
-            return Guid.Empty;
-        }
-
-        private async Task<bool> InfoExist(Guid id)
-        {
-            if (id != Guid.Empty)
-            {
-                try
-                {
-                    return await _context.InfoPersonals.FirstOrDefaultAsync(info => info.IdUsuario == id) != null;
-                }
-                catch
-                {
-                    return false;
-                }
-            }
-            return false;
-        }
-
-        private async Task<bool> Validate(Guid userId, string noControl)
-        {
-            try
-            {
-                return await _context.InfoPersonals.FirstOrDefaultAsync(user => user.IdUsuario == userId && user.NoControl == noControl) != null;
-            }
-            catch
-            {
-                return false;
-            }
         }
     }
 }

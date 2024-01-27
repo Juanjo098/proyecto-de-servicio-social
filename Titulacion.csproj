@@ -20,6 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Expedientes\19420550\" />
     <Folder Include="wwwroot\img\" />
   </ItemGroup>
 
