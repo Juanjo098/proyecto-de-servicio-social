@@ -15,8 +15,6 @@ public partial class TitulacionContext : DbContext
     {
     }
 
-    public virtual DbSet<Alternativa> Alternativas { get; set; }
-
     public virtual DbSet<Cargo> Cargos { get; set; }
 
     public virtual DbSet<Carrera> Carreras { get; set; }
@@ -29,40 +27,17 @@ public partial class TitulacionContext : DbContext
 
     public virtual DbSet<InfoPersonal> InfoPersonals { get; set; }
 
-    public virtual DbSet<InformacionTitulacion> InformacionTitulacions { get; set; }
-
-    public virtual DbSet<Opcione> Opciones { get; set; }
-
-    public virtual DbSet<ProcesoTitulacion> ProcesoTitulacions { get; set; }
-
-    public virtual DbSet<Producto> Productos { get; set; }
-
     public virtual DbSet<TipoUsuario> TipoUsuarios { get; set; }
 
     public virtual DbSet<Usuario> Usuarios { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) { }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder
             .UseCollation("utf8mb4_0900_ai_ci")
             .HasCharSet("utf8mb4");
-
-        modelBuilder.Entity<Alternativa>(entity =>
-        {
-            entity.HasKey(e => e.IdAlternativa).HasName("PRIMARY");
-
-            entity.ToTable("alternativa");
-
-            entity.Property(e => e.IdAlternativa).HasColumnName("id_alternativa");
-            entity.Property(e => e.Alternativa1)
-                .HasMaxLength(60)
-                .HasColumnName("alternativa");
-            entity.Property(e => e.Hab)
-                .HasDefaultValueSql("b'1'")
-                .HasColumnType("bit(1)")
-                .HasColumnName("hab");
-        });
 
         modelBuilder.Entity<Cargo>(entity =>
         {
@@ -99,7 +74,7 @@ public partial class TitulacionContext : DbContext
                 .HasColumnName("hab");
             entity.Property(e => e.IdDpto).HasColumnName("id_dpto");
             entity.Property(e => e.Nombre)
-                .HasMaxLength(64)
+                .HasMaxLength(32)
                 .HasColumnName("nombre");
 
             entity.HasOne(d => d.IdDptoNavigation).WithMany(p => p.Carreras)
@@ -240,160 +215,6 @@ public partial class TitulacionContext : DbContext
                 .HasForeignKey<InfoPersonal>(d => d.IdUsuario)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("info_personal_ibfk_1");
-        });
-
-        modelBuilder.Entity<InformacionTitulacion>(entity =>
-        {
-            entity.HasKey(e => e.IdInfoTitulacion).HasName("PRIMARY");
-
-            entity.ToTable("informacion_titulacion");
-
-            entity.HasIndex(e => e.NoControl, "no_control");
-
-            entity.Property(e => e.IdInfoTitulacion).HasColumnName("id_info_titulacion");
-            entity.Property(e => e.Alternativa)
-                .HasMaxLength(60)
-                .HasColumnName("alternativa");
-            entity.Property(e => e.FechaAarp)
-                .HasColumnType("datetime")
-                .HasColumnName("fecha_aarp");
-            entity.Property(e => e.FechaArp)
-                .HasColumnType("datetime")
-                .HasColumnName("fecha_arp");
-            entity.Property(e => e.FechaCni)
-                .HasColumnType("datetime")
-                .HasColumnName("fecha_cni");
-            entity.Property(e => e.FechaSt)
-                .HasColumnType("datetime")
-                .HasColumnName("fecha_st");
-            entity.Property(e => e.FechaVecimiento)
-                .HasColumnType("datetime")
-                .HasColumnName("fecha_vecimiento");
-            entity.Property(e => e.NoControl)
-                .HasMaxLength(10)
-                .HasColumnName("no_control");
-            entity.Property(e => e.Presidente).HasColumnName("presidente");
-            entity.Property(e => e.Producto)
-                .HasMaxLength(60)
-                .HasColumnName("producto");
-            entity.Property(e => e.Proyecto)
-                .HasMaxLength(256)
-                .HasColumnName("proyecto");
-            entity.Property(e => e.Secretario).HasColumnName("secretario");
-            entity.Property(e => e.Suplente).HasColumnName("suplente");
-            entity.Property(e => e.Vocal).HasColumnName("vocal");
-
-            entity.HasOne(d => d.NoControlNavigation).WithMany(p => p.InformacionTitulacions)
-                .HasForeignKey(d => d.NoControl)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("informacion_titulacion_ibfk_1");
-        });
-
-        modelBuilder.Entity<Opcione>(entity =>
-        {
-            entity.HasKey(e => e.IdOpcion).HasName("PRIMARY");
-
-            entity.ToTable("opciones");
-
-            entity.Property(e => e.IdOpcion).HasColumnName("id_opcion");
-            entity.Property(e => e.Hab)
-                .HasDefaultValueSql("b'1'")
-                .HasColumnType("bit(1)")
-                .HasColumnName("hab");
-            entity.Property(e => e.Opcion)
-                .HasMaxLength(60)
-                .HasColumnName("opcion");
-        });
-
-        modelBuilder.Entity<ProcesoTitulacion>(entity =>
-        {
-            entity.HasKey(e => e.IdProceso).HasName("PRIMARY");
-
-            entity.ToTable("proceso_titulacion");
-
-            entity.HasIndex(e => e.NoControl, "no_control").IsUnique();
-
-            entity.Property(e => e.IdProceso).HasColumnName("id_proceso");
-            entity.Property(e => e.Asnc)
-                .HasDefaultValueSql("b'0'")
-                .HasColumnType("bit(2)")
-                .HasColumnName("asnc");
-            entity.Property(e => e.Caii)
-                .HasDefaultValueSql("b'0'")
-                .HasColumnType("bit(2)")
-                .HasColumnName("caii");
-            entity.Property(e => e.Cb)
-                .HasDefaultValueSql("b'0'")
-                .HasColumnType("bit(2)")
-                .HasColumnName("cb");
-            entity.Property(e => e.Cl)
-                .HasDefaultValueSql("b'0'")
-                .HasColumnType("bit(2)")
-                .HasColumnName("cl");
-            entity.Property(e => e.Cni)
-                .HasDefaultValueSql("b'0'")
-                .HasColumnType("bit(2)")
-                .HasColumnName("cni");
-            entity.Property(e => e.Curp)
-                .HasDefaultValueSql("b'0'")
-                .HasColumnType("bit(2)")
-                .HasColumnName("curp");
-            entity.Property(e => e.Lp)
-                .HasDefaultValueSql("b'0'")
-                .HasColumnType("bit(2)")
-                .HasColumnName("lp");
-            entity.Property(e => e.NoControl)
-                .HasMaxLength(10)
-                .HasColumnName("no_control");
-            entity.Property(e => e.Oi)
-                .HasDefaultValueSql("b'0'")
-                .HasColumnType("bit(2)")
-                .HasColumnName("oi");
-            entity.Property(e => e.Paso1)
-                .HasDefaultValueSql("b'0'")
-                .HasColumnType("bit(2)")
-                .HasColumnName("paso1");
-            entity.Property(e => e.Pro)
-                .HasDefaultValueSql("b'0'")
-                .HasColumnType("bit(2)")
-                .HasColumnName("pro");
-            entity.Property(e => e.Rfc)
-                .HasDefaultValueSql("b'0'")
-                .HasColumnType("bit(2)")
-                .HasColumnName("rfc");
-            entity.Property(e => e.Scni)
-                .HasDefaultValueSql("b'0'")
-                .HasColumnType("bit(2)")
-                .HasColumnName("scni");
-            entity.Property(e => e.Sl)
-                .HasDefaultValueSql("b'0'")
-                .HasColumnType("bit(2)")
-                .HasColumnName("sl");
-            entity.Property(e => e.St)
-                .HasDefaultValueSql("b'0'")
-                .HasColumnType("bit(2)")
-                .HasColumnName("st");
-
-            entity.HasOne(d => d.NoControlNavigation).WithOne(p => p.ProcesoTitulacion)
-                .HasForeignKey<ProcesoTitulacion>(d => d.NoControl)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("proceso_titulacion_ibfk_1");
-        });
-
-        modelBuilder.Entity<Producto>(entity =>
-        {
-            entity.HasKey(e => e.IdProducto).HasName("PRIMARY");
-
-            entity.ToTable("producto");
-
-            entity.Property(e => e.IdProducto).HasColumnName("id_producto");
-            entity.Property(e => e.Hab)
-                .HasDefaultValueSql("b'1'")
-                .HasColumnType("bit(1)")
-                .HasColumnName("hab");
-            entity.Property(e => e.Producto1)
-                .HasMaxLength(60)
-                .HasColumnName("producto");
         });
 
         modelBuilder.Entity<TipoUsuario>(entity =>
