@@ -26,4 +26,8 @@ public partial class InfoPersonal
     public virtual Carrera IdCarreraNavigation { get; set; } = null!;
 
     public virtual Usuario IdUsuarioNavigation { get; set; } = null!;
+
+    public virtual InformacionTitulacion? InformacionTitulacion { get; set; }
+
+    public virtual ProcesoTitulacion? ProcesoTitulacion { get; set; }
 }
