@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Titulacion.Models;
+﻿using Titulacion.Clases.Get;
 using Titulacion.Clases.Get;
 
 namespace Titulacion.Servicios.Contrato
@@ -19,5 +18,7 @@ namespace Titulacion.Servicios.Contrato
         Task<bool> Validate(Guid userId, string noControl);
 
         Task<string> GetNoControl(Guid userId);
+
+        Task<ProcesoTitulacion> GetProcesoTitulacion(string noControl);
     }
 }

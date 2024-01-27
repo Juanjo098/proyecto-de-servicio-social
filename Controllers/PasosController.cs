@@ -108,7 +108,35 @@ public class PasosController : Controller
         return RedirectToAction("Index", "Home");
     }
 
-    // Gente
+    [Authorize(Roles = "3")]
+    [Route("/Pasos/EstadoGeneral")]
+    public async Task<IActionResult> ProcesoTitulacion()
+    {
+        Guid id = _usuarioService.ConvertToGUID(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+
+        // UUID Invalido
+        if (!_usuarioService.ValidateGUID(id))
+        {
+            TempData["mensaje"] = "Tu UUID es incorrecto.";
+            TempData["estatus"] = "400";
+            return RedirectToAction("CustomError", "Home");
+        }
+
+        string noControl = await _usuarioService.GetNoControl(id);
+
+        // Sin información personal suvida
+        if (noControl == null)
+        {
+            TempData["mensaje"] = "No ha suvido su información personal todavía.";
+            TempData["estatus"] = "400";
+            return RedirectToAction("CustomError", "Home");
+        }
+
+        return View(noControl);
+    }
+
+
+    // Utilidades
     private async Task<int> StudentUpload(IFormFile file, int fileSizeLimit, string docPrefix)
     {
         Guid id = _usuarioService.ConvertToGUID(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
