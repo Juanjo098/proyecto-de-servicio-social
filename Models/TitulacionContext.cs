@@ -314,73 +314,25 @@ public partial class TitulacionContext : DbContext
             entity.HasIndex(e => e.NoControl, "no_control").IsUnique();
 
             entity.Property(e => e.IdProceso).HasColumnName("id_proceso");
-            entity.Property(e => e.Asnc)
-                .HasDefaultValueSql("b'0'")
-                .HasColumnType("bit(2)")
-                .HasColumnName("asnc");
-            entity.Property(e => e.Caii)
-                .HasDefaultValueSql("b'0'")
-                .HasColumnType("bit(2)")
-                .HasColumnName("caii");
-            entity.Property(e => e.Cb)
-                .HasDefaultValueSql("b'0'")
-                .HasColumnType("bit(2)")
-                .HasColumnName("cb");
-            entity.Property(e => e.Cl)
-                .HasDefaultValueSql("b'0'")
-                .HasColumnType("bit(2)")
-                .HasColumnName("cl");
-            entity.Property(e => e.Cni)
-                .HasDefaultValueSql("b'0'")
-                .HasColumnType("bit(2)")
-                .HasColumnName("cni");
-            entity.Property(e => e.Curp)
-                .HasDefaultValueSql("b'0'")
-                .HasColumnType("bit(2)")
-                .HasColumnName("curp");
-            entity.Property(e => e.Lp)
-                .HasDefaultValueSql("b'0'")
-                .HasColumnType("bit(2)")
-                .HasColumnName("lp");
+            entity.Property(e => e.Asnc).HasColumnName("asnc");
+            entity.Property(e => e.Caii).HasColumnName("caii");
+            entity.Property(e => e.Cb).HasColumnName("cb");
+            entity.Property(e => e.Cl).HasColumnName("cl");
+            entity.Property(e => e.Cni).HasColumnName("cni");
+            entity.Property(e => e.Curp).HasColumnName("curp");
+            entity.Property(e => e.Lp).HasColumnName("lp");
             entity.Property(e => e.NoControl)
                 .HasMaxLength(10)
                 .HasColumnName("no_control");
-            entity.Property(e => e.Oi)
-                .HasDefaultValueSql("b'0'")
-                .HasColumnType("bit(2)")
-                .HasColumnName("oi");
-            entity.Property(e => e.Paso1)
-                .HasDefaultValueSql("b'0'")
-                .HasColumnType("bit(2)")
-                .HasColumnName("paso1");
-            entity.Property(e => e.Pro)
-                .HasDefaultValueSql("b'0'")
-                .HasColumnType("bit(2)")
-                .HasColumnName("pro");
-            entity.Property(e => e.Rfc)
-                .HasDefaultValueSql("b'0'")
-                .HasColumnType("bit(2)")
-                .HasColumnName("rfc");
-            entity.Property(e => e.Rp)
-                .HasDefaultValueSql("b'0'")
-                .HasColumnType("bit(2)")
-                .HasColumnName("rp");
-            entity.Property(e => e.Rps)
-                .HasDefaultValueSql("b'0'")
-                .HasColumnType("bit(2)")
-                .HasColumnName("rps");
-            entity.Property(e => e.Scni)
-                .HasDefaultValueSql("b'0'")
-                .HasColumnType("bit(2)")
-                .HasColumnName("scni");
-            entity.Property(e => e.Sl)
-                .HasDefaultValueSql("b'0'")
-                .HasColumnType("bit(2)")
-                .HasColumnName("sl");
-            entity.Property(e => e.St)
-                .HasDefaultValueSql("b'0'")
-                .HasColumnType("bit(2)")
-                .HasColumnName("st");
+            entity.Property(e => e.Oi).HasColumnName("oi");
+            entity.Property(e => e.Paso1).HasColumnName("paso1");
+            entity.Property(e => e.Pro).HasColumnName("pro");
+            entity.Property(e => e.Rfc).HasColumnName("rfc");
+            entity.Property(e => e.Rp).HasColumnName("rp");
+            entity.Property(e => e.Rps).HasColumnName("rps");
+            entity.Property(e => e.Scni).HasColumnName("scni");
+            entity.Property(e => e.Sl).HasColumnName("sl");
+            entity.Property(e => e.St).HasColumnName("st");
 
             entity.HasOne(d => d.NoControlNavigation).WithOne(p => p.ProcesoTitulacion)
                 .HasForeignKey<ProcesoTitulacion>(d => d.NoControl)
