@@ -19,5 +19,7 @@ namespace Titulacion.Servicios.Contrato
         Task<bool> Validate(Guid userId, string noControl);
 
         Task<string> GetNoControl(Guid userId);
+
+        Task<EstadoProcesoTitulacion> GetEstadoProcesoTitulacion(string noControl);
     }
 }

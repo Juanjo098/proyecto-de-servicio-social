@@ -91,5 +91,40 @@ namespace Titulacion.Servicios.Implementacion
         {
             return (Guid.Empty != guid);
         }
+
+        public async Task<EstadoProcesoTitulacion> GetEstadoProcesoTitulacion(string noControl)
+        {
+            try
+            {
+                var info = await _context.ProcesoTitulacions.FirstOrDefaultAsync(p => p.NoControl == noControl);
+
+                if (info == null) return null;
+
+                return new EstadoProcesoTitulacion {
+                    IdProceso = info.IdProceso,
+                    NoControl = info.NoControl,
+                    Paso1 = info.Paso1,
+                    Scni = info.Scni,
+                    Cni = info.Cni,
+                    Cl = info.Cl,
+                    Caii = info.Caii,
+                    Rp = info.Rp,
+                    Rps = info.Rps,
+                    St = info.St,
+                    Pro = info.Pro,
+                    Sl = info.Sl,
+                    Lp = info.Lp,
+                    Asnc = info.Asnc,
+                    Oi = info.Oi,
+                    Cb = info.Cb,
+                    Curp = info.Curp,
+                    Rfc = info.Rfc
+                };
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
     }
 }

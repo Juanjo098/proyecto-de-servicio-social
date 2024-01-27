@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using Titulacion.Clases.Get;
 using Titulacion.Servicios.Contrato;
 
 public class PasosController : Controller
@@ -108,7 +109,48 @@ public class PasosController : Controller
         return RedirectToAction("Index", "Home");
     }
 
-    // Gente
+    public async Task<IActionResult> EstadoTitulacion()
+    {
+        Guid id = _usuarioService.ConvertToGUID(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+
+            // UUID Invalido
+        if (!_usuarioService.ValidateGUID(id)){
+            TempData["mensaje"] = "Tu UUID es incorrecto.";
+            TempData["estatus"] = "400";
+            return RedirectToAction("CustomError", "Home");
+        }
+
+        string noControl = await _usuarioService.GetNoControl(id);
+
+        // Sin información personal suvida
+        if (noControl == null)
+        {
+            TempData["mensaje"] = "Necesitas subir tu información personal primero antes de subir cualquier archivo.";
+            TempData["estatus"] = "400";
+            return RedirectToAction("CustomError", "Home");
+        }
+
+        // UUID y no. de control no coinciden
+        if (!await _usuarioService.Validate(id, noControl))
+        {
+            TempData["mensaje"] = "Tu UUID no se corresponde con su no. de control asignado";
+            TempData["estatus"] = "400";
+            return RedirectToAction("CustomError", "Home");
+        }
+
+        EstadoProcesoTitulacion data = await _usuarioService.GetEstadoProcesoTitulacion(noControl);
+
+        if (data == null)
+        {
+            TempData["mensaje"] = "Ocurrió un error con la base de datos";
+            TempData["estatus"] = "500";
+            return RedirectToAction("CustomError", "Home");
+        }
+
+        return View(data);
+    }
+
+    // Utilidades
     private async Task<int> StudentUpload(IFormFile file, int fileSizeLimit, string docPrefix)
     {
         Guid id = _usuarioService.ConvertToGUID(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);

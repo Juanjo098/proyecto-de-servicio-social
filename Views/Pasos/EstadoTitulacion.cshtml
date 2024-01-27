@@ -1,0 +1,458 @@
+﻿@model Titulacion.Clases.Get.EstadoProcesoTitulacion
+
+@{
+    ViewData["Title"] = "EstadoTitulacion";
+}
+
+<h1>EstadoTitulacion</h1>
+
+<div>
+    <h4>EstadoProcesoTitulacion</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.IdProceso)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.IdProceso)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.NoControl)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.NoControl)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.Paso1)
+        </dt>
+        @if (Model.Paso1 == 0)
+        {
+            <dd class="col-sm-8">
+                Pendiente
+            </dd>
+        }
+        @if (Model.Paso1 == 1)
+        {
+            <dd class="col-sm-8">
+                Enviado
+            </dd>
+        }
+        @if (Model.Paso1 == 2)
+        {
+            <dd class="col-sm-8">
+                Necesita correciones
+            </dd>
+        }
+        @if (Model.Paso1 == 3)
+        {
+            <dd class="col-sm-8">
+                Aprobado
+            </dd>
+        }
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.Scni)
+        </dt>
+        @if (Model.Scni == 0)
+        {
+            <dd class="col-sm-8">
+                Pendiente
+            </dd>
+        }
+        @if (Model.Paso1 == 1)
+        {
+            <dd class="col-sm-8">
+                Enviado
+            </dd>
+        }
+        @if (Model.Paso1 == 2)
+        {
+            <dd class="col-sm-8">
+                Necesita correciones
+            </dd>
+        }
+        @if (Model.Paso1 == 3)
+        {
+            <dd class="col-sm-8">
+                Aprobado
+            </dd>
+        }
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.Cni)
+        </dt>
+        @if (Model.Cni == 0)
+        {
+            <dd class="col-sm-8">
+                Pendiente
+            </dd>
+        }
+        @if (Model.Paso1 == 1)
+        {
+            <dd class="col-sm-8">
+                Enviado
+            </dd>
+        }
+        @if (Model.Paso1 == 2)
+        {
+            <dd class="col-sm-8">
+                Necesita correciones
+            </dd>
+        }
+        @if (Model.Paso1 == 3)
+        {
+            <dd class="col-sm-8">
+                Aprobado
+            </dd>
+        }
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.Cl)
+        </dt>
+        @if (Model.Cl == 0)
+        {
+            <dd class="col-sm-8">
+                Pendiente
+            </dd>
+        }
+        @if (Model.Paso1 == 1)
+        {
+            <dd class="col-sm-8">
+                Enviado
+            </dd>
+        }
+        @if (Model.Paso1 == 2)
+        {
+            <dd class="col-sm-8">
+                Necesita correciones
+            </dd>
+        }
+        @if (Model.Paso1 == 3)
+        {
+            <dd class="col-sm-8">
+                Aprobado
+            </dd>
+        }
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.Caii)
+        </dt>
+        @if (Model.Caii == 0)
+        {
+            <dd class="col-sm-8">
+                Pendiente
+            </dd>
+        }
+        @if (Model.Paso1 == 1)
+        {
+            <dd class="col-sm-8">
+                Enviado
+            </dd>
+        }
+        @if (Model.Paso1 == 2)
+        {
+            <dd class="col-sm-8">
+                Necesita correciones
+            </dd>
+        }
+        @if (Model.Paso1 == 3)
+        {
+            <dd class="col-sm-8">
+                Aprobado
+            </dd>
+        }
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.Rp)
+        </dt>
+        @if (Model.Rp == 0)
+        {
+            <dd class="col-sm-8">
+                Pendiente
+            </dd>
+        }
+        @if (Model.Paso1 == 1)
+        {
+            <dd class="col-sm-8">
+                Enviado
+            </dd>
+        }
+        @if (Model.Paso1 == 2)
+        {
+            <dd class="col-sm-8">
+                Necesita correciones
+            </dd>
+        }
+        @if (Model.Paso1 == 3)
+        {
+            <dd class="col-sm-8">
+                Aprobado
+            </dd>
+        }
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.Rps)
+        </dt>
+        @if (Model.Rps == 0)
+        {
+            <dd class="col-sm-8">
+                Pendiente
+            </dd>
+        }
+        @if (Model.Paso1 == 1)
+        {
+            <dd class="col-sm-8">
+                Enviado
+            </dd>
+        }
+        @if (Model.Paso1 == 2)
+        {
+            <dd class="col-sm-8">
+                Necesita correciones
+            </dd>
+        }
+        @if (Model.Paso1 == 3)
+        {
+            <dd class="col-sm-8">
+                Aprobado
+            </dd>
+        }
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.St)
+        </dt>
+        @if (Model.St == 0)
+        {
+            <dd class="col-sm-8">
+                Pendiente
+            </dd>
+        }
+        @if (Model.Paso1 == 1)
+        {
+            <dd class="col-sm-8">
+                Enviado
+            </dd>
+        }
+        @if (Model.Paso1 == 2)
+        {
+            <dd class="col-sm-8">
+                Necesita correciones
+            </dd>
+        }
+        @if (Model.Paso1 == 3)
+        {
+            <dd class="col-sm-8">
+                Aprobado
+            </dd>
+        }
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.Pro)
+        </dt>
+        @if (Model.Pro == 0)
+        {
+            <dd class="col-sm-8">
+                Pendiente
+            </dd>
+        }
+        @if (Model.Paso1 == 1)
+        {
+            <dd class="col-sm-8">
+                Enviado
+            </dd>
+        }
+        @if (Model.Paso1 == 2)
+        {
+            <dd class="col-sm-8">
+                Necesita correciones
+            </dd>
+        }
+        @if (Model.Paso1 == 3)
+        {
+            <dd class="col-sm-8">
+                Aprobado
+            </dd>
+        }
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.Sl)
+        </dt>
+        @if (Model.Sl == 0)
+        {
+            <dd class="col-sm-8">
+                Pendiente
+            </dd>
+        }
+        @if (Model.Paso1 == 1)
+        {
+            <dd class="col-sm-8">
+                Enviado
+            </dd>
+        }
+        @if (Model.Paso1 == 2)
+        {
+            <dd class="col-sm-8">
+                Necesita correciones
+            </dd>
+        }
+        @if (Model.Paso1 == 3)
+        {
+            <dd class="col-sm-8">
+                Aprobado
+            </dd>
+        }
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.Lp)
+        </dt>
+        @if (Model.Lp == 0)
+        {
+            <dd class="col-sm-8">
+                Pendiente
+            </dd>
+        }
+        @if (Model.Paso1 == 1)
+        {
+            <dd class="col-sm-8">
+                Enviado
+            </dd>
+        }
+        @if (Model.Paso1 == 2)
+        {
+            <dd class="col-sm-8">
+                Necesita correciones
+            </dd>
+        }
+        @if (Model.Paso1 == 3)
+        {
+            <dd class="col-sm-8">
+                Aprobado
+            </dd>
+        }
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.Asnc)
+        </dt>
+        @if (Model.Asnc == 0)
+        {
+            <dd class="col-sm-8">
+                Pendiente
+            </dd>
+        }
+        @if (Model.Paso1 == 1)
+        {
+            <dd class="col-sm-8">
+                Enviado
+            </dd>
+        }
+        @if (Model.Paso1 == 2)
+        {
+            <dd class="col-sm-8">
+                Necesita correciones
+            </dd>
+        }
+        @if (Model.Paso1 == 3)
+        {
+            <dd class="col-sm-8">
+                Aprobado
+            </dd>
+        }
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.Oi)
+        </dt>
+        @if (Model.Oi == 0)
+        {
+            <dd class="col-sm-8">
+                Pendiente
+            </dd>
+        }
+        @if (Model.Paso1 == 1)
+        {
+            <dd class="col-sm-8">
+                Enviado
+            </dd>
+        }
+        @if (Model.Paso1 == 2)
+        {
+            <dd class="col-sm-8">
+                Necesita correciones
+            </dd>
+        }
+        @if (Model.Paso1 == 3)
+        {
+            <dd class="col-sm-8">
+                Aprobado
+            </dd>
+        }
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.Curp)
+        </dt>
+        @if (Model.Curp == 0)
+        {
+            <dd class="col-sm-8">
+                Pendiente
+            </dd>
+        }
+        @if (Model.Paso1 == 1)
+        {
+            <dd class="col-sm-8">
+                Enviado
+            </dd>
+        }
+        @if (Model.Paso1 == 2)
+        {
+            <dd class="col-sm-8">
+                Necesita correciones
+            </dd>
+        }
+        @if (Model.Paso1 == 3)
+        {
+            <dd class="col-sm-8">
+                Aprobado
+            </dd>
+        }
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.Rfc)
+        </dt>
+        @if (Model.Rfc == 0)
+        {
+            <dd class="col-sm-8">
+                Pendiente
+            </dd>
+        }
+        @if (Model.Paso1 == 1)
+        {
+            <dd class="col-sm-8">
+                Enviado
+            </dd>
+        }
+        @if (Model.Paso1 == 2)
+        {
+            <dd class="col-sm-8">
+                Necesita correciones
+            </dd>
+        }
+        @if (Model.Paso1 == 3)
+        {
+            <dd class="col-sm-8">
+                Aprobado
+            </dd>
+        }
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.Cb)
+        </dt>
+        @if (Model.Cb == 0)
+        {
+            <dd class="col-sm-8">
+                Pendiente
+            </dd>
+        }
+        @if (Model.Paso1 == 1)
+        {
+            <dd class="col-sm-8">
+                Enviado
+            </dd>
+        }
+        @if (Model.Paso1 == 2)
+        {
+            <dd class="col-sm-8">
+                Necesita correciones
+            </dd>
+        }
+        @if (Model.Paso1 == 3)
+        {
+            <dd class="col-sm-8">
+                Aprobado
+            </dd>
+        }
+    </dl>
+</div>
