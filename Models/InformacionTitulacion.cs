@@ -33,5 +33,7 @@ public partial class InformacionTitulacion
 
     public int? Suplente { get; set; }
 
+    public ulong Hab { get; set; }
+
     public virtual InfoPersonal NoControlNavigation { get; set; } = null!;
 }
