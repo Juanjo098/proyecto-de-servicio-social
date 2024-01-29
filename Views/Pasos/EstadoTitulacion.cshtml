@@ -10,449 +10,449 @@
     <h4>EstadoProcesoTitulacion</h4>
     <hr />
     <dl class="row">
-        <dt class="col-sm-4">
+        <dt class = "col-sm-4">
             @Html.DisplayNameFor(model => model.IdProceso)
         </dt>
-        <dd class="col-sm-8">
+        <dd class = "col-sm-8">
             @Html.DisplayFor(model => model.IdProceso)
         </dd>
-        <dt class="col-sm-4">
+        <dt class = "col-sm-4">
             @Html.DisplayNameFor(model => model.NoControl)
         </dt>
-        <dd class="col-sm-8">
+        <dd class = "col-sm-8">
             @Html.DisplayFor(model => model.NoControl)
         </dd>
-        <dt class="col-sm-4">
+        <dt class = "col-sm-4">
             @Html.DisplayNameFor(model => model.Paso1)
         </dt>
-        @if (Model.Paso1 == 0)
+        @switch (Model.Paso1)
         {
-            <dd class="col-sm-8">
-                Pendiente
-            </dd>
+            case 0:
+                <dd class="col-sm-8">
+                    Pendiente
+                </dd>
+                break;
+            case 1:
+                <dd class="col-sm-8">
+                    Enviado
+                </dd>
+                break;
+            case 2:
+                <dd class="col-sm-8">
+                    Necesita correciones
+                </dd>
+                break;
+            case 3:
+                <dd class="col-sm-8">
+                    Aprobado
+                </dd>
+                break;
         }
-        @if (Model.Paso1 == 1)
-        {
-            <dd class="col-sm-8">
-                Enviado
-            </dd>
-        }
-        @if (Model.Paso1 == 2)
-        {
-            <dd class="col-sm-8">
-                Necesita correciones
-            </dd>
-        }
-        @if (Model.Paso1 == 3)
-        {
-            <dd class="col-sm-8">
-                Aprobado
-            </dd>
-        }
-        <dt class="col-sm-4">
+        <dt class = "col-sm-4">
             @Html.DisplayNameFor(model => model.Scni)
         </dt>
-        @if (Model.Scni == 0)
+        @switch (Model.Scni)
         {
-            <dd class="col-sm-8">
-                Pendiente
-            </dd>
+            case 0:
+                <dd class="col-sm-8">
+                    Pendiente
+                </dd>
+                break;
+            case 1:
+                <dd class="col-sm-8">
+                    Enviado
+                </dd>
+                break;
+            case 2:
+                <dd class="col-sm-8">
+                    Necesita correciones
+                </dd>
+                break;
+            case 3:
+                <dd class="col-sm-8">
+                    Aprobado
+                </dd>
+                break;
         }
-        @if (Model.Scni == 1)
-        {
-            <dd class="col-sm-8">
-                Enviado
-            </dd>
-        }
-        @if (Model.Scni == 2)
-        {
-            <dd class="col-sm-8">
-                Necesita correciones
-            </dd>
-        }
-        @if (Model.Scni == 3)
-        {
-            <dd class="col-sm-8">
-                Aprobado
-            </dd>
-        }
-        <dt class="col-sm-4">
+        <dt class = "col-sm-4">
             @Html.DisplayNameFor(model => model.Cni)
         </dt>
-        @if (Model.Cni == 0)
+        @switch (Model.Cni)
         {
-            <dd class="col-sm-8">
-                Pendiente
-            </dd>
+            case 0:
+                <dd class="col-sm-8">
+                    Pendiente
+                </dd>
+                break;
+            case 1:
+                <dd class="col-sm-8">
+                    Enviado
+                </dd>
+                break;
+            case 2:
+                <dd class="col-sm-8">
+                    Necesita correciones
+                </dd>
+                break;
+            case 3:
+                <dd class="col-sm-8">
+                    Aprobado
+                </dd>
+                break;
         }
-        @if (Model.Cni == 1)
-        {
-            <dd class="col-sm-8">
-                Enviado
-            </dd>
-        }
-        @if (Model.Cni == 2)
-        {
-            <dd class="col-sm-8">
-                Necesita correciones
-            </dd>
-        }
-        @if (Model.Cni == 3)
-        {
-            <dd class="col-sm-8">
-                Aprobado
-            </dd>
-        }
-        <dt class="col-sm-4">
+        <dt class = "col-sm-4">
             @Html.DisplayNameFor(model => model.Cl)
         </dt>
-        @if (Model.Cl == 0)
+        @switch (Model.Cl)
         {
-            <dd class="col-sm-8">
-                Pendiente
-            </dd>
+            case 0:
+                <dd class="col-sm-8">
+                    Pendiente
+                </dd>
+                break;
+            case 1:
+                <dd class="col-sm-8">
+                    Enviado
+                </dd>
+                break;
+            case 2:
+                <dd class="col-sm-8">
+                    Necesita correciones
+                </dd>
+                break;
+            case 3:
+                <dd class="col-sm-8">
+                    Aprobado
+                </dd>
+                break;
         }
-        @if (Model.Cl == 1)
-        {
-            <dd class="col-sm-8">
-                Enviado
-            </dd>
-        }
-        @if (Model.Cl == 2)
-        {
-            <dd class="col-sm-8">
-                Necesita correciones
-            </dd>
-        }
-        @if (Model.Cl == 3)
-        {
-            <dd class="col-sm-8">
-                Aprobado
-            </dd>
-        }
-        <dt class="col-sm-4">
+        <dt class = "col-sm-4">
             @Html.DisplayNameFor(model => model.Caii)
         </dt>
-        @if (Model.Caii == 0)
+        @switch (Model.Caii)
         {
-            <dd class="col-sm-8">
-                Pendiente
-            </dd>
+            case 0:
+                <dd class="col-sm-8">
+                    Pendiente
+                </dd>
+                break;
+            case 1:
+                <dd class="col-sm-8">
+                    Enviado
+                </dd>
+                break;
+            case 2:
+                <dd class="col-sm-8">
+                    Necesita correciones
+                </dd>
+                break;
+            case 3:
+                <dd class="col-sm-8">
+                    Aprobado
+                </dd>
+                break;
         }
-        @if (Model.Caii == 1)
-        {
-            <dd class="col-sm-8">
-                Enviado
-            </dd>
-        }
-        @if (Model.Caii == 2)
-        {
-            <dd class="col-sm-8">
-                Necesita correciones
-            </dd>
-        }
-        @if (Model.Caii == 3)
-        {
-            <dd class="col-sm-8">
-                Aprobado
-            </dd>
-        }
-        <dt class="col-sm-4">
+        <dt class = "col-sm-4">
             @Html.DisplayNameFor(model => model.Rp)
         </dt>
-        @if (Model.Rp == 0)
+        @switch (Model.Rp)
         {
-            <dd class="col-sm-8">
-                Pendiente
-            </dd>
+            case 0:
+                <dd class="col-sm-8">
+                    Pendiente
+                </dd>
+                break;
+            case 1:
+                <dd class="col-sm-8">
+                    Enviado
+                </dd>
+                break;
+            case 2:
+                <dd class="col-sm-8">
+                    Necesita correciones
+                </dd>
+                break;
+            case 3:
+                <dd class="col-sm-8">
+                    Aprobado
+                </dd>
+                break;
         }
-        @if (Model.Rp == 1)
-        {
-            <dd class="col-sm-8">
-                Enviado
-            </dd>
-        }
-        @if (Model.Rp == 2)
-        {
-            <dd class="col-sm-8">
-                Necesita correciones
-            </dd>
-        }
-        @if (Model.Rp == 3)
-        {
-            <dd class="col-sm-8">
-                Aprobado
-            </dd>
-        }
-        <dt class="col-sm-4">
+        <dt class = "col-sm-4">
             @Html.DisplayNameFor(model => model.Rps)
         </dt>
-        @if (Model.Rps == 0)
+        @switch (Model.Rps)
         {
-            <dd class="col-sm-8">
-                Pendiente
-            </dd>
+            case 0:
+                <dd class="col-sm-8">
+                    Pendiente
+                </dd>
+                break;
+            case 1:
+                <dd class="col-sm-8">
+                    Enviado
+                </dd>
+                break;
+            case 2:
+                <dd class="col-sm-8">
+                    Necesita correciones
+                </dd>
+                break;
+            case 3:
+                <dd class="col-sm-8">
+                    Aprobado
+                </dd>
+                break;
         }
-        @if (Model.Rps == 1)
-        {
-            <dd class="col-sm-8">
-                Enviado
-            </dd>
-        }
-        @if (Model.Rps == 2)
-        {
-            <dd class="col-sm-8">
-                Necesita correciones
-            </dd>
-        }
-        @if (Model.Rps == 3)
-        {
-            <dd class="col-sm-8">
-                Aprobado
-            </dd>
-        }
-        <dt class="col-sm-4">
+        <dt class = "col-sm-4">
             @Html.DisplayNameFor(model => model.St)
         </dt>
-        @if (Model.St == 0)
+        @switch (Model.St)
         {
-            <dd class="col-sm-8">
-                Pendiente
-            </dd>
+            case 0:
+                <dd class="col-sm-8">
+                    Pendiente
+                </dd>
+                break;
+            case 1:
+                <dd class="col-sm-8">
+                    Enviado
+                </dd>
+                break;
+            case 2:
+                <dd class="col-sm-8">
+                    Necesita correciones
+                </dd>
+                break;
+            case 3:
+                <dd class="col-sm-8">
+                    Aprobado
+                </dd>
+                break;
         }
-        @if (Model.St == 1)
-        {
-            <dd class="col-sm-8">
-                Enviado
-            </dd>
-        }
-        @if (Model.St == 2)
-        {
-            <dd class="col-sm-8">
-                Necesita correciones
-            </dd>
-        }
-        @if (Model.St == 3)
-        {
-            <dd class="col-sm-8">
-                Aprobado
-            </dd>
-        }
-        <dt class="col-sm-4">
+        <dt class = "col-sm-4">
             @Html.DisplayNameFor(model => model.Pro)
         </dt>
-        @if (Model.Pro == 0)
+        @switch (Model.Pro)
         {
-            <dd class="col-sm-8">
-                Pendiente
-            </dd>
+            case 0:
+                <dd class="col-sm-8">
+                    Pendiente
+                </dd>
+                break;
+            case 1:
+                <dd class="col-sm-8">
+                    Enviado
+                </dd>
+                break;
+            case 2:
+                <dd class="col-sm-8">
+                    Necesita correciones
+                </dd>
+                break;
+            case 3:
+                <dd class="col-sm-8">
+                    Aprobado
+                </dd>
+                break;
         }
-        @if (Model.Pro == 1)
-        {
-            <dd class="col-sm-8">
-                Enviado
-            </dd>
-        }
-        @if (Model.Pro == 2)
-        {
-            <dd class="col-sm-8">
-                Necesita correciones
-            </dd>
-        }
-        @if (Model.Pro == 3)
-        {
-            <dd class="col-sm-8">
-                Aprobado
-            </dd>
-        }
-        <dt class="col-sm-4">
+        <dt class = "col-sm-4">
             @Html.DisplayNameFor(model => model.Sl)
         </dt>
-        @if (Model.Sl == 0)
+        @switch (Model.Sl)
         {
-            <dd class="col-sm-8">
-                Pendiente
-            </dd>
+            case 0:
+                <dd class="col-sm-8">
+                    Pendiente
+                </dd>
+                break;
+            case 1:
+                <dd class="col-sm-8">
+                    Enviado
+                </dd>
+                break;
+            case 2:
+                <dd class="col-sm-8">
+                    Necesita correciones
+                </dd>
+                break;
+            case 3:
+                <dd class="col-sm-8">
+                    Aprobado
+                </dd>
+                break;
         }
-        @if (Model.Sl == 1)
-        {
-            <dd class="col-sm-8">
-                Enviado
-            </dd>
-        }
-        @if (Model.Sl == 2)
-        {
-            <dd class="col-sm-8">
-                Necesita correciones
-            </dd>
-        }
-        @if (Model.Sl == 3)
-        {
-            <dd class="col-sm-8">
-                Aprobado
-            </dd>
-        }
-        <dt class="col-sm-4">
+        <dt class = "col-sm-4">
             @Html.DisplayNameFor(model => model.Lp)
         </dt>
-        @if (Model.Lp == 0)
+        @switch (Model.Lp)
         {
-            <dd class="col-sm-8">
-                Pendiente
-            </dd>
+            case 0:
+                <dd class="col-sm-8">
+                    Pendiente
+                </dd>
+                break;
+            case 1:
+                <dd class="col-sm-8">
+                    Enviado
+                </dd>
+                break;
+            case 2:
+                <dd class="col-sm-8">
+                    Necesita correciones
+                </dd>
+                break;
+            case 3:
+                <dd class="col-sm-8">
+                    Aprobado
+                </dd>
+                break;
         }
-        @if (Model.Lp == 1)
-        {
-            <dd class="col-sm-8">
-                Enviado
-            </dd>
-        }
-        @if (Model.Lp == 2)
-        {
-            <dd class="col-sm-8">
-                Necesita correciones
-            </dd>
-        }
-        @if (Model.Lp == 3)
-        {
-            <dd class="col-sm-8">
-                Aprobado
-            </dd>
-        }
-        <dt class="col-sm-4">
+        <dt class = "col-sm-4">
             @Html.DisplayNameFor(model => model.Asnc)
         </dt>
-        @if (Model.Asnc == 0)
+        @switch (Model.Asnc)
         {
-            <dd class="col-sm-8">
-                Pendiente
-            </dd>
+            case 0:
+                <dd class="col-sm-8">
+                    Pendiente
+                </dd>
+                break;
+            case 1:
+                <dd class="col-sm-8">
+                    Enviado
+                </dd>
+                break;
+            case 2:
+                <dd class="col-sm-8">
+                    Necesita correciones
+                </dd>
+                break;
+            case 3:
+                <dd class="col-sm-8">
+                    Aprobado
+                </dd>
+                break;
         }
-        @if (Model.Asnc == 1)
-        {
-            <dd class="col-sm-8">
-                Enviado
-            </dd>
-        }
-        @if (Model.Asnc == 2)
-        {
-            <dd class="col-sm-8">
-                Necesita correciones
-            </dd>
-        }
-        @if (Model.Asnc == 3)
-        {
-            <dd class="col-sm-8">
-                Aprobado
-            </dd>
-        }
-        <dt class="col-sm-4">
+        <dt class = "col-sm-4">
             @Html.DisplayNameFor(model => model.Oi)
         </dt>
-        @if (Model.Oi == 0)
+        @switch (Model.Oi)
         {
-            <dd class="col-sm-8">
-                Pendiente
-            </dd>
+            case 0:
+                <dd class="col-sm-8">
+                    Pendiente
+                </dd>
+                break;
+            case 1:
+                <dd class="col-sm-8">
+                    Enviado
+                </dd>
+                break;
+            case 2:
+                <dd class="col-sm-8">
+                    Necesita correciones
+                </dd>
+                break;
+            case 3:
+                <dd class="col-sm-8">
+                    Aprobado
+                </dd>
+                break;
         }
-        @if (Model.Oi == 1)
-        {
-            <dd class="col-sm-8">
-                Enviado
-            </dd>
-        }
-        @if (Model.Oi == 2)
-        {
-            <dd class="col-sm-8">
-                Necesita correciones
-            </dd>
-        }
-        @if (Model.Oi == 3)
-        {
-            <dd class="col-sm-8">
-                Aprobado
-            </dd>
-        }
-        <dt class="col-sm-4">
+        <dt class = "col-sm-4">
             @Html.DisplayNameFor(model => model.Curp)
         </dt>
-        @if (Model.Curp == 0)
+        @switch (Model.Curp)
         {
-            <dd class="col-sm-8">
-                Pendiente
-            </dd>
+            case 0:
+                <dd class="col-sm-8">
+                    Pendiente
+                </dd>
+                break;
+            case 1:
+                <dd class="col-sm-8">
+                    Enviado
+                </dd>
+                break;
+            case 2:
+                <dd class="col-sm-8">
+                    Necesita correciones
+                </dd>
+                break;
+            case 3:
+                <dd class="col-sm-8">
+                    Aprobado
+                </dd>
+                break;
         }
-        @if (Model.Curp == 1)
-        {
-            <dd class="col-sm-8">
-                Enviado
-            </dd>
-        }
-        @if (Model.Curp == 2)
-        {
-            <dd class="col-sm-8">
-                Necesita correciones
-            </dd>
-        }
-        @if (Model.Curp == 3)
-        {
-            <dd class="col-sm-8">
-                Aprobado
-            </dd>
-        }
-        <dt class="col-sm-4">
+        <dt class = "col-sm-4">
             @Html.DisplayNameFor(model => model.Rfc)
         </dt>
-        @if (Model.Rfc == 0)
+        @switch (Model.Rfc)
         {
-            <dd class="col-sm-8">
-                Pendiente
-            </dd>
+            case 0:
+                <dd class="col-sm-8">
+                    Pendiente
+                </dd>
+                break;
+            case 1:
+                <dd class="col-sm-8">
+                    Enviado
+                </dd>
+                break;
+            case 2:
+                <dd class="col-sm-8">
+                    Necesita correciones
+                </dd>
+                break;
+            case 3:
+                <dd class="col-sm-8">
+                    Aprobado
+                </dd>
+                break;
         }
-        @if (Model.Rfc == 1)
-        {
-            <dd class="col-sm-8">
-                Enviado
-            </dd>
-        }
-        @if (Model.Rfc == 2)
-        {
-            <dd class="col-sm-8">
-                Necesita correciones
-            </dd>
-        }
-        @if (Model.Rfc == 3)
-        {
-            <dd class="col-sm-8">
-                Aprobado
-            </dd>
-        }
-        <dt class="col-sm-4">
+        <dt class = "col-sm-4">
             @Html.DisplayNameFor(model => model.Cb)
         </dt>
-        @if (Model.Cb == 0)
+        @switch (Model.Cb)
         {
-            <dd class="col-sm-8">
-                Pendiente
-            </dd>
+            case 0:
+                <dd class="col-sm-8">
+                    Pendiente
+                </dd>
+                break;
+            case 1:
+                <dd class="col-sm-8">
+                    Enviado
+                </dd>
+                break;
+            case 2:
+                <dd class="col-sm-8">
+                    Necesita correciones
+                </dd>
+                break;
+            case 3:
+                <dd class="col-sm-8">
+                    Aprobado
+                </dd>
+                break;
         }
-        @if (Model.Cb == 1)
+        <dt class = "col-sm-4">
+            @Html.DisplayNameFor(model => model.Estado)
+        </dt>
+        @switch (Model.Estado)
         {
-            <dd class="col-sm-8">
-                Enviado
-            </dd>
-        }
-        @if (Model.Cb == 2)
-        {
-            <dd class="col-sm-8">
-                Necesita correciones
-            </dd>
-        }
-        @if (Model.Cb == 3)
-        {
-            <dd class="col-sm-8">
-                Aprobado
-            </dd>
+            case 0:
+                <dd class="col-sm-8">
+                    En Proceso
+                </dd>
+                break;
+            case 1:
+                <dd class="col-sm-8">
+                    Titulado
+                </dd>
+                break;
         }
     </dl>
 </div>

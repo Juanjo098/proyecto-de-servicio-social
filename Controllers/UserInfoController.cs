@@ -67,7 +67,14 @@ namespace Titulacion.Controllers
                         Telefono = model.telefono,
                         Direccion = model.direccion,
                     };
+
+                    ProcesoTitulacion proceso = new ProcesoTitulacion { NoControl = data.NoControl };
+
+                    InformacionTitulacion informacionTitulacion = new InformacionTitulacion { NoControl = data.NoControl };
+
                     await _context.InfoPersonals.AddAsync(data);
+                    await _context.ProcesoTitulacions.AddAsync(proceso);
+                    await _context.InformacionTitulacions.AddAsync(informacionTitulacion);
                     await _context.SaveChangesAsync();
                 }
                 return RedirectToAction("Index", "Home");

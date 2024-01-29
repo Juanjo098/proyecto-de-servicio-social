@@ -118,7 +118,8 @@ namespace Titulacion.Servicios.Implementacion
                     Oi = info.Oi,
                     Cb = info.Cb,
                     Curp = info.Curp,
-                    Rfc = info.Rfc
+                    Rfc = info.Rfc,
+                    Estado = info.Estado,
                 };
 
                 return retorno;
