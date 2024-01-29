@@ -43,7 +43,5 @@ public partial class ProcesoTitulacion
 
     public ulong Hab { get; set; }
 
-    public ulong Estado { get; set; }
-
     public virtual InfoPersonal NoControlNavigation { get; set; } = null!;
 }

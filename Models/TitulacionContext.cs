@@ -41,7 +41,10 @@ public partial class TitulacionContext : DbContext
 
     public virtual DbSet<Usuario> Usuarios { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) { }
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+        => optionsBuilder.UseMySql("server=localhost;port=3306;database=titulacion;uid=root;password=root", Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.33-mysql"));
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder
@@ -254,6 +257,10 @@ public partial class TitulacionContext : DbContext
             entity.Property(e => e.Alternativa)
                 .HasMaxLength(60)
                 .HasColumnName("alternativa");
+            entity.Property(e => e.Estado)
+                .HasDefaultValueSql("b'0'")
+                .HasColumnType("bit(2)")
+                .HasColumnName("estado");
             entity.Property(e => e.FechaAarp)
                 .HasColumnType("datetime")
                 .HasColumnName("fecha_aarp");
@@ -342,10 +349,6 @@ public partial class TitulacionContext : DbContext
                 .HasDefaultValueSql("b'0'")
                 .HasColumnType("bit(2)")
                 .HasColumnName("curp");
-            entity.Property(e => e.Estado)
-                .HasDefaultValueSql("b'0'")
-                .HasColumnType("bit(1)")
-                .HasColumnName("estado");
             entity.Property(e => e.Hab)
                 .HasDefaultValueSql("b'0'")
                 .HasColumnType("bit(1)")
@@ -362,7 +365,7 @@ public partial class TitulacionContext : DbContext
                 .HasColumnType("bit(2)")
                 .HasColumnName("oi");
             entity.Property(e => e.Paso1)
-                .HasDefaultValueSql("b'1'")
+                .HasDefaultValueSql("b'11'")
                 .HasColumnType("bit(2)")
                 .HasColumnName("paso1");
             entity.Property(e => e.Pro)
