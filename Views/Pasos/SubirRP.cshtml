@@ -1,0 +1,26 @@
+﻿@{
+    ViewData["Title"] = "Subir RP";
+}
+@{
+    string archivo = ViewBag.archivo;
+}
+
+<h1>Recibo de Pago</h1>
+<hr />
+<form method="post" enctype="multipart/form-data" class="d-flex flex-column justify-content-start align-items-start gap-4">
+    <label>Los archivos que suba deben estar en formato .pdf, .rar o .zip y no pueden pesar más de 5MB</label>
+    <input type="file" name="file" />
+    <button type="submit">Subir archivo</button>
+</form>
+
+@if (archivo != null)
+{
+    <hr />
+    <strong>Archivo subido actualmente: </strong>
+    <span>@archivo: @Html.ActionLink("Decargar", "Descargar", "Pasos", new { fileName = archivo }) | @Html.ActionLink("Ver", "VerArchivo", "Pasos", new { fileName = archivo }, new { target = "_blank" }) | @Html.ActionLink("Eliminar", "EliminarArchivo", "Pasos", new { fileName = archivo })</span>
+}
+else
+{
+    <hr />
+    <strong>No ha subido nada todavía</strong>
+}

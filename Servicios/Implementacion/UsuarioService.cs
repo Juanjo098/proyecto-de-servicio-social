@@ -100,7 +100,7 @@ namespace Titulacion.Servicios.Implementacion
 
                 if (info == null) return null;
 
-                return new EstadoProcesoTitulacion {
+                var retorno = new EstadoProcesoTitulacion {
                     IdProceso = info.IdProceso,
                     NoControl = info.NoControl,
                     Paso1 = info.Paso1,
@@ -120,6 +120,8 @@ namespace Titulacion.Servicios.Implementacion
                     Curp = info.Curp,
                     Rfc = info.Rfc
                 };
+
+                return retorno;
             }
             catch (Exception ex)
             {

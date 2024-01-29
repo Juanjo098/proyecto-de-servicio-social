@@ -276,20 +276,61 @@
                                 <div class="sb-nav-link-icon"><i class="fa-solid fa-table-columns"></i></div>
                                 Proceso de titulación
                             </a>
-                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
                                 <div class="sb-nav-link-icon"><i class="fa-solid fa-list-check"></i></div>
                                 Pasos
                                 <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                             </a>
-                            <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
-                                <nav class="sb-sidenav-menu-nested nav">
-                                    <a class="nav-link" asp-controller="Pasos" asp-action="SubirSCNI">Paso 1</a>
-                                    <a class="nav-link" asp-controller="Pasos" asp-action="SubirCL">Paso 2</a>
-                                    <a class="nav-link" href="layout-static.html">Paso 3</a>
-                                    <a class="nav-link" href="layout-static.html">Paso 4</a>
+                            <div class="collapse" id="collapsePages" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
+                                    <a class="nav-link" href="layout-static.html">Paso 1</a>
+                                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseAuth" aria-expanded="false" aria-controls="pagesCollapseAuth">
+                                        Paso 2
+                                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                                    </a>
+                                    <div class="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
+                                        <nav class="sb-sidenav-menu-nested nav">
+                                            <a class="nav-link" asp-controller="Pasos" asp-action="SubirSCNI">SCNI</a>
+                                            <a class="nav-link" asp-controller="Pasos" asp-action="SubirCNI">CNI</a>
+                                            <a class="nav-link" asp-controller="Pasos" asp-action="SubirCL">CL</a>
+                                            <a class="nav-link" asp-controller="Pasos" asp-action="SubirCAII">CAII</a>
+                                            <a class="nav-link" asp-controller="Pasos" asp-action="SubirRP">RP</a>
+                                            <a class="nav-link" asp-controller="Pasos" asp-action="SubirRPS">RPS</a>
+                                        </nav>
+                                    </div>
+                                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#paso2CollapseAuth" aria-expanded="false" aria-controls="paso2CollapseAuth">
+                                        Paso 3
+                                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                                    </a>
+                                    <div class="collapse" id="paso2CollapseAuth" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionpaso2">
+                                        <nav class="sb-sidenav-menu-nested nav">
+                                            <a class="nav-link" asp-controller="Pasos" asp-action="SubirST">ST</a>
+                                            <a class="nav-link" asp-controller="Pasos" asp-action="SubirPRO">PRO</a>
+                                        </nav>
+                                    </div>
+                                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#paso4CollapseAuth" aria-expanded="false" aria-controls="paso4CollapseAuth">
+                                        Paso 4
+                                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                                    </a>
+                                    <div class="collapse" id="paso4CollapseAuth" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionpaso4">
+                                        <nav class="sb-sidenav-menu-nested nav">
+                                            <a class="nav-link" asp-controller="Pasos" asp-action="Solicitud">Solicitudes</a>
+                                            <a class="nav-link" asp-controller="Pasos" asp-action="Asignacion">Asignaciones</a>
+                                        </nav>
+                                    </div>
                                     <a class="nav-link" href="layout-static.html">Paso 5</a>
                                     <a class="nav-link" href="layout-static.html">Paso 6</a>
-                                    <a class="nav-link" href="layout-static.html">Paso 7</a>
+                                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#paso7CollapseAuth" aria-expanded="false" aria-controls="paso7CollapseAuth">
+                                        Paso 7
+                                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                                    </a>
+                                    <div class="collapse" id="paso7CollapseAuth" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionpaso7">
+                                        <nav class="sb-sidenav-menu-nested nav">
+                                            <a class="nav-link" href="login.html">CURP</a>
+                                            <a class="nav-link" href="register.html">CB</a>
+                                            <a class="nav-link" href="register.html">RFC</a>
+                                        </nav>
+                                    </div>
                                 </nav>
                             </div>
                             <div class="sb-sidenav-menu-heading">Gestionar</div>
@@ -298,8 +339,12 @@
                                 Información personal
                             </a>
                             <a class="nav-link" href="index.html">
-                                <div class="sb-nav-link-icon"><i class="fa-solid fa-folder"></i></div>
+                                <div class="sb-nav-link-icon"><i class="fa-solid fa-clipboard"></i></div>
                                 Proyecto de titulación
+                            </a>
+                            <a class="nav-link" asp-controller="Pasos" asp-action="Documentos">
+                                <div class="sb-nav-link-icon"><i class="fa-solid fa-folder"></i></div>
+                                Archivos
                             </a>
                             <div class="sb-sidenav-menu-heading">Sesión</div>
                             <a class="nav-link" asp-controller="Authenticate" asp-action="CerrarSesion">

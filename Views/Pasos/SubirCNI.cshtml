@@ -1,0 +1,22 @@
+﻿@{
+    ViewData["Title"] = "CNI";
+}
+@{
+    string archivo = ViewBag.archivo;
+}
+
+<h1>Constancia de No Inconveniencia</h1>
+
+<p>En este paso el egresado no debe subir nada. Será servicios escolares quien suba el recibo de pago sellado.</p>
+
+@if (archivo != null)
+{
+    <hr />
+    <strong>Archivo subido actualmente: </strong>
+    <span>@archivo: @Html.ActionLink("Decargar", "Descargar", "Pasos", new { fileName = archivo }) | @Html.ActionLink("Ver", "VerArchivo", "Pasos", new { fileName = archivo }, new { target = "_blank" })</span>
+}
+else
+{
+    <hr />
+    <strong>No han subido nada todavía</strong>
+}

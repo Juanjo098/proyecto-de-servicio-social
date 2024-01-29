@@ -1,0 +1,34 @@
+﻿@{
+    ViewData["Title"] = "Subir PRO";
+}
+@{
+    string archivo = ViewBag.archivo;
+}
+
+<h1>Proyecto</h1>
+<hr />
+<form method="post" enctype="multipart/form-data" class="d-flex flex-column justify-content-start align-items-start gap-4">
+    <label>Los archivos que suba deben estar en formato .pdf, .rar o .zip y no pueden pesar más de 5MB</label>
+    <input type="file" name="file" />
+    <div class="d-flex flex-column gap-2">
+        <label>Debe seleccionar la opción proyecto si su opción de titulación no es Examen CENEVAL</label>
+        <select name="option">
+            <option value="0">- Elige una opción -</option>
+            <option value="1">Proyecto</option>
+            <option value="2">Examen CENEVAL</option>
+        </select>
+    </div>
+    <button type="submit">Subir archivo</button>
+</form>
+
+@if (archivo != null)
+{
+    <hr />
+    <strong>Archivo subido actualmente: </strong>
+    <span>@archivo: @Html.ActionLink("Decargar", "Descargar", "Pasos", new { fileName = archivo }) | @Html.ActionLink("Ver", "VerArchivo", "Pasos", new { fileName = archivo }, new { target = "_blank" }) | @Html.ActionLink("Eliminar", "EliminarArchivo", "Pasos", new { fileName = archivo })</span>
+}
+else
+{
+    <hr />
+    <strong>No ha subido nada todavía</strong>
+}

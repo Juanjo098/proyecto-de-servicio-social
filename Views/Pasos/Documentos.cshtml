@@ -1,0 +1,18 @@
+﻿@model string[]
+@{
+    ViewData["Title"] = "Documentos";
+}
+
+<h1>Documentos</h1>
+
+@foreach (var item in Model)
+{
+    @if (item.StartsWith("CNI") || item.StartsWith("RPS") || item.StartsWith("SL") || item.StartsWith("SA") || item.StartsWith("SS") || item.StartsWith("SC-") || item.StartsWith("LP") || item.StartsWith("AS") || item.StartsWith("AA") || item.StartsWith("AC") || item.StartsWith("OI"))
+    {
+        <span>@item: @Html.ActionLink("Decargar", "Descargar", "Pasos", new { fileName = item }) | @Html.ActionLink("Ver", "VerArchivo", "Pasos", new { fileName = item }, new { target = "_blank" })</span>
+    } else
+    {
+        <span>@item: @Html.ActionLink("Decargar", "Descargar", "Pasos", new { fileName = item }) | @Html.ActionLink("Ver", "VerArchivo", "Pasos", new { fileName = item }, new { target = "_blank" }) | @Html.ActionLink("Eliminar", "EliminarArchivo", "Pasos", new { fileName = item })</span>
+    }
+    <br />
+}
