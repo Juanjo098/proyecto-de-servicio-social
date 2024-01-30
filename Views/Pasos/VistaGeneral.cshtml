@@ -6,7 +6,6 @@
     List<SelectListItem> estados = ViewBag.estados;
     int paso = ViewBag.paso == null ? 0 : ViewBag.paso;
     int estado = ViewBag.estado == null ? 0 : ViewBag.estado;
-    string algo = "";
 }
 
 <h1>VistaGeneral</h1>
@@ -99,254 +98,284 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
-            <td class="bg-warning">
-                @Html.ActionLink(item.Nombre, "GestionarDocumentos", "Pasos", new { noControl = item.NoControl, nombre = item.Nombre })
+            @if(item.Estado == 1)
+            {
+                <td class="bg-success">
+                    @Html.ActionLink(item.Nombre, "GestionarDocumentos", "Pasos", new { noControl = item.NoControl, nombre = item.Nombre }, new { target = "_blank" })
+                </td>
+            }
+            else if (item.Estado == 2)
+            {
+            <td class="bg-danger">
+                @Html.ActionLink(item.Nombre, "GestionarDocumentos", "Pasos", new { noControl = item.NoControl, nombre = item.Nombre }, new { target = "_blank" })
             </td>
+            }
+            else
+            {
+                <td class="bg-warning">
+                    @Html.ActionLink(item.Nombre, "GestionarDocumentos", "Pasos", new { noControl = item.NoControl, nombre = item.Nombre }, new { target = "_blank" })
+                </td>
+            }
             <td class="bg-warning">
                 @Html.DisplayFor(modelItem => item.NoControl)
             </td>
-                @switch (item.Scni)
+                @if (item.Estado == 1)
                 {
-                    case 0:
-                        <td class="bg-light"></td>
-                        break;
-                    case 1:
-                        <td class="bg-secondary"></td>
-                        break;
-                    case 2:
-                        <td class="bg-danger"></td>
-                        break;
-                    case 3:
-                        <td class="bg-warning"></td>
-                        break;
-                }
-                @switch (item.Cni)
+                    for (int i = 0; 0 < 19; i++)
+                    {
+                        <td class="bg-success"></td>
+                    }
+                } else if (item.Estado == 2)
                 {
-                    case 0:
-                        <td class="bg-light"></td>
-                        break;
-                    case 1:
-                        <td class="bg-secondary"></td>
-                        break;
-                    case 2:
-                        <td class="bg-danger"></td>
-                        break;
-                    case 3:
+                    for (int i = 0; 0 < 19; i++)
+                    {
                         <td class="bg-warning"></td>
-                        break;
-                }
-                @switch (item.Cl)
+                    }
+                } else
                 {
-                    case 0:
-                        <td class="bg-light"></td>
-                        break;
-                    case 1:
-                        <td class="bg-secondary"></td>
-                        break;
-                    case 2:
-                        <td class="bg-danger"></td>
-                        break;
-                    case 3:
-                        <td class="bg-warning"></td>
-                        break;
-                }
-                @switch (item.Caii)
-                {
-                    case 0:
-                        <td class="bg-light"></td>
-                        break;
-                    case 1:
-                        <td class="bg-secondary"></td>
-                        break;
-                    case 2:
-                        <td class="bg-danger"></td>
-                        break;
-                    case 3:
-                        <td class="bg-warning"></td>
-                        break;
-                }
-                @switch (item.Rp)
-                {
-                    case 0:
-                        <td class="bg-light"></td>
-                        break;
-                    case 1:
-                        <td class="bg-secondary"></td>
-                        break;
-                    case 2:
-                        <td class="bg-danger"></td>
-                        break;
-                    case 3:
-                        <td class="bg-warning"></td>
-                        break;
-                }
-                @switch (item.Rps)
-                {
-                    case 0:
-                        <td class="bg-light"></td>
-                        break;
-                    case 1:
-                        <td class="bg-secondary"></td>
-                        break;
-                    case 2:
-                        <td class="bg-danger"></td>
-                        break;
-                    case 3:
-                        <td class="bg-warning"></td>
-                        break;
-                }
-                @switch (item.St)
-                {
-                    case 0:
-                        <td class="bg-light"></td>
-                        break;
-                    case 1:
-                        <td class="bg-secondary"></td>
-                        break;
-                    case 2:
-                        <td class="bg-danger"></td>
-                        break;
-                    case 3:
-                        <td class="bg-warning"></td>
-                        break;
-                }
-                @switch (item.Pro)
-                {
-                    case 0:
-                        <td class="bg-light"></td>
-                        break;
-                    case 1:
-                        <td class="bg-secondary"></td>
-                        break;
-                    case 2:
-                        <td class="bg-danger"></td>
-                        break;
-                    case 3:
-                        <td class="bg-warning"></td>
-                        break;
-                }
-                @switch (item.Sl)
-                {
-                    case 0:
-                        <td class="bg-light"></td>
-                        break;
-                    case 1:
-                        <td class="bg-secondary"></td>
-                        break;
-                    case 2:
-                        <td class="bg-danger"></td>
-                        break;
-                    case 3:
-                        <td class="bg-warning"></td>
-                        break;
-                }
-                @switch (item.Lp)
-                {
-                    case 0:
-                        <td class="bg-light"></td>
-                        break;
-                    case 1:
-                        <td class="bg-secondary"></td>
-                        break;
-                    case 2:
-                        <td class="bg-danger"></td>
-                        break;
-                    case 3:
-                        <td class="bg-warning"></td>
-                        break;
-                }
-                @switch (item.Asnc)
-                {
-                    case 0:
-                        <td class="bg-light"></td>
-                        break;
-                    case 1:
-                        <td class="bg-secondary"></td>
-                        break;
-                    case 2:
-                        <td class="bg-danger"></td>
-                        break;
-                    case 3:
-                        <td class="bg-warning"></td>
-                        break;
-                }
-                @switch (item.Oi)
-                {
-                    case 0:
-                        <td class="bg-light"></td>
-                        break;
-                    case 1:
-                        <td class="bg-secondary"></td>
-                        break;
-                    case 2:
-                        <td class="bg-danger"></td>
-                        break;
-                    case 3:
-                        <td class="bg-warning"></td>
-                        break;
-                }
-                @switch (item.Curp)
-                {
-                    case 0:
-                        <td class="bg-light"></td>
-                        break;
-                    case 1:
-                        <td class="bg-secondary"></td>
-                        break;
-                    case 2:
-                        <td class="bg-danger"></td>
-                        break;
-                    case 3:
-                        <td class="bg-warning"></td>
-                        break;
-                }
-                @switch (item.Rfc)
-                {
-                    case 0:
-                        <td class="bg-light"></td>
-                        break;
-                    case 1:
-                        <td class="bg-secondary"></td>
-                        break;
-                    case 2:
-                        <td class="bg-danger"></td>
-                        break;
-                    case 3:
-                        <td class="bg-warning"></td>
-                        break;
-                }
-                @switch (item.Cb)
-                {
-                    case 0:
-                        <td class="bg-light"></td>
-                        break;
-                    case 1:
-                        <td class="bg-secondary"></td>
-                        break;
-                    case 2:
-                        <td class="bg-danger"></td>
-                        break;
-                    case 3:
-                        <td class="bg-warning"></td>
-                        break;
-                }
-            <td>
-                @switch (item.Estado)
+                    @switch (item.Scni)
                     {
                         case 0:
-                            <p class="m-0">En proceso</p>
+                            <td class="bg-light"></td>
                             break;
                         case 1:
-                            <p class="m-0">Titulado</p>
+                            <td class="bg-secondary"></td>
                             break;
                         case 2:
-                            <p class="m-0">Cancelado</p>
+                            <td class="bg-danger"></td>
                             break;
                         case 3:
-                            <p class="m-0">Reprogramado</p>
+                            <td class="bg-warning"></td>
                             break;
                     }
-            </td>
+                    @switch (item.Cni)
+                    {
+                        case 0:
+                            <td class="bg-light"></td>
+                            break;
+                        case 1:
+                            <td class="bg-secondary"></td>
+                            break;
+                        case 2:
+                            <td class="bg-danger"></td>
+                            break;
+                        case 3:
+                            <td class="bg-warning"></td>
+                            break;
+                    }
+                    @switch (item.Cl)
+                    {
+                        case 0:
+                            <td class="bg-light"></td>
+                            break;
+                        case 1:
+                            <td class="bg-secondary"></td>
+                            break;
+                        case 2:
+                            <td class="bg-danger"></td>
+                            break;
+                        case 3:
+                            <td class="bg-warning"></td>
+                            break;
+                    }
+                    @switch (item.Caii)
+                    {
+                        case 0:
+                            <td class="bg-light"></td>
+                            break;
+                        case 1:
+                            <td class="bg-secondary"></td>
+                            break;
+                        case 2:
+                            <td class="bg-danger"></td>
+                            break;
+                        case 3:
+                            <td class="bg-warning"></td>
+                            break;
+                    }
+                    @switch (item.Rp)
+                    {
+                        case 0:
+                            <td class="bg-light"></td>
+                            break;
+                        case 1:
+                            <td class="bg-secondary"></td>
+                            break;
+                        case 2:
+                            <td class="bg-danger"></td>
+                            break;
+                        case 3:
+                            <td class="bg-warning"></td>
+                            break;
+                    }
+                    @switch (item.Rps)
+                    {
+                        case 0:
+                            <td class="bg-light"></td>
+                            break;
+                        case 1:
+                            <td class="bg-secondary"></td>
+                            break;
+                        case 2:
+                            <td class="bg-danger"></td>
+                            break;
+                        case 3:
+                            <td class="bg-warning"></td>
+                            break;
+                    }
+                    @switch (item.St)
+                    {
+                        case 0:
+                            <td class="bg-light"></td>
+                            break;
+                        case 1:
+                            <td class="bg-secondary"></td>
+                            break;
+                        case 2:
+                            <td class="bg-danger"></td>
+                            break;
+                        case 3:
+                            <td class="bg-warning"></td>
+                            break;
+                    }
+                    @switch (item.Pro)
+                    {
+                        case 0:
+                            <td class="bg-light"></td>
+                            break;
+                        case 1:
+                            <td class="bg-secondary"></td>
+                            break;
+                        case 2:
+                            <td class="bg-danger"></td>
+                            break;
+                        case 3:
+                            <td class="bg-warning"></td>
+                            break;
+                    }
+                    @switch (item.Sl)
+                    {
+                        case 0:
+                            <td class="bg-light"></td>
+                            break;
+                        case 1:
+                            <td class="bg-secondary"></td>
+                            break;
+                        case 2:
+                            <td class="bg-danger"></td>
+                            break;
+                        case 3:
+                            <td class="bg-warning"></td>
+                            break;
+                    }
+                    @switch (item.Lp)
+                    {
+                        case 0:
+                            <td class="bg-light"></td>
+                            break;
+                        case 1:
+                            <td class="bg-secondary"></td>
+                            break;
+                        case 2:
+                            <td class="bg-danger"></td>
+                            break;
+                        case 3:
+                            <td class="bg-warning"></td>
+                            break;
+                    }
+                    @switch (item.Asnc)
+                    {
+                        case 0:
+                            <td class="bg-light"></td>
+                            break;
+                        case 1:
+                            <td class="bg-secondary"></td>
+                            break;
+                        case 2:
+                            <td class="bg-danger"></td>
+                            break;
+                        case 3:
+                            <td class="bg-warning"></td>
+                            break;
+                    }
+                    @switch (item.Oi)
+                    {
+                        case 0:
+                            <td class="bg-light"></td>
+                            break;
+                        case 1:
+                            <td class="bg-secondary"></td>
+                            break;
+                        case 2:
+                            <td class="bg-danger"></td>
+                            break;
+                        case 3:
+                            <td class="bg-warning"></td>
+                            break;
+                    }
+                    @switch (item.Curp)
+                    {
+                        case 0:
+                            <td class="bg-light"></td>
+                            break;
+                        case 1:
+                            <td class="bg-secondary"></td>
+                            break;
+                        case 2:
+                            <td class="bg-danger"></td>
+                            break;
+                        case 3:
+                            <td class="bg-warning"></td>
+                            break;
+                    }
+                    @switch (item.Rfc)
+                    {
+                        case 0:
+                            <td class="bg-light"></td>
+                            break;
+                        case 1:
+                            <td class="bg-secondary"></td>
+                            break;
+                        case 2:
+                            <td class="bg-danger"></td>
+                            break;
+                        case 3:
+                            <td class="bg-warning"></td>
+                            break;
+                    }
+                    @switch (item.Cb)
+                    {
+                        case 0:
+                            <td class="bg-light"></td>
+                            break;
+                        case 1:
+                            <td class="bg-secondary"></td>
+                            break;
+                        case 2:
+                            <td class="bg-danger"></td>
+                            break;
+                        case 3:
+                            <td class="bg-warning"></td>
+                            break;
+                    }
+                    <td>
+                        @switch (item.Estado)
+                        {
+                            case 0:
+                                <p class="m-0">En proceso</p>
+                                break;
+                            case 1:
+                                <p class="m-0">Titulado</p>
+                                break;
+                            case 2:
+                                <p class="m-0">Cancelado</p>
+                                break;
+                            case 3:
+                                <p class="m-0">Reprogramado</p>
+                                break;
+                        }
+                    </td>
+                }
             <td>
                 @Html.DisplayFor(modelItem => item.FechaTitulacion)
             </td>

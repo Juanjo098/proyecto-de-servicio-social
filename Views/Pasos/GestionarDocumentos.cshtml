@@ -2,6 +2,7 @@
 @{
     ViewData["Title"] = "Documentos";
     string nombre = ViewBag.nombre;
+    string noControl = ViewBag.noControl;
 }
 
 <h1>Documentos de @nombre</h1>
@@ -11,3 +12,8 @@
     <span>@item: @Html.ActionLink("Decargar", "DescargarAdmin", "Pasos", new { fileName = item }) | @Html.ActionLink("Ver", "VerArchivoAdmin", "Pasos", new { fileName = item }, new { target = "_blank" }) | @Html.ActionLink("Eliminar", "EliminarArchivoAdmin", "Pasos", new { fileName = item })</span>
     <br />
 }
+
+<div>
+    @Html.ActionLink("Gestionar proceso", "GestionarProcesoTitulacion", "Pasos", new { noControl = noControl, nombre = nombre })
+    @Html.ActionLink("Gestionar Titulacion", "GestionarTitulacion", "Pasos", new { noControl = noControl })
+</div>

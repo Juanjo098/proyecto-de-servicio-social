@@ -1,0 +1,142 @@
+﻿@model Titulacion.Clases.Put.ActualizarInfoTitulacion
+
+@{
+    ViewData["Title"] = "GestionarTitulacion";
+    string[] docentes = ViewBag.docentes;
+    string[] opciones = ViewBag.opciones;
+    string[] alternativas = ViewBag.alternativas;
+    List<SelectListItem> estados = ViewBag.estados;
+}
+
+<h1>GestionarTitulacion</h1>
+
+<h4>ActualizarInfoTitulacion</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="GestionarTitulacion">
+            <datalist id="docentes">
+                @foreach (string doc in docentes)
+                {
+                    <option>@doc</option>
+                }
+            </datalist>
+            <datalist id="opciones">
+                @foreach (string op in opciones)
+                {
+                    <option>@op</option>
+                }
+            </datalist>
+            <datalist id="alternativas">
+                @foreach (string op in alternativas)
+                {
+                    <option>@op</option>
+                }
+            </datalist>
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="NoControl" class="control-label"></label>
+                <input asp-for="NoControl" class="form-control" />
+                <span asp-validation-for="NoControl" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Nombre" class="control-label"></label>
+                <input asp-for="Nombre" class="form-control" />
+                <span asp-validation-for="Nombre" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Telefono" class="control-label"></label>
+                <input asp-for="Telefono" class="form-control" />
+                <span asp-validation-for="Telefono" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FechaCni" class="control-label"></label>
+                <input asp-for="FechaCni" class="form-control" />
+                <span asp-validation-for="FechaCni" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FechaSt" class="control-label"></label>
+                <input asp-for="FechaSt" class="form-control" />
+                <span asp-validation-for="FechaSt" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FechaAarp" class="control-label"></label>
+                <input asp-for="FechaAarp" class="form-control" />
+                <span asp-validation-for="FechaAarp" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FechaArp" class="control-label"></label>
+                <input asp-for="FechaArp" class="form-control" />
+                <span asp-validation-for="FechaArp" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FechaVecimiento" class="control-label"></label>
+                <input asp-for="FechaVecimiento" class="form-control" />
+                <span asp-validation-for="FechaVecimiento" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Producto" class="control-label"></label>
+                <input asp-for="Producto" list="opciones" class="form-control" />
+                <span asp-validation-for="Producto" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Alternativa" class="control-label"></label>
+                <input asp-for="Alternativa" class="form-control" />
+                <span asp-validation-for="Alternativa" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Proyecto" class="control-label"></label>
+                <input asp-for="Proyecto" class="form-control" />
+                <span asp-validation-for="Proyecto" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Presidente" class="control-label"></label>
+                <input asp-for="Presidente" list="docentes" class="form-control" />
+                <span asp-validation-for="Presidente" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PresidenteCedula" class="control-label"></label>
+                <input asp-for="PresidenteCedula" class="form-control" />
+                <span asp-validation-for="PresidenteCedula" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Secretario" class="control-label"></label>
+                <input asp-for="Secretario" list="docentes" class="form-control" />
+                <span asp-validation-for="Secretario" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SecretarioCedula" class="control-label"></label>
+                <input asp-for="SecretarioCedula" class="form-control" />
+                <span asp-validation-for="SecretarioCedula" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Vocal" class="control-label"></label>
+                <input asp-for="Vocal" list="docentes" class="form-control" />
+                <span asp-validation-for="Vocal" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="VocalCedula" class="control-label"></label>
+                <input asp-for="VocalCedula" class="form-control" />
+                <span asp-validation-for="VocalCedula" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Suplente" class="control-label"></label>
+                <input asp-for="Suplente" list="docentes" class="form-control" />
+                <span asp-validation-for="Suplente" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Estado" class="control-label"></label>
+                <select asp-for="Estado" asp-items="@estados"></select>
+                <span asp-validation-for="Estado" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

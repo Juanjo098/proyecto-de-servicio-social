@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Abstractions;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -6,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 using Titulacion.Clases;
 using Titulacion.Clases.Get;
+using Titulacion.Clases.Put;
 using Titulacion.Models;
 using Titulacion.Servicios.Contrato;
 
@@ -1238,7 +1240,7 @@ public class PasosController : Controller
 
     [Authorize(Roles = "3")]
     [Route("/Proceso-de-Titulacion/Administracion/Paso1/RPS")]
-    public async Task<IActionResult> SubirRPS(string noControl)
+    public IActionResult SubirRPS(string noControl)
     {
         string docPrefix = "RPS";
 
@@ -1353,8 +1355,127 @@ public class PasosController : Controller
     {
         var archivos = GetFileList(noControl);
         ViewBag.nombre = nombre;
+        ViewBag.noControl = noControl;
+
         // Puedes enviar la lista de archivos a la vista
         return View(archivos);
+    }
+
+    [Authorize(Roles = "1,2")]
+    [Route("/Proceso-de-Titulacion/Administracion/Gestionar-Proceso")]
+    public async Task<IActionResult> GestionarProcesoTitulacion(string noControl, string nombre)
+    {
+        var proc = await GetProcTitulacion(noControl);
+
+        if (proc == null)
+        {
+            TempData["mensaje"] = "No se encontró al alumno.";
+            TempData["estatus"] = "400";
+            return RedirectToAction("CustomError", "Home");
+        }
+
+        ViewBag.opciones = EstadosDeDocumentos();
+
+        ViewBag.nombre = nombre;
+
+        return View(proc);
+    }
+
+    [Authorize(Roles = "1")]
+    [Route("/Proceso-de-Titulacion/Administracion/Gestionar-Titulacion")]
+    public async Task<IActionResult> GestionarTitulacion(string noControl)
+    {
+        var proc = await GetInfoTitulacion(noControl);
+
+        if (proc == null)
+        {
+            TempData["mensaje"] = "No se encontró al alumno.";
+            TempData["estatus"] = "400";
+            return RedirectToAction("CustomError", "Home");
+        }
+
+        ViewBag.opciones = await GetOpcionesTitulacion();
+        ViewBag.docentes = await ListaDocentes();
+        ViewBag.alternativas = await Alternativas();
+        ViewBag.estados = Estados();
+
+        return View(proc);
+    }
+
+    [HttpPost]
+    [Authorize(Roles = "1")]
+    [Route("/Proceso-de-Titulacion/Administracion/Gestionar-Titulacion")]
+    public async Task<IActionResult> GestionarTitulacion(ActualizarInfoTitulacion model)
+    {
+        if (!ModelState.IsValid)
+        {
+            ViewBag.opciones = await GetOpcionesTitulacion();
+            ViewBag.docentes = await ListaDocentes();
+            ViewBag.alternativas = await Alternativas();
+            ViewBag.estados = Estados();
+
+            return View(model);
+        }
+
+
+
+        string[] sinodales = { model.Presidente, model.Secretario, model.Vocal, model.Suplente };
+
+        bool distintos = sinodales.Distinct().Count() == sinodales.Length;
+
+
+
+        return View(proc);
+    }
+
+    [HttpPost]
+    [Authorize(Roles = "1,2")]
+    [Route("/Proceso-de-Titulacion/Administracion/Gestionar-Proceso")]
+    public async Task<IActionResult> GestionarProcesoTitulacion(ActualizarProcTitulacion model)
+    {
+        if (!ModelState.IsValid) {
+            ViewBag.opciones = EstadosDeDocumentos();
+            return View(model);
+        }
+
+        try
+        {
+            ProcesoTitulacion info = await _context.ProcesoTitulacions.FirstOrDefaultAsync(proc => proc.NoControl == model.NoControl);
+
+            if (info == null)
+            {
+                TempData["mensaje"] = "No se encontró al alumno.";
+                TempData["estatus"] = "400";
+                return RedirectToAction("CustomError", "Home");
+            }
+
+            info.Scni = model.Scni;
+            info.Cni = model.Cni;
+            info.Cl = model.Cl;
+            info.Caii = model.Caii;
+            info.Rp = model.Rp;
+            info.Rps = model.Rps;
+            info.St = model.St;
+            info.Pro = model.Pro;
+            info.Sl = model.Sl;
+            info.Lp = model.Lp;
+            info.Asnc = model.Asnc;
+            info.Lp = model.Lp;
+            info.Curp = model.Curp;
+            info.Cb = model.Cb;
+            info.Rfc = model.Rfc;
+            
+            await _context.SaveChangesAsync();
+        }
+        catch (Exception)
+        {
+            TempData["mensaje"] = "Error en la base de datos.";
+            TempData["estatus"] = "500";
+            return RedirectToAction("CustomError", "Home");
+        }
+
+        return RedirectToAction("GestionarDocumentos", "Pasos", new { noControl = model.NoControl, nombre = model.Nombre });
+
     }
 
     [Authorize(Roles = "1,2")]
@@ -1670,4 +1791,184 @@ public class PasosController : Controller
             return null;
         }
     }
+
+    private async Task<ActualizarProcTitulacion> GetProcTitulacion(string noControl)
+    {
+        try
+        {
+            var data = await _context.ProcesoTitulacions.FirstOrDefaultAsync(p => p.NoControl == noControl);
+
+            if (data == null) return null;
+
+            return new ActualizarProcTitulacion {
+                NoControl = data.NoControl,
+                Scni = data.Scni,
+                Cni = data.Cni,
+                Cl = data.Cl,
+                Caii = data.Caii,
+                Rp = data.Rp,
+                Rps = data.Rps,
+                St = data.St,
+                Pro = data.Pro,
+                Sl = data.Sl,
+                Lp = data.Lp,
+                Asnc = data.Asnc,
+                Oi = data.Oi,
+                Curp = data.Curp,
+                Cb = data.Cb,
+                Rfc = data.Rfc,
+            };
+        }
+        catch (Exception ex)
+        {
+            return null;
+        }
+    }
+
+    private List<SelectListItem> EstadosDeDocumentos() {
+        return new List<SelectListItem>
+        {
+            new SelectListItem { Value="0", Text="Pendiente" },
+            new SelectListItem { Value="1", Text="Enviado" },
+            new SelectListItem { Value="2", Text="Necesita correciones" },
+            new SelectListItem { Value="3", Text="Aprobado" },
+        };
+    }
+
+    private async Task<string[]> ListaDocentes()
+    {
+        var docentes = await (
+                from doc in _context.Docentes
+                where doc.Hab == 1
+                select doc).ToListAsync();
+        var nombres = docentes.Select(docentes => docentes.Nombre).ToArray();
+
+        return nombres;
+    }
+
+    private Titulacion.Models.Docente GetDocente (List<Titulacion.Models.Docente> docentes, int? id)
+    {
+        if (id == null) return null;
+        var docente = docentes.FirstOrDefault(d => d.IdDocente == id);
+        if (docente == null) return null;
+        return docente;
+    }
+
+    private async Task<ActualizarInfoTitulacion> GetInfoTitulacion(string noControl)
+    {
+        try
+        {
+            var info = await _context.InformacionTitulacions.FirstOrDefaultAsync(i => i.NoControl == noControl);
+
+            var infoPer = await _context.InfoPersonals.FirstOrDefaultAsync(p => p.NoControl == noControl);
+
+            var docentes = await (
+                from doc in _context.Docentes
+                where doc.Hab == 1
+                select doc
+                ).ToListAsync();
+
+            var precidente = GetDocente(docentes, info.Presidente);
+            var secretario = GetDocente(docentes, info.Secretario);
+            var vocal = GetDocente(docentes, info.Vocal);
+            var suplente = GetDocente(docentes, info.Suplente);
+
+            if (info == null) return null;
+
+            return new ActualizarInfoTitulacion {
+                NoControl = info.NoControl,
+                Alternativa = info.Alternativa,
+                Estado = info.Estado,
+                FechaAarp = info.FechaAarp,
+                FechaArp = info.FechaArp,
+                FechaCni = info.FechaCni,
+                FechaSt = info.FechaSt,
+                FechaVecimiento = info.FechaVecimiento,
+                Nombre = infoPer.ApPaterno + " " + infoPer.ApMaterno + " " + infoPer.Nombre,
+                Presidente = precidente?.Nombre,
+                Secretario = secretario?.Nombre,
+                Vocal = vocal?.Nombre,
+                Suplente = suplente?.Nombre,
+                PresidenteCedula = precidente?.Cedula,
+                SecretarioCedula = secretario?.Cedula,
+                VocalCedula = vocal?.Cedula,
+                Producto = info.Producto,
+                Proyecto = info.Proyecto,
+                Telefono = infoPer.Telefono
+            };
+
+        }
+        catch (Exception ex)
+        {
+            return null;
+        }
+    }
+
+    private async Task<string[]> GetOpcionesTitulacion()
+    {
+        try
+        {
+        var productos = await (
+                from prods in _context.Productos
+                where prods.Hab == 1
+                select prods
+            ).ToListAsync();
+
+        var prodNames = productos?.Select(prod => prod.Producto1);
+
+        var opciones = await (
+            from ops in _context.Opciones
+            where ops.Hab == 1
+            select ops
+            ).ToListAsync();
+
+        var opNames = opciones?.Select(prod => prod.Opcion);
+
+        return opNames?.Concat(prodNames).ToArray();
+
+        }
+        catch (Exception)
+        {
+            return null;
+        }
+    }
+
+    private async Task<string[]> Alternativas()
+    {
+        try
+        {
+            var alternativas = await (
+            from alt in _context.Alternativas
+            where alt.Hab == 1
+            select alt
+            ).ToListAsync();
+
+            if (alternativas == null) return null;
+
+            return alternativas.Select(alt => alt.Alternativa1).ToArray();
+
+        }
+        catch (Exception ex)
+        {
+            return null;
+        }
+    }
+
+    private bool DocenteExist(string docente, List<Titulacion.Models.Docente> docentes)
+    {
+        return docentes.FirstOrDefault(doc => doc.Nombre == docente) != null;
+    }
+
+    private async Task<bool> ExisteAlternativa(string alternativa)
+    {
+        try
+        {
+            return await _context.Alternativas.FirstOrDefaultAsync(alt => alt.Alternativa1 == alternativa) != null;
+        }
+        catch (Exception ex)
+        {
+            return false;
+        }
+    }
+
 }
