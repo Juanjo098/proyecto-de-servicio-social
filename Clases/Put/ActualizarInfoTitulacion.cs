@@ -14,19 +14,22 @@ namespace Titulacion.Clases.Put
         public string Telefono { get; set; }
 
         [Display(Name ="Fecha CNI")]
-        public DateTime? FechaCni { get; set; }
+        public DateOnly? FechaCni { get; set; }
 
         [Display(Name ="Fecha ST")]
-        public DateTime? FechaSt { get; set; }
+        public DateOnly? FechaSt { get; set; }
 
         [Display(Name ="Fecha AARP")]
-        public DateTime? FechaAarp { get; set; }
+        public DateOnly? FechaAarp { get; set; }
 
         [Display(Name ="Fecha ARP")]
-        public DateTime? FechaArp { get; set; }
+        public DateOnly? FechaArp { get; set; }
+
+        [Display(Name = "Hora ARP")]
+        public TimeOnly? HoraArp { get; set; }
 
         [Display(Name ="Fecha de Vencimiento")]
-        public DateTime? FechaVecimiento { get; set; }
+        public DateOnly? FechaVecimiento { get; set; }
 
         [Display(Name ="Producto")]
         public string? Producto { get; set; }

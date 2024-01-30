@@ -258,25 +258,18 @@ public partial class TitulacionContext : DbContext
                 .HasDefaultValueSql("b'0'")
                 .HasColumnType("bit(2)")
                 .HasColumnName("estado");
-            entity.Property(e => e.FechaAarp)
-                .HasColumnType("datetime")
-                .HasColumnName("fecha_aarp");
-            entity.Property(e => e.FechaArp)
-                .HasColumnType("datetime")
-                .HasColumnName("fecha_arp");
-            entity.Property(e => e.FechaCni)
-                .HasColumnType("datetime")
-                .HasColumnName("fecha_cni");
-            entity.Property(e => e.FechaSt)
-                .HasColumnType("datetime")
-                .HasColumnName("fecha_st");
-            entity.Property(e => e.FechaVecimiento)
-                .HasColumnType("datetime")
-                .HasColumnName("fecha_vecimiento");
+            entity.Property(e => e.FechaAarp).HasColumnName("fecha_aarp");
+            entity.Property(e => e.FechaArp).HasColumnName("fecha_arp");
+            entity.Property(e => e.FechaCni).HasColumnName("fecha_cni");
+            entity.Property(e => e.FechaSt).HasColumnName("fecha_st");
+            entity.Property(e => e.FechaVecimiento).HasColumnName("fecha_vecimiento");
             entity.Property(e => e.Hab)
-                .HasDefaultValueSql("b'0'")
+                .HasDefaultValueSql("b'1'")
                 .HasColumnType("bit(1)")
                 .HasColumnName("hab");
+            entity.Property(e => e.HoraArp)
+                .HasColumnType("time")
+                .HasColumnName("hora_arp");
             entity.Property(e => e.NoControl)
                 .HasMaxLength(10)
                 .HasColumnName("no_control");
@@ -347,7 +340,7 @@ public partial class TitulacionContext : DbContext
                 .HasColumnType("bit(2)")
                 .HasColumnName("curp");
             entity.Property(e => e.Hab)
-                .HasDefaultValueSql("b'0'")
+                .HasDefaultValueSql("b'1'")
                 .HasColumnType("bit(1)")
                 .HasColumnName("hab");
             entity.Property(e => e.Lp)

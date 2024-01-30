@@ -9,15 +9,17 @@ public partial class InformacionTitulacion
 
     public string NoControl { get; set; } = null!;
 
-    public DateTime? FechaCni { get; set; }
+    public DateOnly? FechaCni { get; set; }
 
-    public DateTime? FechaSt { get; set; }
+    public DateOnly? FechaSt { get; set; }
 
-    public DateTime? FechaAarp { get; set; }
+    public DateOnly? FechaAarp { get; set; }
 
-    public DateTime? FechaArp { get; set; }
+    public DateOnly? FechaArp { get; set; }
 
-    public DateTime? FechaVecimiento { get; set; }
+    public TimeOnly? HoraArp { get; set; }
+
+    public DateOnly? FechaVecimiento { get; set; }
 
     public string? Producto { get; set; }
 

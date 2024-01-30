@@ -60,11 +60,11 @@ namespace Titulacion.Clases.Get
             public ulong Estado { get; set; }
 
             [Display(Name = "Fecha de incio")]
-            public DateTime? FechaInicio { get; set; }
+            public DateOnly? FechaInicio { get; set; }
 
             [Display(Name = "Fecha de vencimiento")]
-            public DateTime? FechaVencimiento { get; set; }
+            public DateOnly? FechaVencimiento { get; set; }
             [Display(Name = "Fecha de titulacion")]
-            public DateTime? FechaTitulacion { get; set; }
+            public DateOnly? FechaTitulacion { get; set; }
     }
 }

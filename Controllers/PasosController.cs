@@ -1425,7 +1425,7 @@ public class PasosController : Controller
 
 
 
-        return View(proc);
+        return View();
     }
 
     [HttpPost]
