@@ -96,33 +96,37 @@ namespace Titulacion.Servicios.Implementacion
         {
             try
             {
-                var info = await _context.ProcesoTitulacions.FirstOrDefaultAsync(p => p.NoControl == noControl);
+                var data = await (
+                    from estado in _context.ProcesoTitulacions
+                    join infoUsuario in _context.InfoPersonals
+                    on estado.NoControl equals infoUsuario.NoControl
+                    join inf in _context.InformacionTitulacions
+                    on estado.NoControl equals inf.NoControl
+                    where inf.Estado == 0
+                    select new EstadoProcesoTitulacion
+                    {
+                        IdProceso = estado.IdProceso,
+                        NoControl = estado.NoControl,
+                        Paso1 = estado.Paso1,
+                        Scni = estado.Scni,
+                        Cni = estado.Cni,
+                        Cl = estado.Cl,
+                        Caii = estado.Caii,
+                        Rp = estado.Rp,
+                        Rps = estado.Rps,
+                        St = estado.St,
+                        Pro = estado.Pro,
+                        Sl = estado.Sl,
+                        Lp = estado.Lp,
+                        Asnc = estado.Asnc,
+                        Oi = estado.Oi,
+                        Cb = estado.Cb,
+                        Curp = estado.Curp,
+                        Rfc = estado.Rfc,
+                    }
+                    ).FirstOrDefaultAsync();
 
-                if (info == null) return null;
-
-                var retorno = new EstadoProcesoTitulacion {
-                    IdProceso = info.IdProceso,
-                    NoControl = info.NoControl,
-                    Paso1 = info.Paso1,
-                    Scni = info.Scni,
-                    Cni = info.Cni,
-                    Cl = info.Cl,
-                    Caii = info.Caii,
-                    Rp = info.Rp,
-                    Rps = info.Rps,
-                    St = info.St,
-                    Pro = info.Pro,
-                    Sl = info.Sl,
-                    Lp = info.Lp,
-                    Asnc = info.Asnc,
-                    Oi = info.Oi,
-                    Cb = info.Cb,
-                    Curp = info.Curp,
-                    Rfc = info.Rfc,
-                    Estado = info.Estado,
-                };
-
-                return retorno;
+                return data;
             }
             catch (Exception ex)
             {

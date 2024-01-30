@@ -1,0 +1,22 @@
+﻿@{
+    ViewData["Title"] = "OI";
+}
+@{
+    string archivo = ViewBag.archivo;
+}
+
+<h1>Orden de impresión</h1>
+
+<p>En este paso el egresado no debe subir nada. Será el departamento de estudios profecionales el que suba la orden de impresion</p>
+
+@if (archivo != null)
+{
+    <hr />
+    <strong>Archivo subido actualmente: </strong>
+    <span>@archivo: @Html.ActionLink("Decargar", "Descargar", "Pasos", new { fileName = archivo }) | @Html.ActionLink("Ver", "VerArchivo", "Pasos", new { fileName = archivo }, new { target = "_blank" })</span>
+}
+else
+{
+    <hr />
+    <strong>No han subido nada todavía</strong>
+}

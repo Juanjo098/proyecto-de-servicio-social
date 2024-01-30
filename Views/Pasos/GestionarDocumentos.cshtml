@@ -1,0 +1,13 @@
+﻿@model string[]
+@{
+    ViewData["Title"] = "Documentos";
+    string nombre = ViewBag.nombre;
+}
+
+<h1>Documentos de @nombre</h1>
+
+@foreach (var item in Model)
+{
+    <span>@item: @Html.ActionLink("Decargar", "DescargarAdmin", "Pasos", new { fileName = item }) | @Html.ActionLink("Ver", "VerArchivoAdmin", "Pasos", new { fileName = item }, new { target = "_blank" }) | @Html.ActionLink("Eliminar", "EliminarArchivoAdmin", "Pasos", new { fileName = item })</span>
+    <br />
+}

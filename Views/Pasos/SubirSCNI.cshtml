@@ -2,7 +2,7 @@
     ViewData["Title"] = "Subir SCNI";
 }
 @{
-    string archivo = ViewBag.archivo;
+    string[] archivos = ViewBag.archivos;
 }
 
 <h1>Solicitud de Constancia de No Inconveniencia</h1>
@@ -13,12 +13,26 @@
     <button type="submit">Subir archivo</button>
 </form>
 
-@if (archivo != null)
+@if (archivos != null)
 {
     <hr />
-    <strong>Archivo subido actualmente: </strong>
-    <span>@archivo: @Html.ActionLink("Decargar", "Descargar", "Pasos", new { fileName = archivo }) | @Html.ActionLink("Ver", "VerArchivo", "Pasos", new { fileName = archivo }, new { target = "_blank" }) | @Html.ActionLink("Eliminar", "EliminarArchivo", "Pasos", new { fileName = archivo })</span>
-} else
+    <strong>Archivos subidos: </strong>
+    <br />
+    @foreach (string archivo in archivos)
+    {
+        if (archivo.StartsWith("CNI"))
+        {
+            <span>@archivo: @Html.ActionLink("Decargar", "Descargar", "Pasos", new { fileName = archivo }) | @Html.ActionLink("Ver", "VerArchivo", "Pasos", new { fileName = archivo }, new { target = "_blank" })</span>
+            <br />
+        }
+        else
+        {
+            <span>@archivo: @Html.ActionLink("Decargar", "Descargar", "Pasos", new { fileName = archivo }) | @Html.ActionLink("Ver", "VerArchivo", "Pasos", new { fileName = archivo }, new { target = "_blank" }) | @Html.ActionLink("Eliminar", "EliminarArchivo", "Pasos", new { fileName = archivo })</span>
+            <br />
+        }
+    }
+}
+else
 {
     <hr />
     <strong>No ha subido nada todavía</strong>

@@ -190,6 +190,17 @@
                                 </nav>
                             </div>
                             <div class="sb-sidenav-menu-heading">Addons</div>
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseVistas" aria-expanded="false" aria-controls="collapseVistas">
+                                <div class="sb-nav-link-icon"><i class="fa-solid fa-table"></i></div>
+                                Vistas
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="collapseVistas" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" asp-controller="Pasos" asp-action="VistaGeneral">Vista General</a>
+                                    <a class="nav-link" asp-controller="Pasos" asp-action="SubirArchivos">Subir archivos</a>
+                                </nav>
+                            </div>
                             <a class="nav-link" href="charts.html">
                                 <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
                                 Charts
@@ -283,7 +294,7 @@
                             </a>
                             <div class="collapse" id="collapsePages" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
-                                    <a class="nav-link" href="layout-static.html">Paso 1</a>
+                                    <a class="nav-link" asp-controller="Pasos" asp-action="Paso1">Paso 1</a>
                                     <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseAuth" aria-expanded="false" aria-controls="pagesCollapseAuth">
                                         Paso 2
                                         <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
@@ -291,11 +302,9 @@
                                     <div class="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
                                         <nav class="sb-sidenav-menu-nested nav">
                                             <a class="nav-link" asp-controller="Pasos" asp-action="SubirSCNI">SCNI</a>
-                                            <a class="nav-link" asp-controller="Pasos" asp-action="SubirCNI">CNI</a>
                                             <a class="nav-link" asp-controller="Pasos" asp-action="SubirCL">CL</a>
                                             <a class="nav-link" asp-controller="Pasos" asp-action="SubirCAII">CAII</a>
                                             <a class="nav-link" asp-controller="Pasos" asp-action="SubirRP">RP</a>
-                                            <a class="nav-link" asp-controller="Pasos" asp-action="SubirRPS">RPS</a>
                                         </nav>
                                     </div>
                                     <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#paso2CollapseAuth" aria-expanded="false" aria-controls="paso2CollapseAuth">
@@ -318,17 +327,17 @@
                                             <a class="nav-link" asp-controller="Pasos" asp-action="Asignacion">Asignaciones</a>
                                         </nav>
                                     </div>
-                                    <a class="nav-link" href="layout-static.html">Paso 5</a>
-                                    <a class="nav-link" href="layout-static.html">Paso 6</a>
+                                    <a class="nav-link" asp-controller="Pasos" asp-action="OrdenImpresion">Paso 5</a>
+                                    <a class="nav-link" asp-controller="Pasos" asp-action="Paso6">Paso 6</a>
                                     <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#paso7CollapseAuth" aria-expanded="false" aria-controls="paso7CollapseAuth">
                                         Paso 7
                                         <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                                     </a>
                                     <div class="collapse" id="paso7CollapseAuth" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionpaso7">
                                         <nav class="sb-sidenav-menu-nested nav">
-                                            <a class="nav-link" href="login.html">CURP</a>
-                                            <a class="nav-link" href="register.html">CB</a>
-                                            <a class="nav-link" href="register.html">RFC</a>
+                                            <a class="nav-link" asp-controller="Pasos" asp-action="SubirCURP">CURP</a>
+                                            <a class="nav-link" asp-controller="Pasos" asp-action="SubirCB">CB</a>
+                                            <a class="nav-link" asp-controller="Pasos" asp-action="SubirRFC">RFC</a>
                                         </nav>
                                     </div>
                                 </nav>

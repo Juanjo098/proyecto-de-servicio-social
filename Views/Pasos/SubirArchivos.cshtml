@@ -1,0 +1,30 @@
+﻿
+@{
+    ViewData["Title"] = "SubirArchivos";
+    string[] nombres = ViewBag.nombres;
+}
+
+
+<h1>SubirArchivos</h1>
+
+<form class="form-group">
+    <div class="form-control">
+        <label for="nombre" class="form-label">Nombre:</label>
+        <input list="nombres" id="nombre" name="nombre" />
+        <datalist id="nombres">
+            @foreach (var op in nombres)
+            {
+                <option value="@op"></option>
+            }
+        </datalist>
+    </div>
+    <div class="form-control">
+        <label class="form-label">Archivo:</label>
+        <select class="form-select-sm">
+            <option value="0">Recibo</option>
+            <option value="1">Solicitud</option>
+            <option value="2">Asignacion o Liberacion</option>
+            <option value="3">Orden de impresion</option>
+        </select>
+    </div>
+</form>
