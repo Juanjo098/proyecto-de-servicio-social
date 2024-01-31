@@ -4,8 +4,12 @@
     ViewData["Title"] = "VistaGeneral";
     List<SelectListItem> pasos = ViewBag.pasos;
     List<SelectListItem> estados = ViewBag.estados;
+    List<SelectListItem> carreras = ViewBag.carreras;
+    List<SelectListItem> departamentos = ViewBag.departamentos;
     int paso = ViewBag.paso == null ? 0 : ViewBag.paso;
     int estado = ViewBag.estado == null ? 0 : ViewBag.estado;
+    int carrera = ViewBag.carrera == null ? 0 : ViewBag.carrera;
+    int departamento = ViewBag.departamento == null ? 0 : ViewBag.departamento;
 }
 
 <h1>VistaGeneral</h1>
@@ -25,6 +29,16 @@
         <select class="form-select-sm" name="paso" id="paso" asp-items="@pasos">
         </select>
     </div>
+    <div class="form-group">
+        <label for="buscar">Departamento: </label>
+        <select class="form-select-sm" name="departamento" id="departamento" asp-items="@departamentos">
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="buscar">Carreras: </label>
+        <select class="form-select-sm" name="carrera" id="carrera" asp-items="@carreras">
+        </select>
+    </div>
     <button type="submit" class="btn btn-info">Buscar</button>
 </form>
 <table class="table table-bordered">
@@ -35,6 +49,9 @@
             </th>
             <th>
                 No. Control
+            </th>
+            <th>
+                Carrera
             </th>
             <th>
                 SNCI
@@ -108,7 +125,67 @@
                 }
                 else
                 {
-                    <td class="bg-warning">@item.NoControl</td>
+                    <td class="bg-warning fs-6">@item.NoControl</td>
+                }
+                @if (item.FechaTitulacion != null)
+                {
+                    switch (item.idCarrera)
+                    {
+                        case 1:
+                            <td class="bg-success">SIS</td>
+                            break;
+                        case 2:
+                            <td class="bg-success">INF</td>
+                            break;
+                        case 3:
+                            <td class="bg-success">SIS</td>
+                            break;
+                        case 4:
+                            <td class="bg-success">ARQ</td>
+                            break;
+                        case 5:
+                            <td class="bg-success">CT</td>
+                            break;
+                        case 6:
+                            <td class="bg-success">ADMON</td>
+                            break;
+                        case 7:
+                            <td class="bg-success">IND</td>
+                            break;
+                        case 8:
+                            <td class="bg-success">GES</td>
+                            break;
+                    }
+                }
+                else
+                {
+                    switch (item.idCarrera)
+                    {
+                        case 1:
+                            <td class="bg-warning">SIS</td>
+                            break;
+                        case 2:
+                            <td class="bg-warning">INF</td>
+                            break;
+                        case 3:
+                            <td class="bg-warning">SIS</td>
+                            break;
+                        case 4:
+                            <td class="bg-warning">ARQ</td>
+                            break;
+                        case 5:
+                            <td class="bg-warning">CT</td>
+                            break;
+                        case 6:
+                            <td class="bg-warning">ADMON</td>
+                            break;
+                        case 7:
+                            <td class="bg-warning">IND</td>
+                            break;
+                        case 8:
+                            <td class="bg-warning">GES</td>
+                            break;
+                    }
                 }
                 @if (item.FechaTitulacion != null)
                 {
@@ -389,7 +466,32 @@
     </tbody>
 </table>
 
-
+<div>
+    @if (Model.MostrarBotones)
+    {
+        @if (Model.PaginaInicio != 1)
+        {
+            <a asp-action="Docentes" asp-route-numPag="1" asp-route-buscar="@ViewBag.buscar" asp-route-estado="@estado" asp-route-paso="@paso" asp-route-carrera="@carrera" asp-route-departamento="@departamento" class="btn btn-primary">Inicio</a>
+        }
+        @if (Model.PaginasAnteriores)
+        {
+            <a asp-action="Docentes" asp-route-numPag="@(Model.PaginaInicio - 1)" asp-route-buscar="@ViewBag.buscar" asp-route-estado="@estado" asp-route-paso="@paso" asp-route-carrera="@carrera" asp-route-departamento="@departamento" class="btn btn-primary">Anteior</a>
+        }
+        @for (var i = Model.BotonesAnteriores(); i <= Model.BotonesSiguientes(); i++)
+        {
+            var paginaActiva = (Model.PaginaInicio == i) ? "active" : "";
+            <a asp-action="Docentes" asp-route-numPag="@i" asp-route-buscar="@ViewBag.buscar" asp-route-estado="@estado" asp-route-paso="@paso" asp-route-carrera="@carrera" asp-route-departamento="@departamento" class="btn btn-outline-primary @paginaActiva">@i</a>
+        }
+        @if (Model.PaginasPosteriores)
+        {
+            <a asp-action="Docentes" asp-route-numPag="@(Model.PaginaInicio + 1)" asp-route-buscar="@ViewBag.buscar" asp-route-estado="@estado" asp-route-paso="@paso" asp-route-carrera="@carrera" asp-route-departamento="@departamento" class="btn btn-primary">Siguiente</a>
+        }
+        @if (Model.PaginaInicio != Model.PaginasTotales)
+        {
+            <a asp-action="Docentes" asp-route-numPag="@Model.PaginasTotales" asp-route-buscar="@ViewBag.buscar" asp-route-estado="@estado" asp-route-paso="@paso" asp-route-carrera="@carrera" asp-route-departamento="@departamento" class="btn btn-primary">Final</a>
+        }
+    }
+</div>
 
 <script>
     document.addEventListener('DOMContentLoaded', () => {
@@ -397,5 +499,9 @@
         selectPasos.selectedIndex = @paso;
         const selectEstado = document.getElementById('estado')
         selectEstado.selectedIndex = @estado;
+        const selectCarrera = document.getElementById('carrera')
+        selectCarrera.selectedIndex = @carrera;
+        const selectDepartamento = document.getElementById('departamento')
+        selectDepartamento.selectedIndex = @departamento;
     })
 </script>

@@ -1238,63 +1238,104 @@ public class PasosController : Controller
         return View();
     }
 
-    [Authorize(Roles = "3")]
+    [Authorize(Roles = "1,2")]
     [Route("/Proceso-de-Titulacion/Administracion/Paso1/RPS")]
-    public IActionResult SubirRPS(string noControl)
+    public IActionResult SubirRPS(string noControl, string nombre)
     {
         string docPrefix = "RPS";
 
         ViewBag.noControl = noControl;
+        ViewBag.nombre = nombre;
 
         var archivos = GetFileList(noControl);
-        ViewBag.archivo = archivos.FirstOrDefault(a => a.StartsWith(docPrefix));
-
+        var archivo = archivos.FirstOrDefault(a => a.StartsWith(docPrefix));
+        ViewBag.archivo = archivo;
         return View();
     }
 
     [HttpPost]
-    [Authorize(Roles = "3")]
+    [Authorize(Roles = "1,2")]
     [Route("/Proceso-de-Titulacion/Administracion/Paso1/RPS")]
-    public async Task<ActionResult> SubirRPS(IFormFile file)
+    public async Task<ActionResult> SubirRPS(IFormFile file, string noControl, string nombre)
     {
         int fileSizeLimit = 5;
-        string docPrefix = "RFC";
+        string docPrefix = "RPS";
 
-        int result = await StudentUpload(file, fileSizeLimit, docPrefix);
-
+        int result = await _bufferedFileUploadService.UploadFile(file, fileSizeLimit, noControl, docPrefix);
         switch (result)
         {
             case 1:
-                TempData["mensaje"] = "Tu UUID es incorrecto.";
+                TempData["mensaje"] = "No se envio ningun archivo.";
                 TempData["estatus"] = "400";
                 return RedirectToAction("CustomError", "Home");
             case 2:
-                TempData["mensaje"] = "Necesitas subir tu información personal primero antes de subir cualquier archivo.";
+                TempData["mensaje"] = "El archivo supera los " + fileSizeLimit + "MB";
                 TempData["estatus"] = "400";
                 return RedirectToAction("CustomError", "Home");
             case 3:
-                TempData["mensaje"] = "Tu UUID no se corresponde con su no. de control asignado";
+                TempData["mensaje"] = "Solo se pueden subir archivos .pdf, .rar y .zip";
                 TempData["estatus"] = "400";
                 return RedirectToAction("CustomError", "Home");
             case 4:
-                TempData["mensaje"] = "No envió ningun archivo.";
-                TempData["estatus"] = "400";
-                return RedirectToAction("CustomError", "Home");
-            case 5:
-                TempData["mensaje"] = "Excedió el tamaño máximo del archivo: " + fileSizeLimit + "MB.";
-                TempData["estatus"] = "400";
-                return RedirectToAction("CustomError", "Home");
-            case 6:
-                TempData["mensaje"] = "Sólo puede subir archivos .pdf, .rar y .zip";
+                TempData["mensaje"] = "Error inesperado";
                 TempData["estatus"] = "400";
                 return RedirectToAction("CustomError", "Home");
         }
-        return RedirectToAction("Index", "Home");
+
+        return RedirectToAction("SubirRPS", new { noControl = noControl, nombre = nombre });
     }
+
+    [Authorize(Roles = "1,2")]
+    [Route("/Proceso-de-Titulacion/Administracion/Paso5/OI")]
+    public IActionResult SubirOI(string noControl, string nombre)
+    {
+        string docPrefix = "OI";
+
+        ViewBag.noControl = noControl;
+        ViewBag.nombre = nombre;
+
+        var archivos = GetFileList(noControl);
+        var archivo = archivos.FirstOrDefault(a => a.StartsWith(docPrefix));
+        ViewBag.archivo = archivo;
+        return View();
+    }
+
+    [HttpPost]
+    [Authorize(Roles = "1,2")]
+    [Route("/Proceso-de-Titulacion/Administracion/Paso5/OI")]
+    public async Task<ActionResult> SubirOI(IFormFile file, string noControl, string nombre)
+    {
+        int fileSizeLimit = 5;
+        string docPrefix = "OI";
+
+        int result = await _bufferedFileUploadService.UploadFile(file, fileSizeLimit, noControl, docPrefix);
+        switch (result)
+        {
+            case 1:
+                TempData["mensaje"] = "No se envio ningun archivo.";
+                TempData["estatus"] = "400";
+                return RedirectToAction("CustomError", "Home");
+            case 2:
+                TempData["mensaje"] = "El archivo supera los " + fileSizeLimit + "MB";
+                TempData["estatus"] = "400";
+                return RedirectToAction("CustomError", "Home");
+            case 3:
+                TempData["mensaje"] = "Solo se pueden subir archivos .pdf, .rar y .zip";
+                TempData["estatus"] = "400";
+                return RedirectToAction("CustomError", "Home");
+            case 4:
+                TempData["mensaje"] = "Error inesperado";
+                TempData["estatus"] = "400";
+                return RedirectToAction("CustomError", "Home");
+        }
+
+        return RedirectToAction("SubirOI", new { noControl = noControl, nombre = nombre });
+    }
+
 
     [Authorize(Roles = "1")]
     [Route("/Proceso-de-Titulacion/VistaGeneral")]
-    public async Task<IActionResult> VistaGeneral(int? numPag, string buscar, int? paso, int? estado)
+    public async Task<IActionResult> VistaGeneral(int? numPag, string buscar, int? paso, int? estado, int? carrera, int? departamento)
     {
         int cantidad = 10;
         try
@@ -1303,6 +1344,8 @@ public class PasosController : Controller
 
             ViewBag.pasos = Pasos();
             ViewBag.estados = Estados();
+            ViewBag.carreras = await Carreras();
+            ViewBag.departamentos = await Departamentos();
 
             if (!string.IsNullOrEmpty(buscar) && items != null)
             {
@@ -1310,17 +1353,14 @@ public class PasosController : Controller
                 ViewBag.buscar = buscar;
             }
 
-            if (paso == null)
-            {
-                paso = 0;
-            }
+            if (paso == null) paso = 0;
 
             ViewBag.paso = paso;
 
             switch (paso)
             {
                 case 1:
-                    items = items.FindAll(item => item.Sl == 3 && item.Lp == 0 && item.Asnc == 0 && item.Oi == 0);
+                    items = items.FindAll(item => item.Sl == 1 && item.Lp == 0 && item.Asnc == 0 && item.Oi == 0);
                     break;
                 case 2:
                     items = items.FindAll(item => item.Oi == 3);
@@ -1330,16 +1370,31 @@ public class PasosController : Controller
                     break;
             }
 
-            if (estado == null)
-            {
-                estado = 0;
-            }
+            if (estado == null) estado = 0;
 
             ViewBag.estado = estado;
 
             if (estado > 0)
             {
                 items = items.FindAll(item => item.Estado == Convert.ToUInt64(estado));
+            }
+
+            if (carrera == null) carrera = 0;
+
+            ViewBag.carrera = carrera;
+
+            if (carrera > 0)
+            {
+                items = items.FindAll(item => item.idCarrera == carrera);
+            }
+
+            if (departamento == null) departamento = 0;
+
+            ViewBag.departamento = departamento;
+
+            if (departamento > 0)
+            {
+                items = items.FindAll(item => item.idDpto == departamento);
             }
 
             var pag = Paginacion<EstadoGenral>.CrearLista(items, numPag ?? 1, cantidad);
@@ -1759,9 +1814,16 @@ public class PasosController : Controller
                 on alu.NoControl equals info.NoControl
                 join proc in _context.ProcesoTitulacions
                 on alu.NoControl equals proc.NoControl
-                where alu.Hab == 1 && info.Hab == 1 && proc.Hab == 1
+                join car in _context.Carreras
+                on alu.IdCarrera equals car.IdCarrera
+                join dep in _context.Departamentos
+                on car.IdDpto equals dep.IdDpto
+
+                where alu.Hab == 1 && info.Hab == 1 && proc.Hab == 1 && car.Hab == 1 && dep.Hab == 1
                 select new EstadoGenral
                 {
+                    idCarrera = car.IdCarrera,
+                    idDpto = dep.IdDpto,
                     NoControl = alu.NoControl,
                     Nombre = alu.ApPaterno + " " + alu.ApMaterno + " " + alu.Nombre,
                     Scni = proc.Scni,
@@ -1997,6 +2059,46 @@ public class PasosController : Controller
 
             return alternativas.Select(alt => alt.Alternativa1).ToArray();
 
+        }
+        catch (Exception ex)
+        {
+            return null;
+        }
+    }
+
+    private async  Task<List<SelectListItem>> Carreras()
+    {
+        try
+        {
+            List<SelectListItem> lista = await (
+                    from car in _context.Carreras
+                    where car.Hab == 1
+                    select new SelectListItem { Text = car.Nombre, Value = car.IdCarrera.ToString() }
+                ).ToListAsync();
+
+            lista.Insert(0, new SelectListItem { Text = "Todas", Value = "0" }) ;
+
+            return lista;
+        }
+        catch (Exception ex)
+        {
+            return null;
+        }
+    }
+
+    private async Task<List<SelectListItem>> Departamentos()
+    {
+        try
+        {
+            List<SelectListItem> lista = await (
+                    from dep in _context.Departamentos
+                    where dep.Hab == 1
+                    select new SelectListItem { Text = dep.Nombre, Value = dep.IdDpto.ToString() }
+                ).ToListAsync();
+
+            lista.Insert(0, new SelectListItem { Text = "Todas", Value = "0" });
+
+            return lista;
         }
         catch (Exception ex)
         {

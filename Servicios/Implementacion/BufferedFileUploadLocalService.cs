@@ -71,31 +71,36 @@ namespace Titulacion.Servicios.Implementacion
                         data.Pro = 1;
                         break;
                     case "SL":
-                        data.Sl = 3;
+                        data.Sl = 1;
                         break;
                     case "SA":
-                        data.Sl = 3;
+                        data.Sl = 1;
                         break;
                     case "SS":
-                        data.Sl = 3;
+                        data.Sl = 1;
                         break;
                     case "SC":
-                        data.Sl = 3;
+                        data.Sl = 1;
                         break;
                     case "LP":
-                        data.Lp = 3;
+                        data.Lp = 1;
+                        data.Sl = 3;
                         break;
                     case "AA":
-                        data.Asnc = 3;
+                        data.Asnc = 1;
+                        data.Sl = 3;
                         break;
                     case "AS":
-                        data.Asnc = 3;
+                        data.Asnc = 1;
+                        data.Sl = 3;
                         break;
                     case "AC":
-                        data.Asnc = 3;
+                        data.Asnc = 1;
+                        data.Sl = 3;
                         break;
                     case "OI":
                         data.Oi = 3;
+                        data.Asnc = 3;
                         break;
                     case "CURP":
                         data.Curp = 1;

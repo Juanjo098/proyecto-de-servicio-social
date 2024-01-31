@@ -17,3 +17,13 @@
     @Html.ActionLink("Gestionar proceso", "GestionarProcesoTitulacion", "Pasos", new { noControl = noControl, nombre = nombre })
     @Html.ActionLink("Gestionar Titulacion", "GestionarTitulacion", "Pasos", new { noControl = noControl })
 </div>
+
+<div>
+    @Html.ActionLink("Subir RPS", "SubirRPS", new { nombre = nombre, noControl = noControl })
+    <br />
+    @Html.ActionLink("Subir Solicitud", "SubirRPS", new { nombre = nombre, noControl = noControl })
+    <br />
+    @Html.ActionLink("Subir Asignacion", "SubirRPS", new { nombre = nombre, noControl = noControl })
+    <br />
+    @Html.ActionLink("Subir OI", "SubirOI", new { nombre = nombre, noControl = noControl })
+</div>
