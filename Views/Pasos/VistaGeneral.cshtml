@@ -95,37 +95,22 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
-                @switch (item.Estado)
+                @if(item.FechaTitulacion != null)
                 {
-                    case 0:
-                        <td class="bg-warning">@Html.ActionLink(item.Nombre, "GestionarDocumentos", "Pasos", new { noControl = item.NoControl, nombre = item.Nombre }, new { target = "_blank" })</td>
-                        break;
-                    case 1:
-                        <td class="bg-success">@Html.ActionLink(item.Nombre, "GestionarDocumentos", "Pasos", new { noControl = item.NoControl, nombre = item.Nombre }, new { target = "_blank" })</td>
-                        break;
-                    case 2:
-                        <td class="bg-danger">@Html.ActionLink(item.Nombre, "GestionarDocumentos", "Pasos", new { noControl = item.NoControl, nombre = item.Nombre }, new { target = "_blank" })</td>
-                        break;
-                    case 3:
-                        <td class="bg-info">@Html.ActionLink(item.Nombre, "GestionarDocumentos", "Pasos", new { noControl = item.NoControl, nombre = item.Nombre }, new { target = "_blank" })</td>
-                        break;
-                }
-                @switch (item.Estado)
+                    <td class="bg-success">@Html.ActionLink(item.Nombre, "GestionarDocumentos", "Pasos", new { noControl = item.NoControl, nombre = item.Nombre }, new { target = "_blank" })</td>
+                } else
                 {
-                    case 0:
-                        <td class="bg-warning">@item.NoControl</td>
-                        break;
-                    case 1:
-                        <td class="bg-success">@item.NoControl</td>
-                        break;
-                    case 2:
-                        <td class="bg-danger">@item.NoControl</td>
-                        break;
-                    case 3:
-                        <td class="bg-info">@item.NoControl</td>
-                        break;
+                    <td class="bg-warning">@Html.ActionLink(item.Nombre, "GestionarDocumentos", "Pasos", new { noControl = item.NoControl, nombre = item.Nombre }, new { target = "_blank" })</td>
                 }
-                @if (item.Estado == 1)
+                @if (item.FechaTitulacion != null)
+                {
+                    <td class="bg-success">@item.NoControl</td>
+                }
+                else
+                {
+                    <td class="bg-warning">@item.NoControl</td>
+                }
+                @if (item.FechaTitulacion != null)
                 {
                     for (int i = 0; i < 15; i++)
                     {
@@ -382,27 +367,20 @@
                         </td>
                         break;
                 }
-                @switch (item.Estado)
-                {
-                    case 0:
-                        <td class="bg-warning">@item.FechaTitulacion?.ToString()</td>
-                        break;
-                    case 1:
-                        <td class="bg-success">@item.FechaTitulacion?.ToString()</td>
-                        break;
-                    case 2:
-                        <td class="bg-danger">@item.FechaTitulacion?.ToString()</td>
-                        break;
-                    case 3:
-                        <td class="bg-info">@item.FechaTitulacion?.ToString()</td>
-                        break;
-                }
                 @if (item.FechaTitulacion != null)
                 {
                     <td class="bg-success">@item.FechaTitulacion?.ToString()</td>
-                } else
+                }
+                else
                 {
                     <td class="bg-warning"></td>
+                }
+                @if (item.FechaTitulacion != null)
+                {
+                    <td class="bg-success"></td>
+                } else
+                {
+                    <td class="bg-warning">@item.FechaVencimiento?.ToString()</td>
                 }
 
                 

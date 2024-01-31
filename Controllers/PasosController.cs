@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Components.Web;
+﻿using MessagePack;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Abstractions;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Security.Claims;
 using Titulacion.Clases;
 using Titulacion.Clases.Get;
@@ -153,7 +153,7 @@ public class PasosController : Controller
 
     [Authorize(Roles = "3")]
     [Route("/Proceso-de-Titulacion/Documentos/Eliminar")]
-    public async Task<IActionResult> EliminarArchivo (string fileName)
+    public async Task<IActionResult> EliminarArchivo(string fileName)
     {
         Guid id = _usuarioService.ConvertToGUID(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
 
@@ -1325,6 +1325,9 @@ public class PasosController : Controller
                 case 2:
                     items = items.FindAll(item => item.Oi == 3);
                     break;
+                case 3:
+                    items = items.FindAll(item => item.FechaTitulacion != null);
+                    break;
             }
 
             if (estado == null)
@@ -1351,7 +1354,7 @@ public class PasosController : Controller
 
     [Authorize(Roles = "1,2")]
     [Route("/Proceso-de-Titulacion/Administracion/Documentos")]
-    public IActionResult GestionarDocumentos (string noControl, string nombre)
+    public IActionResult GestionarDocumentos(string noControl, string nombre)
     {
         var archivos = GetFileList(noControl);
         ViewBag.nombre = nombre;
@@ -1395,7 +1398,7 @@ public class PasosController : Controller
         }
 
         ViewBag.opciones = await GetOpcionesTitulacion();
-        ViewBag.docentes = await ListaDocentes();
+        ViewBag.docentes = await ListaDocentesNombre();
         ViewBag.alternativas = await Alternativas();
         ViewBag.estados = Estados();
 
@@ -1410,22 +1413,61 @@ public class PasosController : Controller
         if (!ModelState.IsValid)
         {
             ViewBag.opciones = await GetOpcionesTitulacion();
-            ViewBag.docentes = await ListaDocentes();
+            ViewBag.docentes = await ListaDocentesNombre();
             ViewBag.alternativas = await Alternativas();
             ViewBag.estados = Estados();
 
             return View(model);
         }
 
-
-
         string[] sinodales = { model.Presidente, model.Secretario, model.Vocal, model.Suplente };
 
         bool distintos = sinodales.Distinct().Count() == sinodales.Length;
 
+        if (!distintos)
+        {
+            ViewBag.opciones = await GetOpcionesTitulacion();
+            ViewBag.docentes = await ListaDocentesNombre();
+            ViewBag.alternativas = await Alternativas();
+            ViewBag.estados = Estados();
 
+            return View(model);
+        }
 
-        return View();
+        var docentes = await ListaDocentes();
+
+        var presidente = GetDonceteNombre(model.Presidente, docentes);
+        var secretario = GetDonceteNombre(model.Secretario, docentes);
+        var vocal = GetDonceteNombre(model.Vocal, docentes);
+        var suplente = GetDonceteNombre(model.Suplente, docentes);
+
+        InformacionTitulacion info = await _context.InformacionTitulacions.FirstOrDefaultAsync(inf => inf.NoControl == model.NoControl);
+
+        DateOnly? fechaCNI = model.FechaCni != null ? DateOnly.Parse(model.FechaCni) : null;
+        DateOnly? fechaST = model.FechaSt != null ? DateOnly.Parse(model.FechaSt) : null;
+        DateOnly? fechaAarp = model.FechaAarp != null ? DateOnly.Parse(model.FechaAarp) : null;
+        DateOnly? fechaArp = model.FechaArp != null ? DateOnly.Parse(model.FechaArp) : null;
+        DateOnly? fechaVencimiento = model.FechaVecimiento != null ? DateOnly.Parse(model.FechaVecimiento) : null;
+        TimeOnly? horaArp = model.HoraArp != null ? TimeOnly.Parse(model.HoraArp + ":00") : null;
+
+        info.FechaCni = fechaCNI;
+        info.FechaSt = fechaST;
+        info.FechaAarp = fechaAarp;
+        info.FechaArp = fechaArp;
+        info.FechaVecimiento = fechaVencimiento;
+        info.HoraArp = horaArp;
+        info.Producto = model.Producto;
+        info.Alternativa = model.Alternativa;
+        info.Proyecto = model.Proyecto;
+        info.Presidente = presidente?.IdDocente;
+        info.Secretario = secretario?.IdDocente;
+        info.Vocal = vocal?.IdDocente;
+        info.Suplente = suplente?.IdDocente;
+        info.Estado = model.Estado;
+
+        await _context.SaveChangesAsync();
+
+        return RedirectToAction("GestionarTitulacion", new { noControl = model.NoControl , nombre  = model.Nombre});
     }
 
     [HttpPost]
@@ -1433,7 +1475,8 @@ public class PasosController : Controller
     [Route("/Proceso-de-Titulacion/Administracion/Gestionar-Proceso")]
     public async Task<IActionResult> GestionarProcesoTitulacion(ActualizarProcTitulacion model)
     {
-        if (!ModelState.IsValid) {
+        if (!ModelState.IsValid)
+        {
             ViewBag.opciones = EstadosDeDocumentos();
             return View(model);
         }
@@ -1461,10 +1504,11 @@ public class PasosController : Controller
             info.Lp = model.Lp;
             info.Asnc = model.Asnc;
             info.Lp = model.Lp;
+            info.Oi = model.Oi;
             info.Curp = model.Curp;
             info.Cb = model.Cb;
             info.Rfc = model.Rfc;
-            
+
             await _context.SaveChangesAsync();
         }
         catch (Exception)
@@ -1664,7 +1708,7 @@ public class PasosController : Controller
         // Todo en orden
         return 0;
     }
-    
+
     private string[] GetFileList(string noControl)
     {
         var rutaCarpeta = Path.Combine(_webHostEnvironment.ContentRootPath, "Expedientes\\" + noControl);
@@ -1675,7 +1719,8 @@ public class PasosController : Controller
         return archivos.Select(ruta => Path.GetFileName(ruta)).ToArray();
     }
 
-    private string GetFilePath (string fileName){
+    private string GetFilePath(string fileName)
+    {
         string noControl = GetNoControlFromFileName(fileName);
 
         return Path.Combine(_webHostEnvironment.ContentRootPath, "Expedientes\\" + noControl + "\\" + fileName);
@@ -1697,7 +1742,7 @@ public class PasosController : Controller
                 return "application/pdf";
             case ".rar":
                 return "application/x-rar-compressed";
-                
+
             case ".zip":
                 return "application/zip";
         }
@@ -1740,7 +1785,8 @@ public class PasosController : Controller
                     FechaTitulacion = info.FechaAarp
                 }
                 ).ToListAsync();
-        } catch (Exception ex)
+        }
+        catch (Exception ex)
         {
             return null;
         }
@@ -1748,10 +1794,11 @@ public class PasosController : Controller
 
     private List<SelectListItem> Pasos()
     {
-        return new List<SelectListItem> { 
+        return new List<SelectListItem> {
             new SelectListItem{ Text = "Todos", Value = "0" },
             new SelectListItem{ Text = "Con solicitud", Value = "1" },
             new SelectListItem{ Text = "Con orden de impresion", Value = "2" },
+            new SelectListItem{ Text = "Con fecha de titulacion", Value = "3" },
         };
     }
 
@@ -1765,14 +1812,14 @@ public class PasosController : Controller
         };
     }
 
-    private async Task<string[]> NombresAlumnos ()
+    private async Task<string[]> NombresAlumnos()
     {
         var alumnos = await ListaAlumnos();
 
         if (alumnos == null) return null;
 
-        var alumnosEnProceso = alumnos.FindAll(alu => alu.Estado != 2 ).ToList();
-        
+        var alumnosEnProceso = alumnos.FindAll(alu => alu.Estado != 2).ToList();
+
         return alumnosEnProceso.Select(alu => alu.Nombre).ToArray();
     }
 
@@ -1780,7 +1827,7 @@ public class PasosController : Controller
     {
         try
         {
-            var info = await _context.InfoPersonals.FirstOrDefaultAsync(alu => name == (alu.ApPaterno + " " + alu.ApMaterno + " " + alu.Nombre) );
+            var info = await _context.InfoPersonals.FirstOrDefaultAsync(alu => name == (alu.ApPaterno + " " + alu.ApMaterno + " " + alu.Nombre));
 
             if (info == null) return null;
 
@@ -1800,7 +1847,8 @@ public class PasosController : Controller
 
             if (data == null) return null;
 
-            return new ActualizarProcTitulacion {
+            return new ActualizarProcTitulacion
+            {
                 NoControl = data.NoControl,
                 Scni = data.Scni,
                 Cni = data.Cni,
@@ -1825,7 +1873,8 @@ public class PasosController : Controller
         }
     }
 
-    private List<SelectListItem> EstadosDeDocumentos() {
+    private List<SelectListItem> EstadosDeDocumentos()
+    {
         return new List<SelectListItem>
         {
             new SelectListItem { Value="0", Text="Pendiente" },
@@ -1835,7 +1884,7 @@ public class PasosController : Controller
         };
     }
 
-    private async Task<string[]> ListaDocentes()
+    private async Task<string[]> ListaDocentesNombre()
     {
         var docentes = await (
                 from doc in _context.Docentes
@@ -1846,7 +1895,7 @@ public class PasosController : Controller
         return nombres;
     }
 
-    private Titulacion.Models.Docente GetDocente (List<Titulacion.Models.Docente> docentes, int? id)
+    private Titulacion.Models.Docente GetDocente(List<Titulacion.Models.Docente> docentes, int? id)
     {
         if (id == null) return null;
         var docente = docentes.FirstOrDefault(d => d.IdDocente == id);
@@ -1875,15 +1924,17 @@ public class PasosController : Controller
 
             if (info == null) return null;
 
-            return new ActualizarInfoTitulacion {
+            return new ActualizarInfoTitulacion
+            {
                 NoControl = info.NoControl,
                 Alternativa = info.Alternativa,
                 Estado = info.Estado,
-                FechaAarp = info.FechaAarp,
-                FechaArp = info.FechaArp,
-                FechaCni = info.FechaCni,
-                FechaSt = info.FechaSt,
-                FechaVecimiento = info.FechaVecimiento,
+                FechaAarp = info.FechaAarp != null ? DateTime.ParseExact(info.FechaAarp.ToString(), "dd/MM/yyyy", null).ToString("yyyy-MM-dd") : null,
+                FechaArp = info.FechaArp != null ? DateTime.ParseExact(info.FechaArp.ToString(), "dd/MM/yyyy", null).ToString("yyyy-MM-dd") : null,
+                FechaCni = info.FechaCni != null ? DateTime.ParseExact(info.FechaCni.ToString(), "dd/MM/yyyy", null).ToString("yyyy-MM-dd") : null,
+                FechaSt = info.FechaSt != null ? DateTime.ParseExact(info.FechaSt.ToString(), "dd/MM/yyyy", null).ToString("yyyy-MM-dd") : null,
+                FechaVecimiento = info.FechaVecimiento != null ? DateTime.ParseExact(info.FechaVecimiento.ToString(), "dd/MM/yyyy", null).ToString("yyyy-MM-dd") : null,
+                HoraArp = info.HoraArp != null ? DateTime.Now.Date.Add(info.HoraArp.Value.ToTimeSpan()).ToString("HH:mm") : null,
                 Nombre = infoPer.ApPaterno + " " + infoPer.ApMaterno + " " + infoPer.Nombre,
                 Presidente = precidente?.Nombre,
                 Secretario = secretario?.Nombre,
@@ -1896,7 +1947,6 @@ public class PasosController : Controller
                 Proyecto = info.Proyecto,
                 Telefono = infoPer.Telefono
             };
-
         }
         catch (Exception ex)
         {
@@ -1908,23 +1958,23 @@ public class PasosController : Controller
     {
         try
         {
-        var productos = await (
-                from prods in _context.Productos
-                where prods.Hab == 1
-                select prods
-            ).ToListAsync();
+            var productos = await (
+                    from prods in _context.Productos
+                    where prods.Hab == 1
+                    select prods
+                ).ToListAsync();
 
-        var prodNames = productos?.Select(prod => prod.Producto1);
+            var prodNames = productos?.Select(prod => prod.Producto1);
 
-        var opciones = await (
-            from ops in _context.Opciones
-            where ops.Hab == 1
-            select ops
-            ).ToListAsync();
+            var opciones = await (
+                from ops in _context.Opciones
+                where ops.Hab == 1
+                select ops
+                ).ToListAsync();
 
-        var opNames = opciones?.Select(prod => prod.Opcion);
+            var opNames = opciones?.Select(prod => prod.Opcion);
 
-        return opNames?.Concat(prodNames).ToArray();
+            return opNames?.Concat(prodNames).ToArray();
 
         }
         catch (Exception)
@@ -1968,6 +2018,28 @@ public class PasosController : Controller
         catch (Exception ex)
         {
             return false;
+        }
+    }
+
+    private Titulacion.Models.Docente GetDonceteNombre(string nombre, List<Titulacion.Models.Docente> docentes)
+    {
+        return docentes?.FirstOrDefault(doc => doc.Nombre == nombre);
+    }
+
+    private async Task<List<Titulacion.Models.Docente>> ListaDocentes()
+    {
+        try
+        {
+            var docentes = await (
+                    from doc in _context.Docentes
+                    where doc.Hab == 1
+                    select doc
+                ).ToListAsync();
+            return docentes;
+        }
+        catch (Exception)
+        {
+            return null;
         }
     }
 

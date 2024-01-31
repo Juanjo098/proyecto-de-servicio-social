@@ -51,28 +51,33 @@
             </div>
             <div class="form-group">
                 <label asp-for="FechaCni" class="control-label"></label>
-                <input asp-for="FechaCni" class="form-control" />
+                <input asp-for="FechaCni" class="form-control" type="date" />
                 <span asp-validation-for="FechaCni" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="FechaSt" class="control-label"></label>
-                <input asp-for="FechaSt" class="form-control" />
+                <input asp-for="FechaSt" class="form-control" type="date" />
                 <span asp-validation-for="FechaSt" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="FechaAarp" class="control-label"></label>
-                <input asp-for="FechaAarp" class="form-control" />
+                <input asp-for="FechaAarp" class="form-control" type="date" />
                 <span asp-validation-for="FechaAarp" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="FechaArp" class="control-label"></label>
-                <input asp-for="FechaArp" class="form-control" />
+                <input asp-for="FechaArp" class="form-control" type="date" />
                 <span asp-validation-for="FechaArp" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="FechaVecimiento" class="control-label"></label>
-                <input asp-for="FechaVecimiento" class="form-control" />
+                <input asp-for="FechaVecimiento" class="form-control" type="date" />
                 <span asp-validation-for="FechaVecimiento" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="HoraArp" class="control-label"></label>
+                <input asp-for="HoraArp" class="form-control" pattern="^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$" />
+                <span asp-validation-for="HoraArp" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Producto" class="control-label"></label>
