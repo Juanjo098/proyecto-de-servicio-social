@@ -37,7 +37,7 @@
                 No. Control
             </th>
             <th>
-                SCNI
+                SNCI
             </th>
             <th>
                 CNI
@@ -64,7 +64,7 @@
                 SL
             </th>
             <th>
-                LP
+               LP
             </th>
             <th>
                 AS
@@ -73,7 +73,7 @@
                 OI
             </th>
             <th>
-                CURP
+               CURP
             </th>
             <th>
                 RFC
@@ -88,48 +88,48 @@
                 Fecha de Titulacion
             </th>
             <th>
-                Fecha de inicio
-            </th>
-            <th>
-                Fecha de vencimiento
+                Fecha de Vencimiento
             </th>
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
         <tr>
-            @if(item.Estado == 1)
-            {
-                <td class="bg-success">
-                    @Html.ActionLink(item.Nombre, "GestionarDocumentos", "Pasos", new { noControl = item.NoControl, nombre = item.Nombre }, new { target = "_blank" })
-                </td>
-            }
-            else if (item.Estado == 2)
-            {
-            <td class="bg-danger">
-                @Html.ActionLink(item.Nombre, "GestionarDocumentos", "Pasos", new { noControl = item.NoControl, nombre = item.Nombre }, new { target = "_blank" })
-            </td>
-            }
-            else
-            {
-                <td class="bg-warning">
-                    @Html.ActionLink(item.Nombre, "GestionarDocumentos", "Pasos", new { noControl = item.NoControl, nombre = item.Nombre }, new { target = "_blank" })
-                </td>
-            }
-            <td class="bg-warning">
-                @Html.DisplayFor(modelItem => item.NoControl)
-            </td>
+                @switch (item.Estado)
+                {
+                    case 0:
+                        <td class="bg-warning">@Html.ActionLink(item.Nombre, "GestionarDocumentos", "Pasos", new { noControl = item.NoControl, nombre = item.Nombre }, new { target = "_blank" })</td>
+                        break;
+                    case 1:
+                        <td class="bg-success">@Html.ActionLink(item.Nombre, "GestionarDocumentos", "Pasos", new { noControl = item.NoControl, nombre = item.Nombre }, new { target = "_blank" })</td>
+                        break;
+                    case 2:
+                        <td class="bg-danger">@Html.ActionLink(item.Nombre, "GestionarDocumentos", "Pasos", new { noControl = item.NoControl, nombre = item.Nombre }, new { target = "_blank" })</td>
+                        break;
+                    case 3:
+                        <td class="bg-info">@Html.ActionLink(item.Nombre, "GestionarDocumentos", "Pasos", new { noControl = item.NoControl, nombre = item.Nombre }, new { target = "_blank" })</td>
+                        break;
+                }
+                @switch (item.Estado)
+                {
+                    case 0:
+                        <td class="bg-warning">@item.NoControl</td>
+                        break;
+                    case 1:
+                        <td class="bg-success">@item.NoControl</td>
+                        break;
+                    case 2:
+                        <td class="bg-danger">@item.NoControl</td>
+                        break;
+                    case 3:
+                        <td class="bg-info">@item.NoControl</td>
+                        break;
+                }
                 @if (item.Estado == 1)
                 {
-                    for (int i = 0; 0 < 19; i++)
+                    for (int i = 0; i < 15; i++)
                     {
                         <td class="bg-success"></td>
-                    }
-                } else if (item.Estado == 2)
-                {
-                    for (int i = 0; 0 < 19; i++)
-                    {
-                        <td class="bg-warning"></td>
                     }
                 } else
                 {
@@ -358,64 +358,61 @@
                             <td class="bg-warning"></td>
                             break;
                     }
-                    <td>
-                        @switch (item.Estado)
-                        {
-                            case 0:
-                                <p class="m-0">En proceso</p>
-                                break;
-                            case 1:
-                                <p class="m-0">Titulado</p>
-                                break;
-                            case 2:
-                                <p class="m-0">Cancelado</p>
-                                break;
-                            case 3:
-                                <p class="m-0">Reprogramado</p>
-                                break;
-                        }
-                    </td>
                 }
-            <td>
-                @Html.DisplayFor(modelItem => item.FechaTitulacion)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FechaInicio)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FechaVencimiento)
-            </td>
+                @switch (item.Estado)
+                {
+                    case 0:
+                        <td class="bg-warning">
+                            <p class="m-0">En proceso</p>
+                        </td>
+                        break;
+                    case 1:
+                        <td class="bg-success">
+                            <p class="m-0">Titulado</p>
+                        </td>
+                        break;
+                    case 2:
+                        <td class="bg-danger">
+                            <p class="m-0">Cancelado</p>
+                        </td>
+                        break;
+                    case 3:
+                        <td class="bg-info">
+                            <p class="m-0">Reprogramado</p>
+                        </td>
+                        break;
+                }
+                @switch (item.Estado)
+                {
+                    case 0:
+                        <td class="bg-warning">@item.FechaTitulacion?.ToString()</td>
+                        break;
+                    case 1:
+                        <td class="bg-success">@item.FechaTitulacion?.ToString()</td>
+                        break;
+                    case 2:
+                        <td class="bg-danger">@item.FechaTitulacion?.ToString()</td>
+                        break;
+                    case 3:
+                        <td class="bg-info">@item.FechaTitulacion?.ToString()</td>
+                        break;
+                }
+                @if (item.FechaTitulacion != null)
+                {
+                    <td class="bg-success">@item.FechaTitulacion?.ToString()</td>
+                } else
+                {
+                    <td class="bg-warning"></td>
+                }
+
+                
         </tr>
 }
     </tbody>
 </table>
 
-<div>
-    @if (Model.MostrarBotones)
-    {
-        @if (Model.PaginaInicio != 1)
-        {
-            <a asp-action="VistaGeneral" asp-route-numPag="1" asp-route-buscar="@ViewBag.buscar" asp-route-paso="@ViewBag.paso" asp-route-estado="@ViewBag.estado" class="btn btn-primary">Inicio</a>
-        }
-        @if (Model.PaginasAnteriores)
-        {
-            <a asp-action="VistaGeneral" asp-route-numPag="@(Model.PaginaInicio - 1)" asp-route-buscar="@ViewBag.buscar" asp-route-paso="@ViewBag.paso" asp-route-estado="@ViewBag.estado" class="btn btn-primary">Anteior</a>
-        }
-        @for (var i = Model.BotonesAnteriores(); i <= Model.BotonesSiguientes(); i++)
-        {
-            var paginaActiva = (Model.PaginaInicio == i) ? "active" : "";
-            <a asp-action="VistaGeneral" asp-route-numPag="@i" asp-route-buscar="@ViewBag.buscar" asp-route-paso="@ViewBag.paso" asp-route-estado="@ViewBag.estado" class="btn btn-outline-primary @paginaActiva">@i</a>
-        }
-        @if (Model.PaginasPosteriores)
-        {
-            <a asp-action="VistaGeneral" asp-route-numPag="@(Model.PaginaInicio + 1)" asp-route-buscar="@ViewBag.buscar" asp-route-paso="@ViewBag.paso" asp-route-estado="@ViewBag.estado" class="btn btn-primary">Siguiente</a>
-        }
-        @if (Model.PaginaInicio != Model.PaginasTotales)
-        {
-            <a asp-action="VistaGeneral" asp-route-numPag="@Model.PaginasTotales" asp-route-buscar="@ViewBag.buscar" asp-route-paso="@ViewBag.paso" asp-route-estado="@ViewBag.estado" class="btn btn-primary">Final</a>
-        }
-    }
-</div>
+
+
 <script>
     document.addEventListener('DOMContentLoaded', () => {
         const selectPasos = document.getElementById('paso')
