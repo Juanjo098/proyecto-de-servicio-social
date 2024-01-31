@@ -1,0 +1,40 @@
+﻿@{
+    ViewData["Title"] = "Subir Solicitud";
+}
+@{
+    string nombre = ViewBag.nombre;
+    string noControl = ViewBag.noControl;
+    string[] archivos = ViewBag.archivos;
+    List<SelectListItem> solicitudes = ViewBag.solicitudes;
+}
+
+<h1>Solicitud de Liberaciones, Sinodales, Asesores o Comité Revisor para: @nombre</h1>
+
+<form method="post" enctype="multipart/form-data" class="d-flex flex-column justify-content-start align-items-start gap-4">
+    <label>Los archivos que suba deben estar en formato .pdf, .rar o .zip y no pueden pesar más de 5MB</label>
+    <input type="text" hidden id="noControl" name="noControl" value="@noControl" />
+    <input type="text" hidden id="nombre" name="nombre" value="@nombre" />
+    <div class="form-control">
+        <label class="form-label">Solicitud: </label>
+        <select class="form-select-sm" id="solicitud" name="solicitud" asp-items="@solicitudes"></select>
+    </div>
+    <input type="file" name="file" />
+    <button type="submit">Subir archivo</button>
+</form>
+
+@if (archivos == null)
+{
+    <hr />
+    <strong>Sin archivos</strong>
+}
+else
+{
+    <hr />
+    <strong>Archivos subido actualmente: </strong>
+    <br />
+    @foreach (var archivo in archivos)
+    {
+        <span>@archivo: @Html.ActionLink("Decargar", "DescargarAdmin", "Pasos", new { fileName = archivo }) | @Html.ActionLink("Ver", "VerArchivoAdmin", "Pasos", new { fileName = archivo }, new { target = "_blank" }) | @Html.ActionLink("Eliminar", "EliminarArchivoAdmin", "Pasos", new { fileName = archivo })</span>
+        <br />
+    }
+}

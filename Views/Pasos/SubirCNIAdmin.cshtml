@@ -1,0 +1,31 @@
+﻿@{
+    ViewData["Title"] = "Subir CNI";
+}
+@{
+    string nombre = ViewBag.nombre;
+    string noControl = ViewBag.noControl;
+    string archivo = ViewBag.archivo;
+
+}
+
+<h1>Constancia de No Inconveniencia para: @nombre</h1>
+
+<form method="post" enctype="multipart/form-data" class="d-flex flex-column justify-content-start align-items-start gap-4">
+    <label>Los archivos que suba deben estar en formato .pdf, .rar o .zip y no pueden pesar más de 5MB</label>
+    <input type="text" hidden id="noControl" name="noControl" value="@noControl" />
+    <input type="text" hidden id="nombre" name="nombre" value="@nombre" />
+    <input type="file" name="file" />
+    <button type="submit">Subir archivo</button>
+</form>
+
+@if (archivo != null)
+{
+    <hr />
+    <strong>Archivo subido actualmente: </strong>
+    <span>@archivo: @Html.ActionLink("Decargar", "DescargarAdmin", "Pasos", new { fileName = archivo }) | @Html.ActionLink("Ver", "VerArchivoAdmin", "Pasos", new { fileName = archivo }, new { target = "_blank" }) | @Html.ActionLink("Eliminar", "EliminarArchivoAdmin", "Pasos", new { fileName = archivo })</span>
+}
+else
+{
+    <hr />
+    <strong>No han subido nada todavía</strong>
+}

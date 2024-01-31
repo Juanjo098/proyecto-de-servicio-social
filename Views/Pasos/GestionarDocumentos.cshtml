@@ -7,23 +7,31 @@
 
 <h1>Documentos de @nombre</h1>
 
-@foreach (var item in Model)
+@if (Model != null)
 {
-    <span>@item: @Html.ActionLink("Decargar", "DescargarAdmin", "Pasos", new { fileName = item }) | @Html.ActionLink("Ver", "VerArchivoAdmin", "Pasos", new { fileName = item }, new { target = "_blank" }) | @Html.ActionLink("Eliminar", "EliminarArchivoAdmin", "Pasos", new { fileName = item })</span>
-    <br />
+    @foreach (var item in Model)
+    {
+        <span>@item: @Html.ActionLink("Decargar", "DescargarAdmin", "Pasos", new { fileName = item }) | @Html.ActionLink("Ver", "VerArchivoAdmin", "Pasos", new { fileName = item }, new { target = "_blank" }) | @Html.ActionLink("Eliminar", "EliminarArchivoAdmin", "Pasos", new { fileName = item })</span>
+        <br />
+    }
+    <div>
+        @Html.ActionLink("Gestionar proceso", "GestionarProcesoTitulacion", "Pasos", new { noControl = noControl, nombre = nombre })
+        @Html.ActionLink("Gestionar Titulacion", "GestionarTitulacion", "Pasos", new { noControl = noControl })
+    </div>
+
+    <div>
+        @Html.ActionLink("Subir CNI", "SubirCNIAdmin", new { nombre = nombre, noControl = noControl })
+        <br />
+        @Html.ActionLink("Subir RPS", "SubirRPS", new { nombre = nombre, noControl = noControl })
+        <br />
+        @Html.ActionLink("Subir Solicitud", "SubirSL", new { nombre = nombre, noControl = noControl })
+        <br />
+        @Html.ActionLink("Subir Asignacion", "SubirAS", new { nombre = nombre, noControl = noControl })
+        <br />
+        @Html.ActionLink("Subir OI", "SubirOI", new { nombre = nombre, noControl = noControl })
+    </div>
+} else
+{
+    <strong>El alumno aún no sube documentos</strong>
 }
 
-<div>
-    @Html.ActionLink("Gestionar proceso", "GestionarProcesoTitulacion", "Pasos", new { noControl = noControl, nombre = nombre })
-    @Html.ActionLink("Gestionar Titulacion", "GestionarTitulacion", "Pasos", new { noControl = noControl })
-</div>
-
-<div>
-    @Html.ActionLink("Subir RPS", "SubirRPS", new { nombre = nombre, noControl = noControl })
-    <br />
-    @Html.ActionLink("Subir Solicitud", "SubirRPS", new { nombre = nombre, noControl = noControl })
-    <br />
-    @Html.ActionLink("Subir Asignacion", "SubirRPS", new { nombre = nombre, noControl = noControl })
-    <br />
-    @Html.ActionLink("Subir OI", "SubirOI", new { nombre = nombre, noControl = noControl })
-</div>

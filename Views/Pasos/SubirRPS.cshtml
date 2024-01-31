@@ -10,8 +10,6 @@
 
 <h1>Recibo de Pago Sellado: @nombre</h1>
 
-<p>En este paso el egresado no debe subir nada. Será servicios escolares quien suba el recibo de pago sellado</p>
-
 <form method="post" enctype="multipart/form-data" class="d-flex flex-column justify-content-start align-items-start gap-4">
     <label>Los archivos que suba deben estar en formato .pdf, .rar o .zip y no pueden pesar más de 5MB</label>
     <input type="text" hidden id="noControl" name="noControl" value="@noControl" />
@@ -25,7 +23,6 @@
     <hr />
     <strong>Archivo subido actualmente: </strong>
     <span>@archivo: @Html.ActionLink("Decargar", "DescargarAdmin", "Pasos", new { fileName = archivo }) | @Html.ActionLink("Ver", "VerArchivoAdmin", "Pasos", new { fileName = archivo }, new { target = "_blank" }) | @Html.ActionLink("Eliminar", "EliminarArchivoAdmin", "Pasos", new { fileName = archivo })</span>
-
 }
 else
 {

@@ -1231,11 +1231,51 @@ public class PasosController : Controller
         return RedirectToAction("Index", "Home");
     }
 
-    public async Task<IActionResult> SubirArchivos()
+    [Authorize(Roles = "1,2")]
+    [Route("/Proceso-de-Titulacion/Administracion/Paso1/CNI")]
+    public IActionResult SubirCNIAdmin(string noControl, string nombre)
     {
-        var nombres = await NombresAlumnos();
-        ViewBag.nombres = nombres;
+        string docPrefix = "CNI";
+
+        ViewBag.noControl = noControl;
+        ViewBag.nombre = nombre;
+
+        var archivos = GetFileList(noControl);
+        var archivo = archivos.FirstOrDefault(a => a.StartsWith(docPrefix));
+        ViewBag.archivo = archivo;
         return View();
+    }
+
+    [HttpPost]
+    [Authorize(Roles = "1")]
+    [Route("/Proceso-de-Titulacion/Administracion/Paso1/CNI")]
+    public async Task<ActionResult> SubirCNIAdmin(IFormFile file, string noControl, string nombre)
+    {
+        int fileSizeLimit = 5;
+        string docPrefix = "CNI";
+
+        int result = await _bufferedFileUploadService.UploadFile(file, fileSizeLimit, noControl, docPrefix);
+        switch (result)
+        {
+            case 1:
+                TempData["mensaje"] = "No se envio ningun archivo.";
+                TempData["estatus"] = "400";
+                return RedirectToAction("CustomError", "Home");
+            case 2:
+                TempData["mensaje"] = "El archivo supera los " + fileSizeLimit + "MB";
+                TempData["estatus"] = "400";
+                return RedirectToAction("CustomError", "Home");
+            case 3:
+                TempData["mensaje"] = "Solo se pueden subir archivos .pdf, .rar y .zip";
+                TempData["estatus"] = "400";
+                return RedirectToAction("CustomError", "Home");
+            case 4:
+                TempData["mensaje"] = "Error inesperado";
+                TempData["estatus"] = "400";
+                return RedirectToAction("CustomError", "Home");
+        }
+
+        return RedirectToAction("SubirCNIAdmin", new { noControl = noControl, nombre = nombre });
     }
 
     [Authorize(Roles = "1,2")]
@@ -1254,7 +1294,7 @@ public class PasosController : Controller
     }
 
     [HttpPost]
-    [Authorize(Roles = "1,2")]
+    [Authorize(Roles = "1")]
     [Route("/Proceso-de-Titulacion/Administracion/Paso1/RPS")]
     public async Task<ActionResult> SubirRPS(IFormFile file, string noControl, string nombre)
     {
@@ -1286,6 +1326,130 @@ public class PasosController : Controller
     }
 
     [Authorize(Roles = "1,2")]
+    [Route("/Proceso-de-Titulacion/Administracion/Paso4/SL")]
+    public IActionResult SubirSL(string noControl, string nombre)
+    {
+        ViewBag.noControl = noControl;
+        ViewBag.nombre = nombre;
+        ViewBag.solicitudes = Solicitudes();
+
+        var archivos = GetFileList(noControl);
+        ViewBag.archivos = archivos.Where(a => a.StartsWith("SL") || a.StartsWith("SA") || a.StartsWith("SS") || a.StartsWith("SC-")).ToArray();
+        return View();
+    }
+
+    [HttpPost]
+    [Authorize(Roles = "1,2")]
+    [Route("/Proceso-de-Titulacion/Administracion/Paso4/SL")]
+    public async Task<ActionResult> SubirSL(IFormFile file, string noControl, string nombre, int solicitud)
+    {
+        int fileSizeLimit = 5;
+        string docPrefix = "";
+
+        switch (solicitud)
+        {
+            case 1:
+                docPrefix = "SL";
+                break;
+            case 2:
+                docPrefix = "SA";
+                break;
+            case 3:
+                docPrefix = "SS";
+                break;
+            case 4:
+                docPrefix = "SC";
+                break;
+        }
+
+        int result = await _bufferedFileUploadService.UploadFile(file, fileSizeLimit, noControl, docPrefix);
+
+        switch (result)
+        {
+            case 1:
+                TempData["mensaje"] = "No se envio ningun archivo.";
+                TempData["estatus"] = "400";
+                return RedirectToAction("CustomError", "Home");
+            case 2:
+                TempData["mensaje"] = "El archivo supera los " + fileSizeLimit + "MB";
+                TempData["estatus"] = "400";
+                return RedirectToAction("CustomError", "Home");
+            case 3:
+                TempData["mensaje"] = "Solo se pueden subir archivos .pdf, .rar y .zip";
+                TempData["estatus"] = "400";
+                return RedirectToAction("CustomError", "Home");
+            case 4:
+                TempData["mensaje"] = "Error inesperado";
+                TempData["estatus"] = "400";
+                return RedirectToAction("CustomError", "Home");
+        }
+
+        return RedirectToAction("SubirSL", new { noControl = noControl, nombre = nombre });
+    }
+
+    [Authorize(Roles = "1,2")]
+    [Route("/Proceso-de-Titulacion/Administracion/Paso4/AS")]
+    public IActionResult SubirAS(string noControl, string nombre)
+    {
+        ViewBag.noControl = noControl;
+        ViewBag.nombre = nombre;
+        ViewBag.asignaciones = Asignaciones();
+
+        var archivos = GetFileList(noControl);
+        ViewBag.archivos = archivos.Where(a => a.StartsWith("LP") || a.StartsWith("AA") || a.StartsWith("AS") || a.StartsWith("AC")).ToArray();
+        return View();
+    }
+
+    [HttpPost]
+    [Authorize(Roles = "1,2")]
+    [Route("/Proceso-de-Titulacion/Administracion/Paso4/AS")]
+    public async Task<ActionResult> SubirAS(IFormFile file, string noControl, string nombre, int asignacion)
+    {
+        int fileSizeLimit = 5;
+        string docPrefix = "";
+
+        switch (asignacion)
+        {
+            case 1:
+                docPrefix = "LP";
+                break;
+            case 2:
+                docPrefix = "AA";
+                break;
+            case 3:
+                docPrefix = "AS";
+                break;
+            case 4:
+                docPrefix = "AC";
+                break;
+        }
+
+        int result = await _bufferedFileUploadService.UploadFile(file, fileSizeLimit, noControl, docPrefix);
+
+        switch (result)
+        {
+            case 1:
+                TempData["mensaje"] = "No se envio ningun archivo.";
+                TempData["estatus"] = "400";
+                return RedirectToAction("CustomError", "Home");
+            case 2:
+                TempData["mensaje"] = "El archivo supera los " + fileSizeLimit + "MB";
+                TempData["estatus"] = "400";
+                return RedirectToAction("CustomError", "Home");
+            case 3:
+                TempData["mensaje"] = "Solo se pueden subir archivos .pdf, .rar y .zip";
+                TempData["estatus"] = "400";
+                return RedirectToAction("CustomError", "Home");
+            case 4:
+                TempData["mensaje"] = "Error inesperado";
+                TempData["estatus"] = "400";
+                return RedirectToAction("CustomError", "Home");
+        }
+
+        return RedirectToAction("SubirAS", new { noControl = noControl, nombre = nombre });
+    }
+
+    [Authorize(Roles = "1")]
     [Route("/Proceso-de-Titulacion/Administracion/Paso5/OI")]
     public IActionResult SubirOI(string noControl, string nombre)
     {
@@ -1301,7 +1465,7 @@ public class PasosController : Controller
     }
 
     [HttpPost]
-    [Authorize(Roles = "1,2")]
+    [Authorize(Roles = "1")]
     [Route("/Proceso-de-Titulacion/Administracion/Paso5/OI")]
     public async Task<ActionResult> SubirOI(IFormFile file, string noControl, string nombre)
     {
@@ -2145,4 +2309,23 @@ public class PasosController : Controller
         }
     }
 
+    private List<SelectListItem> Solicitudes ()
+    {
+        return new List<SelectListItem> {
+            new SelectListItem { Text = "Solicitud de liberacion", Value = "1" },
+            new SelectListItem { Text = "Solicitud de asesores", Value = "2" },
+            new SelectListItem { Text = "Solicitud de sinodales", Value = "3" },
+            new SelectListItem { Text = "Solicitud de comité revisor", Value = "4" }
+        };
+    }
+
+    private List<SelectListItem> Asignaciones()
+    {
+        return new List<SelectListItem> {
+            new SelectListItem { Text = "Liberacion de proyecto", Value = "1" },
+            new SelectListItem { Text = "Asignación de asesores", Value = "2" },
+            new SelectListItem { Text = "Asignación de sinodales", Value = "3" },
+            new SelectListItem { Text = "Asignación de comité revisor", Value = "4" }
+        };
+    }
 }
