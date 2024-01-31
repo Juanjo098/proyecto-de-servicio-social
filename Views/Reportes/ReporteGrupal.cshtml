@@ -1,0 +1,110 @@
+﻿@model IEnumerable<Titulacion.Clases.Get.ReporteDocente>
+
+@{
+    ViewData["Title"] = "ReporteGrupal";
+    string desde = ViewBag.desde;
+    string hasta = ViewBag.hasta;
+    string buscar = ViewBag.buscar;
+    int carrera = ViewBag.carrera == null ? 0 : ViewBag.carrera;
+    int departamento = ViewBag.departamento == null ? 0 : ViewBag.departamento;
+    List<SelectListItem> departamentos = ViewBag.departamentos;
+    List<SelectListItem> carreras = ViewBag.carreras;
+}
+
+<h1>ReporteGrupal</h1>
+<form asp-action="ReporteGrupal" class="d-flex gap-2" method="get">
+    <div class="form-group">
+        <label for="buscar">Buscar: </label>
+        <input type="text" id="buscar" name="buscar" value="@ViewBag.buscar" />
+    </div>
+    <div class="form-group">
+        <label for="buscar">Departamento: </label>
+        <select class="form-select-sm" name="departamento" id="departamento" asp-items="@departamentos">
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="buscar">Carrera: </label>
+        <select class="form-select-sm" name="carrera" id="carrera" asp-items="@carreras">
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="buscar">Desde: </label>
+        <input class="form-select-sm" name="desde" id="desde" type="date" value="@desde" />
+    </div>
+    <div class="form-group">
+        <label for="buscar">Hasta: </label>
+        <input class="form-select-sm" name="hasta" id="hasta" type="date" value="@hasta" />
+    </div>
+    <button type="submit" class="btn btn-info">Buscar</button>
+</form>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Nombre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cedula)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdCarrera)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdDpto)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.VecesPrecidente)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.VecesSecretario)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.VecesVocal)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @if(Model != null)
+        {
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Nombre)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Cedula)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IdCarrera)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IdDpto)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.VecesPrecidente)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.VecesSecretario)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.VecesVocal)
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const selectCarrera = document.getElementById('carrera')
+        selectCarrera.selectedIndex = @carrera;
+        const selectDepartamento = document.getElementById('departamento')
+        selectDepartamento.selectedIndex = @departamento;
+    })
+</script>

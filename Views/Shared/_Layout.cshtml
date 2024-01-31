@@ -198,7 +198,17 @@
                             <div class="collapse" id="collapseVistas" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav">
                                     <a class="nav-link" asp-controller="Pasos" asp-action="VistaGeneral">Vista General</a>
-                                    <a class="nav-link" asp-controller="Pasos" asp-action="SubirArchivos">Subir archivos</a>
+                                </nav>
+                            </div>
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseReportes" aria-expanded="false" aria-controls="collapseReportes">
+                                <div class="sb-nav-link-icon"><i class="fa-solid fa-table"></i></div>
+                                Reportes
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="collapseReportes" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" asp-controller="Reportes" asp-action="ReporteIndividual">Reporte Individual</a>
+                                    <a class="nav-link" asp-controller="Reportes" asp-action="ReporteGrupal">Reporte Grupal</a>
                                 </nav>
                             </div>
                             <a class="nav-link" href="charts.html">
