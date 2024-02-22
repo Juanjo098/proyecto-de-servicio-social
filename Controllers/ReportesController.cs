@@ -66,7 +66,6 @@ namespace Titulacion.Controllers
                 {
                     Nombre = docente.Nombre,
                     Cedula = docente.Cedula,
-                    IdCarrera = docente.IdCarrera,
                     IdDpto = docente.IdDpto,
                     VecesPrecidente = 0,
                     VecesSecretario = 0,
@@ -93,10 +92,10 @@ namespace Titulacion.Controllers
 
         [Authorize(Roles = "1,2")]
         [Route("/Administracion/Reportes/Grupal")]
-        public async Task<IActionResult> ReporteGrupal(int? carrera, int? departamento, string? nombre, string desde, string hasta)
+        public async Task<IActionResult> ReporteGrupal(int? carrera, int? departamento, string? buscar, string desde, string hasta)
         {
 
-            if (carrera == null && departamento == null && nombre == null) {
+            if (carrera == null && departamento == null && buscar == null) {
                 DateTime fechaActual = DateTime.Now;
 
                 // Crear una variable de tipo DateOnly para el 1 de enero del año actual
@@ -121,6 +120,7 @@ namespace Titulacion.Controllers
 
                 ViewBag.desde = desde;
                 ViewBag.hasta = hasta;
+                ViewBag.buscar = buscar;
                 ViewBag.carreras = await Carreras();
                 ViewBag.departamentos = await Departamentos();
 
@@ -149,7 +149,6 @@ namespace Titulacion.Controllers
                         Cedula = docente.Cedula,
                         IdDocente = docente.IdDocente,
                         IdDpto = docente.IdDpto,
-                        IdCarrera = docente.IdCarrera,
                         VecesPrecidente = 0,
                         VecesSecretario = 0,
                         VecesVocal = 0
@@ -169,8 +168,8 @@ namespace Titulacion.Controllers
                 if (carrera > 0)
                     reportes = reportes.FindAll(rep => rep.IdCarrera == carrera);
 
-                if (nombre != null)
-                    reportes = reportes.FindAll(rep => rep.Nombre == nombre);
+                if (buscar != null)
+                    reportes = reportes.FindAll(rep => rep.Nombre.ToLower().Contains(buscar.ToLower()));
 
                 return View(reportes);
             }
@@ -216,8 +215,7 @@ namespace Titulacion.Controllers
                             Nombre = doc.Nombre,
                             Cedula = doc.Cedula,
                             IdDpto = doc.IdDpto,
-                            IdDocente = doc.IdDocente,
-                            IdCarrera = car.IdCarrera
+                            IdDocente = doc.IdDocente
                         }
                     ).FirstOrDefaultAsync();
             }
@@ -244,22 +242,20 @@ namespace Titulacion.Controllers
         {
             try
             {
-                return await (
+                var lista = await (
                        from doc in _context.Docentes
                        join dep in _context.Departamentos
                        on doc.IdDpto equals dep.IdDpto
-                       join car in _context.Carreras
-                       on dep.IdDpto equals car.IdDpto
-                       where doc.Hab == 1 && dep.Hab == 1 && car.Hab == 1
+                       where doc.Hab == 1 && dep.Hab == 1
                        select new DocenteExtendido
                        {
                            Nombre = doc.Nombre,
                            Cedula = doc.Cedula,
                            IdDpto = doc.IdDpto,
                            IdDocente = doc.IdDocente,
-                           IdCarrera = car.IdCarrera
                        }
                    ).ToListAsync();
+                return lista;
             }
             catch (Exception ex) {   
                 throw new Exception(ex.Message);

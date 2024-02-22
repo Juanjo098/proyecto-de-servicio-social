@@ -35,8 +35,8 @@
             </datalist>
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="NoControl" class="control-label"></label>
-                <input asp-for="NoControl" class="form-control" />
+                <label asp-for="NoControl" class="control-label">No. Control: @Model.NoControl</label>
+                <input asp-for="NoControl" hidden class="form-control" />
                 <span asp-validation-for="NoControl" class="text-danger"></span>
             </div>
             <div class="form-group">

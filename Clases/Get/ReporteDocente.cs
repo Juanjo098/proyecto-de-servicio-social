@@ -15,7 +15,7 @@ namespace Titulacion.Clases.Get
 
         [Display(Name = "Cedula")]
         public string? Cedula { get; set; }
-        [Display(Name = "Carrera")]
+        [Display(Name = "Departamento")]
         public int IdCarrera { get; set; }
 
         [Display(Name = "Departamento")]

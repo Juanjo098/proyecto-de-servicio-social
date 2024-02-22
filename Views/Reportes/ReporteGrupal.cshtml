@@ -11,7 +11,7 @@
     List<SelectListItem> carreras = ViewBag.carreras;
 }
 
-<h1>ReporteGrupal</h1>
+<h1>Reporte Grupal</h1>
 <form asp-action="ReporteGrupal" class="d-flex gap-2" method="get">
     <div class="form-group">
         <label for="buscar">Buscar: </label>
@@ -22,11 +22,13 @@
         <select class="form-select-sm" name="departamento" id="departamento" asp-items="@departamentos">
         </select>
     </div>
+    <!--
     <div class="form-group">
         <label for="buscar">Carrera: </label>
         <select class="form-select-sm" name="carrera" id="carrera" asp-items="@carreras">
         </select>
     </div>
+    -->
     <div class="form-group">
         <label for="buscar">Desde: </label>
         <input class="form-select-sm" name="desde" id="desde" type="date" value="@desde" />
@@ -39,9 +41,9 @@
 </form>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <button id="btnCopiar" class="btn btn-primary">Copiar tabla</button>
 </p>
-<table class="table">
+<table class="table" id="miTabla">
     <thead>
         <tr>
             <th>
@@ -50,9 +52,11 @@
             <th>
                 @Html.DisplayNameFor(model => model.Cedula)
             </th>
+            <!--
             <th>
                 @Html.DisplayNameFor(model => model.IdCarrera)
             </th>
+            -->
             <th>
                 @Html.DisplayNameFor(model => model.IdDpto)
             </th>
@@ -79,12 +83,29 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.Cedula)
                     </td>
+                    <!--
                     <td>
                         @Html.DisplayFor(modelItem => item.IdCarrera)
                     </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.IdDpto)
-                    </td>
+                    -->
+                    @switch (item.IdDpto)
+                    {
+                        case 1:
+                            <td>INFOSIS</td>
+                        break;
+                        case 2:
+                            <td>IND</td>
+                            break;
+                        case 3:
+                            <td>ECOADMIN</td>
+                            break;
+                        case 4:
+                            <td>ARQ</td>
+                            break;
+                        case 5:
+                            <td>BIOQ</td>
+                            break;
+                    }
                     <td>
                         @Html.DisplayFor(modelItem => item.VecesPrecidente)
                     </td>
@@ -100,11 +121,38 @@
     </tbody>
 </table>
 
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', () => {
-        const selectCarrera = document.getElementById('carrera')
-        selectCarrera.selectedIndex = @carrera;
+        //const selectCarrera = document.getElementById('carrera')
+        //selectCarrera.selectedIndex = @carrera;
         const selectDepartamento = document.getElementById('departamento')
         selectDepartamento.selectedIndex = @departamento;
+
+        var clipboard = new ClipboardJS('#btnCopiar', {
+            text: function () {
+                var tabla = document.getElementById('miTabla');
+                var textoTabla = '';
+                for (var i = 0; i < tabla.rows.length; i++) {
+                    var row = tabla.rows[i];
+                    for (var j = 0; j < row.cells.length; j++) {
+                        textoTabla += row.cells[j].innerText;
+                        if (j < row.cells.length - 1) {
+                            textoTabla += '\t';
+                        }
+                    }
+                    textoTabla += '\n';
+                }
+                return textoTabla;
+            }
+        });
+
+        clipboard.on('success', function (e) {
+            alert('La tabla se ha copiado al portapapeles');
+        });
+
+        clipboard.on('error', function (e) {
+            alert('Error al copiar la tabla');
+        });
     })
 </script>

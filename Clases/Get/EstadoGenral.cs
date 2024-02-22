@@ -69,5 +69,7 @@ namespace Titulacion.Clases.Get
         public DateOnly? FechaVencimiento { get; set; }
         [Display(Name = "Fecha de titulacion")]
         public DateOnly? FechaTitulacion { get; set; }
+        [Display(Name = "Fecha de incio")]
+        public string? Hora { get; set; }
     }
 }

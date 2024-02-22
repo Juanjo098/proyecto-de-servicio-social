@@ -1536,7 +1536,7 @@ public class PasosController : Controller
 
             ViewBag.estado = estado;
 
-            if (estado > 0)
+            if (estado < 4)
             {
                 items = items.FindAll(item => item.Estado == Convert.ToUInt64(estado));
             }
@@ -1617,7 +1617,9 @@ public class PasosController : Controller
         ViewBag.opciones = await GetOpcionesTitulacion();
         ViewBag.docentes = await ListaDocentesNombre();
         ViewBag.alternativas = await Alternativas();
-        ViewBag.estados = Estados();
+        var estados = Estados();
+        estados.RemoveAt(estados.Count - 1);
+        ViewBag.estados = estados;
 
         return View(proc);
     }
@@ -2006,7 +2008,8 @@ public class PasosController : Controller
                     Estado = info.Estado,
                     FechaInicio = info.FechaCni,
                     FechaVencimiento = info.FechaVecimiento,
-                    FechaTitulacion = info.FechaAarp
+                    FechaTitulacion = info.FechaAarp,
+                    Hora = info.HoraArp.ToString(),
                 }
                 ).ToListAsync();
         }
@@ -2033,6 +2036,8 @@ public class PasosController : Controller
             new SelectListItem{ Text = "Titulado", Value = "1" },
             new SelectListItem{ Text = "Cancelado", Value = "2" },
             new SelectListItem{ Text = "Reprogramado", Value = "3" },
+            new SelectListItem{ Text = "Todos", Value = "4" },
+
         };
     }
 

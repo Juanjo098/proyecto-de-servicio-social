@@ -1,4 +1,5 @@
 ﻿@using Titulacion.Clases;
+@using System.Globalization;
 @model Paginacion<Titulacion.Clases.Get.EstadoGenral>
 @{
     ViewData["Title"] = "VistaGeneral";
@@ -103,6 +104,9 @@
             </th>
             <th>
                 Fecha de Titulacion
+            </th>
+            <th>
+                Hora
             </th>
             <th>
                 Fecha de Vencimiento
@@ -451,6 +455,24 @@
                 else
                 {
                     <td class="bg-warning"></td>
+                }
+                @if (item.Hora != null)
+                {
+                    DateTime hora12;
+                    if (DateTime.TryParseExact(item.Hora, "hh:mm tt", CultureInfo.InvariantCulture, DateTimeStyles.None, out hora12))
+                    {
+                        // Convertir la hora a formato de 24 horas
+                        string hora24H = hora12.ToString("HH:mm");
+                        <td class="bg-success">@hora24H</td>
+                    }
+                    else
+                    {
+                        <td class="bg-success">@item.Hora</td>
+                    }
+                }
+                else
+                {
+                    <td></td>
                 }
                 @if (item.FechaTitulacion != null)
                 {
