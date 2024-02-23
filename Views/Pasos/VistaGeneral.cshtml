@@ -15,7 +15,7 @@
 
 <h1>VistaGeneral</h1>
 
-<form asp-action="VistaGeneral" class="d-flex gap-2" method="get">
+<form asp-action="VistaGeneral" class="d-flex gap-2 mb-2" method="get">
     <div class="form-group">
         <label for="buscar">Buscar: </label>
         <input type="text" id="buscar" name="buscar" value="@ViewBag.buscar" />
@@ -456,23 +456,13 @@
                 {
                     <td class="bg-warning"></td>
                 }
-                @if (item.Hora != null)
+                @if (!String.IsNullOrEmpty(item.Hora))
                 {
-                    DateTime hora12;
-                    if (DateTime.TryParseExact(item.Hora, "hh:mm tt", CultureInfo.InvariantCulture, DateTimeStyles.None, out hora12))
-                    {
-                        // Convertir la hora a formato de 24 horas
-                        string hora24H = hora12.ToString("HH:mm");
-                        <td class="bg-success">@hora24H</td>
-                    }
-                    else
-                    {
-                        <td class="bg-success">@item.Hora</td>
-                    }
+                    <td class="bg-success">@item.Hora</td>
                 }
                 else
                 {
-                    <td></td>
+                    <td class="bg-warning"></td>
                 }
                 @if (item.FechaTitulacion != null)
                 {
@@ -481,8 +471,6 @@
                 {
                     <td class="bg-warning">@item.FechaVencimiento?.ToString()</td>
                 }
-
-                
         </tr>
 }
     </tbody>

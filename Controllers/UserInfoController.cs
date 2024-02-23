@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System.IO;
 using System.Security.Claims;
 using Titulacion.Clases.Post;
 using Titulacion.Models;
@@ -71,6 +72,10 @@ namespace Titulacion.Controllers
                     ProcesoTitulacion proceso = new ProcesoTitulacion { NoControl = data.NoControl };
 
                     InformacionTitulacion informacionTitulacion = new InformacionTitulacion { NoControl = data.NoControl };
+
+                    var path = Path.GetFullPath(Path.Combine(Environment.CurrentDirectory, "Expedientes/" + data.NoControl));
+                    
+                    Directory.CreateDirectory(path);
 
                     await _context.InfoPersonals.AddAsync(data);
                     await _context.ProcesoTitulacions.AddAsync(proceso);
