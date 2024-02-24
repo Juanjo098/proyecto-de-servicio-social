@@ -1,0 +1,62 @@
+﻿@model Titulacion.Clases.Put.Usuario
+
+@{
+    ViewData["Title"] = "Editar";
+    List<SelectListItem> tipos = ViewBag.tipos;
+    List<SelectListItem> estados = ViewBag.estados;
+}
+
+<h1>Editar</h1>
+
+<h4>Usuario</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Editar">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="IdUsuario" class="control-label">ID: @Model.IdUsuario</label>
+                <input asp-for="IdUsuario" hidden class="form-control" />
+                <span asp-validation-for="IdUsuario" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IdTipoUsuario" class="control-label"></label>
+                <select class="form-select" asp-items="@tipos" asp-for="IdTipoUsuario"></select>
+                <span asp-validation-for="IdTipoUsuario" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Nombre" class="control-label"></label>
+                <input asp-for="Nombre" class="form-control" />
+                <span asp-validation-for="Nombre" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Correo" class="control-label"></label>
+                <input asp-for="Correo" class="form-control" />
+                <span asp-validation-for="Correo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Contrasena" class="control-label"></label>
+                <input asp-for="Contrasena" class="form-control" />
+                <span asp-validation-for="Contrasena" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MensajesHab" class="control-label"></label>
+                <select class="form-select" asp-items="@estados" asp-for="MensajesHab"></select>
+                <span asp-validation-for="MensajesHab" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Hab" class="control-label"></label>
+                <select class="form-select" asp-items="@estados" asp-for="Hab"></select>
+                <span asp-validation-for="Hab" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Usuarios">Volver</a>
+</div>
+

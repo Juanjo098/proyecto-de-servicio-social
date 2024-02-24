@@ -10,9 +10,11 @@ namespace Titulacion.Clases.Get
         public string Correo { get; set; }
         [Display(Name = "Tipo de usuario")]
         public string TipoUsuario { get; set; }
-        [Display]
+        [Display(Name = "Estado")]
         public string Estado { get; set; }
+        [ScaffoldColumn(false)]
         public int IdTipoUsuario { get; set; }
+        [Display(Name = "ID")]
         public string IdUsuario { get; set; }
     }
 }
