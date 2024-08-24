@@ -9,7 +9,7 @@
 
 <h4>Departamento</h4>
 <hr />
-<div class="row">
+@* <div class="row">
     <div class="col-md-4">
         <form asp-action="Editar" id="form">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -43,7 +43,51 @@
 
 <div>
     <a asp-action="Departamentos">Back to List</a>
+</div> *@
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">Editar Departamento</h4>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Editar" id="form">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="form-group">
+                            <label asp-for="Id" class="form-label">ID: @Model.Id</label>
+                            <input asp-for="Id" class="form-control" type="hidden" />
+                            <span asp-validation-for="Id" class="text-danger">@ViewBag.errorID</span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Nombre" class="form-label">Nombre</label>
+                            <input asp-for="Nombre" class="form-control" placeholder="Ingrese Nombre" />
+                            <span asp-validation-for="Nombre" class="text-danger">@ViewBag.errorNombreDpto</span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="JefeDpto" class="form-label">Jefe de Departamento</label>
+                            <input asp-for="JefeDpto" list="docentes" class="form-control" />
+                            <datalist id="docentes">
+                                @foreach (var docente in docentes)
+                                {
+                                    <option value="@docente"></option>
+                                }
+                            </datalist>
+                            <span asp-validation-for="JefeDpto" class="text-danger">@ViewBag.errorDocente</span>
+                        </div>
+                        <div class="form-group text-center">
+                            <input type="button" value="Save" onclick="handleClick()" class="btn btn-primary btn-lg" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="mt-3">
+        <a asp-action="Departamentos" class="btn btn-secondary">Back to List</a>
+    </div>
 </div>
+
 
 <script>
     const handleClick = () => {

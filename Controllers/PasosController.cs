@@ -452,8 +452,10 @@ public class PasosController : Controller
 
         return View();
     }
+    //
+    //
 
-    [Authorize(Roles = "3")]
+	[Authorize(Roles = "3")]
     [Route("/Proceso-de-Titulacion/Paso2/CL")]
     public async Task<IActionResult> SubirCL()
     {

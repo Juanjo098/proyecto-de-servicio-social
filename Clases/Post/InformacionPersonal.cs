@@ -19,11 +19,11 @@ namespace Titulacion.Clases.Post
         [StringLength(64, MinimumLength = 2, ErrorMessage = "Este campo debe tener 2-64 caracteres")]
         [Required(ErrorMessage = "Este campo no puede quedar vacío")]
         public string nombre { get; set; }
-        [Display(Name = "Apellido Materno")]
+        [Display(Name = "Apellido Paterno")]
         [StringLength(32, MinimumLength = 2, ErrorMessage = "Este campo debe tener 2-32 caracteres")]
         [Required(ErrorMessage = "Este campo no puede quedar vacío")]
         public string apellidoPaterno { get; set; }
-        [Display(Name = "Apellido Paterno")]
+        [Display(Name = "Apellido Materno")]
         [StringLength(32, MinimumLength = 2, ErrorMessage = "Este campo debe tener 2-32 caracteres")]
         [Required(ErrorMessage = "Este campo no puede quedar vacío")]
         public string apellidoMaterno { get; set; }

@@ -5,7 +5,7 @@
     ViewData["Title"] = "Cargos";
 }
 
-<h1>Cargos</h1>
+@* <h1>Cargos</h1>
 
 <p>
     <a asp-action="Insertar" class="btn btn-success">Crear nuevo cargo</a>
@@ -18,7 +18,31 @@
     </div>
     <button type="submit" class="btn btn-info">Buscar</button>
 </form>
-<a asp-action="Cargos" asp-route-numPag="1" asp-route-buscar="" class="btn btn-outline-danger">Eliminar filtro</a>
+<a asp-action="Cargos" asp-route-numPag="1" asp-route-buscar="" class="btn btn-outline-danger">Eliminar filtro</a> *@
+<div class="container mt-4">
+    <h1 class="text-center mb-4">Cargos</h1>
+
+    <div class="text-right mb-3">
+        <a asp-action="Insertar" class="btn btn-success">Crear nuevo cargo</a>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <form asp-action="Cargos" method="get" class="form-inline">
+                <div class="form-group mb-2">
+                    <label for="buscar" class="sr-only">Buscar:</label>
+                    <input type="text" id="buscar" name="buscar" value="@ViewBag.buscar" class="form-control" placeholder="Buscar..." />
+                </div>
+                <button type="submit" class="btn btn-info mb-2 ml-2">Buscar</button>
+            </form>
+        </div>
+        <div class="col-md-6 text-right">
+            <a asp-action="Cargos" asp-route-numPag="1" asp-route-buscar="" class="btn btn-outline-danger">Eliminar filtro</a>
+        </div>
+    </div>
+
+
+
 
 <table class="table">
     <thead>
@@ -76,6 +100,7 @@
         <a asp-action="Docentes" asp-route-numPag="@Model.PaginasTotales" asp-route-buscar="@ViewBag.buscar" class="btn btn-primary">Final</a>
     }
 }
+</div>
 <script>
     const handleDelete = (id) => {
         form = eliminar(id)

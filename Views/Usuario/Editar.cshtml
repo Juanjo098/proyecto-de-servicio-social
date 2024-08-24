@@ -10,7 +10,7 @@
 
 <h4>Usuario</h4>
 <hr />
-<div class="row">
+@* <div class="row">
     <div class="col-md-4">
         <form asp-action="Editar">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -58,5 +58,62 @@
 
 <div>
     <a asp-action="Usuarios">Volver</a>
+</div> *@
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">Editar Usuario</h4>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Editar">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="form-group">
+                            <label asp-for="IdUsuario" class="form-label">ID: @Model.IdUsuario</label>
+                            <input asp-for="IdUsuario" hidden class="form-control" />
+                            <span asp-validation-for="IdUsuario" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="IdTipoUsuario" class="form-label">Tipo de Usuario</label>
+                            <select class="form-select" asp-items="@tipos" asp-for="IdTipoUsuario"></select>
+                            <span asp-validation-for="IdTipoUsuario" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Nombre" class="form-label">Nombre</label>
+                            <input asp-for="Nombre" class="form-control" />
+                            <span asp-validation-for="Nombre" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Correo" class="form-label">Correo</label>
+                            <input asp-for="Correo" class="form-control" />
+                            <span asp-validation-for="Correo" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Contrasena" class="form-label">Contraseña</label>
+                            <input asp-for="Contrasena" class="form-control" />
+                            <span asp-validation-for="Contrasena" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="MensajesHab" class="form-label">Mensajes Habilitados</label>
+                            <select class="form-select" asp-items="@estados" asp-for="MensajesHab"></select>
+                            <span asp-validation-for="MensajesHab" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Hab" class="form-label">Estado</label>
+                            <select class="form-select" asp-items="@estados" asp-for="Hab"></select>
+                            <span asp-validation-for="Hab" class="text-danger"></span>
+                        </div>
+                        <div class="form-group text-center">
+                            <input type="submit" value="Save" class="btn btn-primary btn-lg" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="mt-3">
+        <a asp-action="Usuarios" class="btn btn-secondary">Volver</a>
+    </div>
 </div>
 

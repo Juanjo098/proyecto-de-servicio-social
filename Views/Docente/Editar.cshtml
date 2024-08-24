@@ -9,7 +9,7 @@
 
 <h4>Docente</h4>
 <hr />
-<div class="row">
+@* <div class="row">
     <div class="col-md-4">
         <form asp-action="Editar" id="form" method="post">
             <div class="form-group">
@@ -52,7 +52,60 @@
 
 <div>
     <a asp-action="Docentes">Back to List</a>
+</div> *@
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">Editar Docente</h4>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Editar" id="form" method="post">
+                        <div class="form-group">
+                            <label asp-for="Id_Docente" class="form-label">ID Docente: @Model.Id_Docente</label>
+                            <input asp-for="Id_Docente" class="form-control" type="hidden" value="@Model.Id_Docente" />
+                            <span asp-validation-for="Id_Docente" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Id_Dpto" class="form-label">Departamento</label>
+                            <select asp-items="@departamentos" asp-for="Id_Dpto" class="form-control"></select>
+                            <span asp-validation-for="Id_Dpto" class="text-danger"></span>
+                        </div>
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="form-group">
+                            <label asp-for="Nombre" class="form-label">Nombre</label>
+                            <input asp-for="Nombre" class="form-control" value="@Model.Nombre" />
+                            <span asp-validation-for="Nombre" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Titulo" class="form-label">Título</label>
+                            <input asp-for="Titulo" class="form-control" value="@Model.Titulo" />
+                            <span asp-validation-for="Titulo" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Diminutivo" class="form-label">Diminutivo</label>
+                            <input asp-for="Diminutivo" class="form-control" value="@Model.Diminutivo" />
+                            <span asp-validation-for="Diminutivo" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Cedula" class="form-label">Cédula</label>
+                            <input asp-for="Cedula" class="form-control" value="@Model.Cedula" />
+                            <span asp-validation-for="Cedula" class="text-danger"></span>
+                        </div>
+                        <div class="form-group text-center">
+                            <input type="button" value="Guardar cambios" class="btn btn-primary btn-lg" onclick="handleClick()" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="mt-3">
+        <a asp-action="Docentes" class="btn btn-secondary">Volver</a>
+    </div>
 </div>
+
 
 <script>
     const handleClick = () => {

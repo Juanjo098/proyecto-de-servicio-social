@@ -2,12 +2,12 @@
 @model Paginacion<Titulacion.Clases.Get.Docente>;
 
 @{
-    ViewData["Title"] = "Docentes";
+	ViewData["Title"] = "Docentes";
 }
 
 <h1>Docentes</h1>
 
-<p>
+@* <p>
     <a asp-action="Insertar" class="btn btn-success">Añadir docente</a>
 </p>
 <form asp-action="Docentes" method="get">
@@ -17,75 +17,98 @@
     </div>
     <button type="submit" class="btn btn-info">Buscar</button>
 </form>
-<a asp-action="Docentes" asp-route-numPag="1" asp-route-buscar="" class="btn btn-outline-danger">Eliminar filtro</a>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                ID
-            </th>
-            <th>
-                Nombre
-            </th>
-            <th>
-                Cedula
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Nombre)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Cedula)
-            </td>
-            <td>
-                <a asp-action="Detalles" asp-route-id=@item.Id class="btn btn-outline-success"><i class="fa-solid fa-circle-info"></i></a>
-                <a asp-action="Editar" asp-route-id=@item.Id class="btn btn-outline-warning"><i class="fa-solid fa-pen-to-square"></i></a>
-                <a class="btn btn-outline-danger" onclick="handleDelete(@item.Id)"><i class="fa-solid fa-trash-can"></i></a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
-<form asp-action="Eliminar" id="formEliminar" method="post">
-    <input type="hidden" name="id" id="idEliminar">
-</form>
-<div>
-    @if (Model.MostrarBotones)
-    {
-        @if (Model.PaginaInicio != 1)
-        {
-            <a asp-action="Docentes" asp-route-numPag="1" asp-route-buscar="@ViewBag.buscar" class="btn btn-primary">Inicio</a>
-        }
-        @if (Model.PaginasAnteriores)
-        {
-            <a asp-action="Docentes" asp-route-numPag="@(Model.PaginaInicio - 1)" asp-route-buscar="@ViewBag.buscar" class="btn btn-primary">Anteior</a>
-        }
-        @for (var i = Model.BotonesAnteriores(); i <= Model.BotonesSiguientes(); i++)
-        {
-            var paginaActiva = (Model.PaginaInicio == i) ? "active" : "";
-            <a asp-action="Docentes" asp-route-numPag="@i" asp-route-buscar="@ViewBag.buscar" class="btn btn-outline-primary @paginaActiva">@i</a>
-        }
-        @if (Model.PaginasPosteriores)
-        {
-            <a asp-action="Docentes" asp-route-numPag="@(Model.PaginaInicio + 1)" asp-route-buscar="@ViewBag.buscar" class="btn btn-primary">Siguiente</a>
-        }
-        @if (Model.PaginaInicio != Model.PaginasTotales)
-        {
-            <a asp-action="Docentes" asp-route-numPag="@Model.PaginasTotales" asp-route-buscar="@ViewBag.buscar" class="btn btn-primary">Final</a>
-        }
-    }
+<a asp-action="Docentes" asp-route-numPag="1" asp-route-buscar="" class="btn btn-outline-danger">Eliminar filtro</a> *@
+<div class="container mt-4">
+	<p>
+		<a asp-action="Insertar" class="btn btn-success">Añadir docente</a>
+	</p>
+
+	<div class="row mb-3">
+		<div class="col-md-6">
+			<form asp-action="Docentes" method="get" class="form-inline">
+				<div class="form-group mb-2">
+					<label for="buscar" class="sr-only">Buscar:</label>
+					<input type="text" id="buscar" name="buscar" value="@ViewBag.buscar" class="form-control" placeholder="Buscar..." />
+				</div>
+				<button type="submit" class="btn btn-info mb-2 ml-2">Buscar</button>
+			</form>
+		</div>
+		<div class="col-md-6 text-right">
+			<a asp-action="Docentes" asp-route-numPag="1" asp-route-buscar="" class="btn btn-outline-danger">Eliminar filtro</a>
+		</div>
+	</div>
+
+
+	<table class="table">
+		<thead>
+			<tr>
+				<th>
+					ID
+				</th>
+				<th>
+					Nombre
+				</th>
+				<th>
+					Cedula
+				</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var item in Model)
+			{
+				<tr>
+					<td>
+						@Html.DisplayFor(modelItem => item.Id)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.Nombre)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.Cedula)
+					</td>
+					<td>
+						<a asp-action="Detalles" asp-route-id=@item.Id class="btn btn-outline-success"><i class="fa-solid fa-circle-info"></i></a>
+						<a asp-action="Editar" asp-route-id=@item.Id class="btn btn-outline-warning"><i class="fa-solid fa-pen-to-square"></i></a>
+						<a class="btn btn-outline-danger" onclick="handleDelete(@item.Id)"><i class="fa-solid fa-trash-can"></i></a>
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+	<form asp-action="Eliminar" id="formEliminar" method="post">
+		<input type="hidden" name="id" id="idEliminar">
+	</form>
+	<div>
+		@if (Model.MostrarBotones)
+		{
+			@if (Model.PaginaInicio != 1)
+			{
+				<a asp-action="Docentes" asp-route-numPag="1" asp-route-buscar="@ViewBag.buscar" class="btn btn-primary">Inicio</a>
+			}
+			@if (Model.PaginasAnteriores)
+			{
+				<a asp-action="Docentes" asp-route-numPag="@(Model.PaginaInicio - 1)" asp-route-buscar="@ViewBag.buscar" class="btn btn-primary">Anteior</a>
+			}
+			@for (var i = Model.BotonesAnteriores(); i <= Model.BotonesSiguientes(); i++)
+			{
+				var paginaActiva = (Model.PaginaInicio == i) ? "active" : "";
+				<a asp-action="Docentes" asp-route-numPag="@i" asp-route-buscar="@ViewBag.buscar" class="btn btn-outline-primary @paginaActiva">@i</a>
+			}
+			@if (Model.PaginasPosteriores)
+			{
+				<a asp-action="Docentes" asp-route-numPag="@(Model.PaginaInicio + 1)" asp-route-buscar="@ViewBag.buscar" class="btn btn-primary">Siguiente</a>
+			}
+			@if (Model.PaginaInicio != Model.PaginasTotales)
+			{
+				<a asp-action="Docentes" asp-route-numPag="@Model.PaginasTotales" asp-route-buscar="@ViewBag.buscar" class="btn btn-primary">Final</a>
+			}
+		}
+	</div>
 </div>
 <script>
-    const handleDelete = (id) => {
-        form = eliminar(id)
-        confirmar("Desea, eliminar el Docente?", "Esta apunto de eliminar un docente", "Eliminar", "Eliminado", form)
-    }
+	const handleDelete = (id) => {
+		form = eliminar(id)
+		confirmar("Desea, eliminar el Docente?", "Esta apunto de eliminar un docente", "Eliminar", "Eliminado", form)
+	}
 </script>

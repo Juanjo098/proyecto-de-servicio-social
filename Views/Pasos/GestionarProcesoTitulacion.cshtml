@@ -5,7 +5,7 @@
     List<SelectListItem> opciones = ViewBag.opciones;
 }
 
-<h1>Gestionar Proceso de Titulacion de @ViewBag.nombre</h1>
+@* <h1>Gestionar Proceso de Titulacion de @ViewBag.nombre</h1>
 
 <hr />
 <div class="row">
@@ -101,5 +101,104 @@
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
+    </div>
+</div>
+ *@
+
+<div class="container mt-4">
+    <h1 class="display-5 mb-4">Gestionar Proceso de Titulación de @ViewBag.nombre</h1>
+    <hr />
+
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <form asp-action="GestionarProcesoTitulacion" class="d-flex flex-column gap-3">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <input asp-for="Nombre" class="form-control" value="@ViewBag.nombre" hidden />
+                <input asp-for="NoControl" class="form-control" hidden />
+
+                <div class="form-group">
+                    <label asp-for="Scni" class="control-label">SCNI</label>
+                    <select asp-for="Scni" asp-items="@opciones" class="form-control"></select>
+                    <span asp-validation-for="Scni" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Cni" class="control-label">CNI</label>
+                    <select asp-for="Cni" asp-items="@opciones" class="form-control"></select>
+                    <span asp-validation-for="Cni" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Cl" class="control-label"></label>
+                    <select asp-for="Cl" asp-items="@opciones " class="form-control"></select>
+                    <span asp-validation-for="Cl" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Caii" class="control-label"></label>
+                    <select asp-for="Caii" asp-items="@opciones " class="form-control"></select>
+                    <span asp-validation-for="Caii" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Rp" class="control-label"></label>
+                    <select asp-for="Rp" asp-items="@opciones " class="form-control"></select>
+                    <span asp-validation-for="Rp" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Rps" class="control-label"></label>
+                    <select asp-for="Rps" asp-items="@opciones " class="form-control"></select>
+                    <span asp-validation-for="Rps" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="St" class="control-label"></label>
+                    <select asp-for="St" asp-items="@opciones " class="form-control"></select>
+                    <span asp-validation-for="St" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Pro" class="control-label"></label>
+                    <select asp-for="Pro" asp-items="@opciones " class="form-control"></select>
+                    <span asp-validation-for="Pro" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Sl" class="control-label"></label>
+                    <select asp-for="Sl" asp-items="@opciones " class="form-control"></select>
+                    <span asp-validation-for="Sl" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Lp" class="control-label"></label>
+                    <select asp-for="Lp" asp-items="@opciones " class="form-control"></select>
+                    <span asp-validation-for="Lp" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Asnc" class="control-label"></label>
+                    <select asp-for="Asnc" asp-items="@opciones " class="form-control"></select>
+                    <span asp-validation-for="Asnc" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Oi" class="control-label"></label>
+                    <select asp-for="Oi" asp-items="@opciones " class="form-control"></select>
+                    <span asp-validation-for="Oi" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Curp" class="control-label"></label>
+                    <select asp-for="Curp" asp-items="@opciones " class="form-control"></select>
+                    <span asp-validation-for="Curp" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Rfc" class="control-label"></label>
+                    <select asp-for="Rfc" asp-items="@opciones " class="form-control"></select>
+                    <span asp-validation-for="Rfc" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Cb" class="control-label"></label>
+                    <select asp-for="Cb" asp-items="@opciones " class="form-control"></select>
+                    <span asp-validation-for="Cb" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <input type="submit" value="Guardar" class="btn btn-primary btn-block" />
+                </div>
+            </form>
+        </div>
     </div>
 </div>

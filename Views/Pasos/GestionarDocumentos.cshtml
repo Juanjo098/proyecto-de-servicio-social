@@ -1,37 +1,59 @@
 ﻿@model string[]
+@using Microsoft.AspNetCore.Identity
+@using System.Security.Claims;
 @{
-    ViewData["Title"] = "Documentos";
-    string nombre = ViewBag.nombre;
-    string noControl = ViewBag.noControl;
+	ViewData["Title"] = "Documentos";
+	string nombre = ViewBag.nombre;
+	string noControl = ViewBag.noControl;
 }
-
+@{
+	bool authenticated = User.Identity.IsAuthenticated;
+	string userName = string.Empty;
+	if (authenticated)
+	{
+		userName = Context.User.Claims.Where(c => c.Type == ClaimTypes.Name)
+			.Select(c => c.Value).SingleOrDefault();
+	}
+}
 <h1>Documentos de @nombre</h1>
 
 @if (Model != null)
 {
-    @foreach (var item in Model)
-    {
-        <span>@item: @Html.ActionLink("Decargar", "DescargarAdmin", "Pasos", new { fileName = item }) | @Html.ActionLink("Ver", "VerArchivoAdmin", "Pasos", new { fileName = item }, new { target = "_blank" }) | @Html.ActionLink("Eliminar", "EliminarArchivoAdmin", "Pasos", new { fileName = item })</span>
-        <br />
-    }
-    <div>
-        @Html.ActionLink("Gestionar proceso", "GestionarProcesoTitulacion", "Pasos", new { noControl = noControl, nombre = nombre })
-        @Html.ActionLink("Gestionar Titulacion", "GestionarTitulacion", "Pasos", new { noControl = noControl })
-    </div>
+	@foreach (var item in Model)
+	{
+		<span>@item: @Html.ActionLink("Decargar", "DescargarAdmin", "Pasos", new { fileName = item }) | @Html.ActionLink("Ver", "VerArchivoAdmin", "Pasos", new { fileName = item }, new { target = "_blank" }) | @Html.ActionLink("Eliminar", "EliminarArchivoAdmin", "Pasos", new { fileName = item })</span>
+		<br />
+	}
+	<div>
+		@Html.ActionLink("Gestionar proceso", "GestionarProcesoTitulacion", "Pasos", new { noControl = noControl, nombre = nombre })
+		@Html.ActionLink("Gestionar Titulacion", "GestionarTitulacion", "Pasos", new { noControl = noControl })
+	</div>
 
-    <div>
-        @Html.ActionLink("Subir CNI", "SubirCNIAdmin", new { nombre = nombre, noControl = noControl })
-        <br />
-        @Html.ActionLink("Subir RPS", "SubirRPS", new { nombre = nombre, noControl = noControl })
-        <br />
-        @Html.ActionLink("Subir Solicitud", "SubirSL", new { nombre = nombre, noControl = noControl })
-        <br />
-        @Html.ActionLink("Subir Asignacion", "SubirAS", new { nombre = nombre, noControl = noControl })
-        <br />
-        @Html.ActionLink("Subir OI", "SubirOI", new { nombre = nombre, noControl = noControl })
-    </div>
-} else
+	<div>
+		@if (User.IsInRole("1"))
+		{
+			@Html.ActionLink("Subir CNI", "SubirCNIAdmin", new { nombre = nombre, noControl = noControl })
+			<br />
+			@Html.ActionLink("Subir RPS", "SubirRPS", new { nombre = nombre, noControl = noControl })
+			<br />
+			@Html.ActionLink("Subir Solicitud", "SubirSL", new { nombre = nombre, noControl = noControl })
+			<br />
+		}
+		@if (User.IsInRole("2"))
+		{
+			@Html.ActionLink("Subir Asignacion", "SubirAS", new { nombre = nombre, noControl = noControl })
+			<br />
+		}
+		@if (User.IsInRole("1"))
+		{
+			@Html.ActionLink("Subir OI", "SubirOI", new { nombre = nombre, noControl = noControl })
+		}
+
+
+	</div>
+}
+else
 {
-    <strong>El alumno aún no sube documentos</strong>
+	<strong>El alumno aún no sube documentos</strong>
 }
 

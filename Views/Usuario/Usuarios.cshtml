@@ -2,13 +2,13 @@
 @model Paginacion<Titulacion.Clases.Get.Usuario>;
 
 @{
-    ViewData["Title"] = "Usuarios";
-    List<SelectListItem> tiposUsuario = ViewBag.tiposUsuario;
+	ViewData["Title"] = "Usuarios";
+	List<SelectListItem> tiposUsuario = ViewBag.tiposUsuario;
 }
 
 <h1>Usuarios</h1>
 
-<form asp-action="Usuarios" method="get">
+@* <form asp-action="Usuarios" method="get">
     <div class="form-group">
         <label for="tipoUsuario">Tipo de usuario</label>
         <select asp-items="@tiposUsuario" id="tipoUsuario" name="tipoUsuario" class="form-select"></select>
@@ -22,82 +22,112 @@
 
 <p>
     <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                Usuario
-            </th>
-            <th>
-                Correo
-            </th>
-            <th>
-                Tipo de usuario
-            </th>
-            <th>
-                Estado
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Nombre)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Correo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TipoUsuario)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Estado)
-            </td>
-            <td>
-                <a asp-action="Detalles" asp-route-id=@item.IdUsuario class="btn btn-outline-success"><i class="fa-solid fa-circle-info"></i></a>
-                <a asp-action="Editar" asp-route-id=@item.IdUsuario class="btn btn-outline-warning"><i class="fa-solid fa-pen-to-square"></i></a>
-                <a class="btn btn-outline-danger" onclick="handleDelete(@item.IdUsuario)"><i class="fa-solid fa-trash-can"></i></a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
-<form asp-action="Eliminar" id="formEliminar" method="post">
-    <input type="hidden" name="id" id="idEliminar">
-</form>
-<div>
-    @if (Model.MostrarBotones)
-    {
-        @if (Model.PaginaInicio != 1)
-        {
-            <a asp-action="Docentes" asp-route-numPag="1" asp-route-buscar="@ViewBag.buscar" class="btn btn-primary">Inicio</a>
-        }
-        @if (Model.PaginasAnteriores)
-        {
-            <a asp-action="Docentes" asp-route-numPag="@(Model.PaginaInicio - 1)" asp-route-buscar="@ViewBag.buscar" class="btn btn-primary">Anteior</a>
-        }
-        @for (var i = Model.BotonesAnteriores(); i <= Model.BotonesSiguientes(); i++)
-        {
-            var paginaActiva = (Model.PaginaInicio == i) ? "active" : "";
-            <a asp-action="Docentes" asp-route-numPag="@i" asp-route-buscar="@ViewBag.buscar" class="btn btn-outline-primary @paginaActiva">@i</a>
-        }
-        @if (Model.PaginasPosteriores)
-        {
-            <a asp-action="Docentes" asp-route-numPag="@(Model.PaginaInicio + 1)" asp-route-buscar="@ViewBag.buscar" class="btn btn-primary">Siguiente</a>
-        }
-        @if (Model.PaginaInicio != Model.PaginasTotales)
-        {
-            <a asp-action="Docentes" asp-route-numPag="@Model.PaginasTotales" asp-route-buscar="@ViewBag.buscar" class="btn btn-primary">Final</a>
-        }
-    }
+</p> *@
+<div class="container mt-4">
+	<form asp-action="Usuarios" method="get">
+		<div class="row mb-3">
+			<div class="col-md-4">
+				<div class="form-group">
+					<label for="tipoUsuario">Tipo de usuario</label>
+					<select asp-items="@tiposUsuario" id="tipoUsuario" name="tipoUsuario" class="form-select">
+						<!-- Aquí deberías tener opciones para el select -->
+					</select>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="form-group">
+					<label for="buscar">Buscar: </label>
+					<input type="text" id="buscar" name="buscar" value="@ViewBag.buscar" class="form-control" />
+				</div>
+			</div>
+			<div class="col-md-2">
+				<button type="submit" class="btn btn-info">Buscar</button>
+			</div>
+		</div>
+	</form>
+
+	@* <p>
+		<a asp-action="RegistrarUsuario" class="btn btn-success">Create New</a>
+	</p> *@
+
+
+	<table class="table">
+		<thead>
+			<tr>
+				<th>
+					Usuario
+				</th>
+				<th>
+					Correo
+				</th>
+				<th>
+					Tipo de usuario
+				</th>
+				<th>
+					Estado
+				</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var item in Model)
+			{
+				<tr>
+					<td>
+						@Html.DisplayFor(modelItem => item.Nombre)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.Correo)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.TipoUsuario)
+					</td>
+					<td>
+						@Html.DisplayFor(modelItem => item.Estado)
+					</td>
+					<td>
+						<a asp-action="Detalles" asp-route-id=@item.IdUsuario class="btn btn-outline-success"><i class="fa-solid fa-circle-info"></i></a>
+						<a asp-action="Editar" asp-route-id=@item.IdUsuario class="btn btn-outline-warning"><i class="fa-solid fa-pen-to-square"></i></a>
+						<a class="btn btn-outline-danger" onclick="handleDelete(@item.IdUsuario)"><i class="fa-solid fa-trash-can"></i></a>
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+	<form asp-action="Eliminar" id="formEliminar" method="post">
+		<input type="hidden" name="id" id="idEliminar">
+	</form>
+	<div>
+		@if (Model.MostrarBotones)
+		{
+			@if (Model.PaginaInicio != 1)
+			{
+				<a asp-action="Docentes" asp-route-numPag="1" asp-route-buscar="@ViewBag.buscar" class="btn btn-primary">Inicio</a>
+			}
+			@if (Model.PaginasAnteriores)
+			{
+				<a asp-action="Docentes" asp-route-numPag="@(Model.PaginaInicio - 1)" asp-route-buscar="@ViewBag.buscar" class="btn btn-primary">Anteior</a>
+			}
+			@for (var i = Model.BotonesAnteriores(); i <= Model.BotonesSiguientes(); i++)
+			{
+				var paginaActiva = (Model.PaginaInicio == i) ? "active" : "";
+				<a asp-action="Docentes" asp-route-numPag="@i" asp-route-buscar="@ViewBag.buscar" class="btn btn-outline-primary @paginaActiva">@i</a>
+			}
+			@if (Model.PaginasPosteriores)
+			{
+				<a asp-action="Docentes" asp-route-numPag="@(Model.PaginaInicio + 1)" asp-route-buscar="@ViewBag.buscar" class="btn btn-primary">Siguiente</a>
+			}
+			@if (Model.PaginaInicio != Model.PaginasTotales)
+			{
+				<a asp-action="Docentes" asp-route-numPag="@Model.PaginasTotales" asp-route-buscar="@ViewBag.buscar" class="btn btn-primary">Final</a>
+			}
+		}
+	</div>
 </div>
 <script>
-    document.getElementById('tipoUsuario').value = @ViewBag.buscarTipoUsuario
-    const handleDelete = (id) => {
-        form = eliminar(id)
-        confirmar("Desea, eliminar el Docente?", "Esta apunto de eliminar un docente", "Eliminar", "Eliminado", form)
-    }
+	document.getElementById('tipoUsuario').value = @ViewBag.buscarTipoUsuario
+		const handleDelete = (id) => {
+		form = eliminar(id)
+		confirmar("Desea, eliminar el Docente?", "Esta apunto de eliminar un docente", "Eliminar", "Eliminado", form)
+	}
 </script>
